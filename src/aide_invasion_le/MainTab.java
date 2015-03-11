@@ -15,7 +15,6 @@ public class MainTab extends JPanel {
 	JLabel image;
 	LEInterface leInterface;
 	
-	//Gauche de l'image
 	JLabel pseudo = new JLabel("Pseudo");
 	private TextField zonePseudo = new TextField("",10); 
 	JLabel server = new JLabel("Serveur");
@@ -46,7 +45,6 @@ public class MainTab extends JPanel {
 				updateLEInterface();
 			}
 		});
-	    //pan.add(ligneImage);
 	    this.add(ligneImage);
 	    
 		this.leInterface = leInterface;

@@ -22,6 +22,7 @@ public class MapTab extends JPanel implements MouseListener {
 	JLabel image;
 	LEInterface leInterface;
 	
+	//Mobs Ligne 1
 	private static JButton boutonMonstre1 = new JButton("Créature 1");
 	private static JButton boutonMonstre2 = new JButton("Créature 2");
 	private static JButton boutonMonstre3 = new JButton("Créature 3");
@@ -65,11 +66,11 @@ public class MapTab extends JPanel implements MouseListener {
 	//Gauche de l'image
 	JLabel carte = new JLabel("Num Carte");
 	private TextField zoneCarte = new TextField("1",10);
-	JLabel clear = new JLabel("Clear");
-	private static JButton clearPonct = new JButton("Ponct");
-	private static JButton clearPerm = new JButton("Perm");
-	private static JButton clearPeri = new JButton("Peri");
-	private static JButton clearAuto = new JButton("Auto");
+	JLabel clear = new JLabel("Clear invasions");
+	private static JButton clearPonct = new JButton("Ponctuel");
+	private static JButton clearPerm = new JButton("Permanent");
+	private static JButton clearPeri = new JButton("Périssable");
+	private static JButton clearAuto = new JButton("Automatique");
 	JLabel imageAf = new JLabel("Image");
 	private static JButton choixImage = new JButton("...");
 	
