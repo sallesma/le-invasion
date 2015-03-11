@@ -27,7 +27,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class fenetre  extends JFrame implements MouseListener {
+public class Fenetre  extends JFrame implements MouseListener {
 	JLabel image;
 	LEInterface leInterface;
 	
@@ -59,7 +59,7 @@ public class fenetre  extends JFrame implements MouseListener {
 	private TextField tm10 = new TextField("squelette_horreur",10); 
 	
 	//Nombres
-	Dimension taille_nb = new Dimension(57,26);
+	private final static Dimension TAILLE_NB_BUTTON = new Dimension(57,26);
 	private static JButton nbMonstre1 = new JButton("1");
 	private static JButton nbMonstre5 = new JButton("5");
 	private static JButton nbMonstre10 = new JButton("10");
@@ -84,15 +84,15 @@ public class fenetre  extends JFrame implements MouseListener {
 	JLabel imageAf = new JLabel("Image");
 	private static JButton choixImage = new JButton("...");
 	
-	private int taille_carte_affiche = 400;
-	private int taille_carte = 384;
+	private final static int TAILLE_CARTE_AFFICHE = 400;
+	private final static int TAILLE_CARTE = 384;
 	
 	private String type_inva = "ponct";
 	private String type_mob = "rat";
 	private int nb_monstres = 1;
 	
-	public fenetre() {
-		JFrame fenetre = creer_fenetre();
+	public Fenetre() {
+		JFrame fenetre = creerFenetre();
 		this.leInterface = new LEInterface();
 		this.updateLEInterface();
 	}
@@ -102,7 +102,7 @@ public class fenetre  extends JFrame implements MouseListener {
 		this.leInterface.setServer(zoneServer.getSelectedItem().toString());
 	}
 
-	JFrame creer_fenetre()
+	JFrame creerFenetre()
 	{
 		
 		JFrame fenetre = new JFrame();
@@ -123,23 +123,23 @@ public class fenetre  extends JFrame implements MouseListener {
 	    ligne2.add(boutonMonstre1);
 	    boutonMonstre1.addActionListener(new ActionListener() {
              public void actionPerformed(ActionEvent e){
-            	type_mob = tm1.getText(); active_button_mob(boutonMonstre1); }});  
+            	type_mob = tm1.getText(); activeButtonMob(boutonMonstre1); }});  
 	    ligne2.add(boutonMonstre2);
 	    boutonMonstre2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	type_mob = tm2.getText(); active_button_mob(boutonMonstre2); }});
+           	type_mob = tm2.getText(); activeButtonMob(boutonMonstre2); }});
 	    ligne2.add(boutonMonstre3);
 	    boutonMonstre3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	type_mob = tm3.getText(); active_button_mob(boutonMonstre3); }});
+           	type_mob = tm3.getText(); activeButtonMob(boutonMonstre3); }});
 	    ligne2.add(boutonMonstre4);
 	    boutonMonstre4.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	type_mob = tm4.getText(); active_button_mob(boutonMonstre4); }});
+           	type_mob = tm4.getText(); activeButtonMob(boutonMonstre4); }});
 	    ligne2.add(boutonMonstre5);
 	    boutonMonstre5.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	type_mob = tm5.getText(); active_button_mob(boutonMonstre5); }});
+           	type_mob = tm5.getText(); activeButtonMob(boutonMonstre5); }});
 	    
 	    JPanel ligne3 = new JPanel();
 	    ligne3.add(tm6);
@@ -152,65 +152,65 @@ public class fenetre  extends JFrame implements MouseListener {
 	    ligne4.add(boutonMonstre6);
 	    boutonMonstre6.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	type_mob = tm6.getText(); active_button_mob(boutonMonstre6); }});  
+           	type_mob = tm6.getText(); activeButtonMob(boutonMonstre6); }});  
 	    ligne4.add(boutonMonstre7);
 	    boutonMonstre7.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	type_mob = tm7.getText(); active_button_mob(boutonMonstre7); }});  
+           	type_mob = tm7.getText(); activeButtonMob(boutonMonstre7); }});  
 	    ligne4.add(boutonMonstre8);
 	    boutonMonstre8.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	type_mob = tm8.getText(); active_button_mob(boutonMonstre8); }});  
+           	type_mob = tm8.getText(); activeButtonMob(boutonMonstre8); }});  
 	    ligne4.add(boutonMonstre9);
 	    boutonMonstre9.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	type_mob = tm9.getText(); active_button_mob(boutonMonstre9); }});  
+           	type_mob = tm9.getText(); activeButtonMob(boutonMonstre9); }});  
 	    ligne4.add(boutonMonstre10);
 	    boutonMonstre10.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	type_mob = tm10.getText(); active_button_mob(boutonMonstre10); }});  
+           	type_mob = tm10.getText(); activeButtonMob(boutonMonstre10); }});  
 	    
 	    JPanel ligne5 = new JPanel();
-		nbMonstre1.setPreferredSize(taille_nb);
-		nbMonstre5.setPreferredSize(taille_nb);
-		nbMonstre10.setPreferredSize(taille_nb);
-		nbMonstre15.setPreferredSize(taille_nb);
-		nbMonstre20.setPreferredSize(taille_nb);
-		nbMonstre30.setPreferredSize(taille_nb);
-		nbMonstre50.setPreferredSize(taille_nb);
-		nbMonstre100.setPreferredSize(taille_nb);
+		nbMonstre1.setPreferredSize(TAILLE_NB_BUTTON);
+		nbMonstre5.setPreferredSize(TAILLE_NB_BUTTON);
+		nbMonstre10.setPreferredSize(TAILLE_NB_BUTTON);
+		nbMonstre15.setPreferredSize(TAILLE_NB_BUTTON);
+		nbMonstre20.setPreferredSize(TAILLE_NB_BUTTON);
+		nbMonstre30.setPreferredSize(TAILLE_NB_BUTTON);
+		nbMonstre50.setPreferredSize(TAILLE_NB_BUTTON);
+		nbMonstre100.setPreferredSize(TAILLE_NB_BUTTON);
 		ligne5.add(nbMonstre1);
 		nbMonstre1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	nb_monstres = 1; active_button_nb(nbMonstre1); }});  
+           	nb_monstres = 1; activeButtonNb(nbMonstre1); }});  
 		ligne5.add(nbMonstre5);
 		nbMonstre5.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            nb_monstres = 5; active_button_nb(nbMonstre5); }});  
+            nb_monstres = 5; activeButtonNb(nbMonstre5); }});  
 		ligne5.add(nbMonstre10);
 		nbMonstre10.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            nb_monstres = 10; active_button_nb(nbMonstre10); }});  
+            nb_monstres = 10; activeButtonNb(nbMonstre10); }});  
 		ligne5.add(nbMonstre15);
 		nbMonstre15.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            nb_monstres = 15; active_button_nb(nbMonstre15); }});  
+            nb_monstres = 15; activeButtonNb(nbMonstre15); }});  
 		ligne5.add(nbMonstre20);
 		nbMonstre20.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            nb_monstres = 20; active_button_nb(nbMonstre20); }});  
+            nb_monstres = 20; activeButtonNb(nbMonstre20); }});  
 		ligne5.add(nbMonstre30);
 		nbMonstre30.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            nb_monstres = 30; active_button_nb(nbMonstre30); }});  
+            nb_monstres = 30; activeButtonNb(nbMonstre30); }});  
 		ligne5.add(nbMonstre50);
 		nbMonstre50.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            nb_monstres = 50; active_button_nb(nbMonstre50); }});  
+            nb_monstres = 50; activeButtonNb(nbMonstre50); }});  
 		ligne5.add(nbMonstre100);
 		nbMonstre100.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            nb_monstres = 100; active_button_nb(nbMonstre100); }});  
+            nb_monstres = 100; activeButtonNb(nbMonstre100); }});  
 	    
 	    JPanel ligneImage = new JPanel();
 	    
@@ -231,7 +231,7 @@ public class fenetre  extends JFrame implements MouseListener {
 		ligneImageG.add(clearPeri);
 		ligneImageG.add(clearAuto);
 		ligneImageG.add(imageAf);
-		choixImage.setPreferredSize(taille_nb);
+		choixImage.setPreferredSize(TAILLE_NB_BUTTON);
 		ligneImageG.add(choixImage);
 		
 		zonePseudo.addKeyListener(new KeyListener() {
@@ -284,7 +284,7 @@ public class fenetre  extends JFrame implements MouseListener {
 	    JPanel ligneImageD = new JPanel();
 	    
 	    ImageIcon carteIc = new ImageIcon( "images/vide.jpg");
-	    Image zoom = scaleImage(carteIc.getImage(), taille_carte_affiche);//taille en pixels
+	    Image zoom = scaleImage(carteIc.getImage(), TAILLE_CARTE_AFFICHE);//taille en pixels
 	    Icon iconScaled = new ImageIcon(zoom);
 	    image = new JLabel(iconScaled);
 	    //pan.setLayout(new BorderLayout, CENTER);
@@ -302,7 +302,7 @@ public class fenetre  extends JFrame implements MouseListener {
         		    fichier2 = dialogue.getSelectedFile();
         		    System.out.println(dialogue.getName(fichier2));
         		    ImageIcon carteIc = new ImageIcon( "images/" + dialogue.getName(fichier2));
-        		    Image zoom = scaleImage(carteIc.getImage(), taille_carte_affiche);//taille en pixels
+        		    Image zoom = scaleImage(carteIc.getImage(), TAILLE_CARTE_AFFICHE);//taille en pixels
         		    Icon iconScaled = new ImageIcon(zoom);
         		    image.setIcon(iconScaled);
         		    choixImage.setText(dialogue.getName(fichier2));
@@ -350,11 +350,10 @@ public class fenetre  extends JFrame implements MouseListener {
 	    return img;
 	}
 	
-
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		int xPos = (int)(e.getPoint().getX())*taille_carte/taille_carte_affiche;
-		int yPos = taille_carte-((int)(e.getPoint().getY())*taille_carte/taille_carte_affiche);
+		int xPos = (int)(e.getPoint().getX())*TAILLE_CARTE/TAILLE_CARTE_AFFICHE;
+		int yPos = TAILLE_CARTE-((int)(e.getPoint().getY())*TAILLE_CARTE/TAILLE_CARTE_AFFICHE);
 		leInterface.addInvasion(type_inva, xPos, yPos, Integer.parseInt(zoneCarte.getText()), type_mob, nb_monstres);
 	}
 
@@ -374,41 +373,41 @@ public class fenetre  extends JFrame implements MouseListener {
 	public void mouseReleased(MouseEvent e) {
 	}
 	
-	private void active_button_mob (JButton b)
+	private void activeButtonMob (JButton b)
 	{
-		passive_button(boutonMonstre1);
-		passive_button(boutonMonstre2);
-		passive_button(boutonMonstre3);
-		passive_button(boutonMonstre4);
-		passive_button(boutonMonstre5);
-		passive_button(boutonMonstre6);
-		passive_button(boutonMonstre7);
-		passive_button(boutonMonstre8);
-		passive_button(boutonMonstre8);
-		passive_button(boutonMonstre9);
-		passive_button(boutonMonstre10);
+		passiveButton(boutonMonstre1);
+		passiveButton(boutonMonstre2);
+		passiveButton(boutonMonstre3);
+		passiveButton(boutonMonstre4);
+		passiveButton(boutonMonstre5);
+		passiveButton(boutonMonstre6);
+		passiveButton(boutonMonstre7);
+		passiveButton(boutonMonstre8);
+		passiveButton(boutonMonstre8);
+		passiveButton(boutonMonstre9);
+		passiveButton(boutonMonstre10);
 		
-		active_button(b);
+		activeButton(b);
 	}
-	private void active_button_nb(JButton b)
+	private void activeButtonNb(JButton b)
 	{
-		passive_button(nbMonstre1);
-		passive_button(nbMonstre5);
-		passive_button(nbMonstre10);
-		passive_button(nbMonstre15);
-		passive_button(nbMonstre20);
-		passive_button(nbMonstre30);
-		passive_button(nbMonstre50);
-		passive_button(nbMonstre100);
+		passiveButton(nbMonstre1);
+		passiveButton(nbMonstre5);
+		passiveButton(nbMonstre10);
+		passiveButton(nbMonstre15);
+		passiveButton(nbMonstre20);
+		passiveButton(nbMonstre30);
+		passiveButton(nbMonstre50);
+		passiveButton(nbMonstre100);
 		
-		active_button(b);
+		activeButton(b);
 	}
-	private void active_button (JButton b)
+	private void activeButton (JButton b)
 	{
 	    b.setBackground(Color.blue);
 	    b.setForeground(Color.white);
 	}
-	private void passive_button (JButton b)
+	private void passiveButton (JButton b)
 	{
 	    b.setBackground(null);
 	    b.setForeground(null);
