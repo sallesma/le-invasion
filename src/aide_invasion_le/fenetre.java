@@ -1,6 +1,5 @@
 package aide_invasion_le;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -8,7 +7,13 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -19,29 +24,18 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
-
 public class fenetre  extends JFrame implements MouseListener {
-
-	/**
-	 * 
-	 */
 	JLabel image;
 	
 	//Mobs Ligne 1
 	private static final long serialVersionUID = 1L;
 	private static final Color Color = null;
 	private static JPanel pan = new JPanel();
-	private static JButton boutonMonstre1 = new JButton("Créature 1");
-	private static JButton boutonMonstre2 = new JButton("Créature 2");
-	private static JButton boutonMonstre3 = new JButton("Créature 3");
-	private static JButton boutonMonstre4 = new JButton("Créature 4");
-	private static JButton boutonMonstre5 = new JButton("Créature 5");
+	private static JButton boutonMonstre1 = new JButton("CrÃ©ature 1");
+	private static JButton boutonMonstre2 = new JButton("CrÃ©ature 2");
+	private static JButton boutonMonstre3 = new JButton("CrÃ©ature 3");
+	private static JButton boutonMonstre4 = new JButton("CrÃ©ature 4");
+	private static JButton boutonMonstre5 = new JButton("CrÃ©ature 5");
 	private TextField tm1 = new TextField("lapin_brun",10);
 	private TextField tm2 = new TextField("lapin_blanc",10); 
 	private TextField tm3 = new TextField("rat",10); 
@@ -49,11 +43,11 @@ public class fenetre  extends JFrame implements MouseListener {
 	private TextField tm5 = new TextField("lutin",10); 
 	
 	//Mobs Ligne 2
-	private static JButton boutonMonstre6 = new JButton("Créature 6");
-	private static JButton boutonMonstre7 = new JButton("Créature 7");
-	private static JButton boutonMonstre8 = new JButton("Créature 8");
-	private static JButton boutonMonstre9 = new JButton("Créature 9");
-	private static JButton boutonMonstre10 = new JButton("Créature10");
+	private static JButton boutonMonstre6 = new JButton("CrÃ©ature 6");
+	private static JButton boutonMonstre7 = new JButton("CrÃ©ature 7");
+	private static JButton boutonMonstre8 = new JButton("CrÃ©ature 8");
+	private static JButton boutonMonstre9 = new JButton("CrÃ©ature 9");
+	private static JButton boutonMonstre10 = new JButton("CrÃ©ature10");
 	private TextField tm6 = new TextField("squelette",10);
 	private TextField tm7 = new TextField("squelette_faible",10); 
 	private TextField tm8 = new TextField("squelette_brille",10); 
@@ -96,7 +90,6 @@ public class fenetre  extends JFrame implements MouseListener {
 	private int nb_monstres = 1;
 	
 	public fenetre() {
-		// TODO Auto-generated constructor stub
 		JFrame fenetre = creer_fenetre();
 	}
 	
@@ -104,11 +97,11 @@ public class fenetre  extends JFrame implements MouseListener {
 	{
 		
 		JFrame fenetre = new JFrame();
-		//Définit un titre pour notre fenêtre
+		//DÃ©finit un titre pour notre fenÃªtre
 	    fenetre.setTitle("Gestionnaire Invasion");
-	    //Définit sa taille : 400 pixels de large et 100 pixels de haut
+	    //DÃ©finit sa taille : 400 pixels de large et 100 pixels de haut
 	    fenetre.setSize(600, 800);
-	    //Nous demandons maintenant à notre objet de se positionner au centre
+	    //Nous demandons maintenant Ã  notre objet de se positionner au centre
 	    fenetre.setLocationRelativeTo(null);
 	    //Termine le processus lorsqu'on clique sur la croix rouge
 	    fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -211,12 +204,10 @@ public class fenetre  extends JFrame implements MouseListener {
 		nbMonstre100.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
             nb_monstres = 100; active_button_nb(nbMonstre100); }});  
-
 	    
 	    JPanel ligneImage = new JPanel();
 	    
 	    //ligneImage.setLayout(new GridLayout(1, 2));
-	    
 	    
 	    JPanel ligneImageG = new JPanel();
 	    
@@ -245,7 +236,6 @@ public class fenetre  extends JFrame implements MouseListener {
         		try {
         			Runtime.getRuntime().exec("wscript scripts\\focusApp.vbs \"" + nom_fenetre + "\" \"" + param + "\" \"Gestionnaire Invasion\"");
         		} catch (IOException e1) {
-        			// TODO Auto-generated catch block
         			e1.printStackTrace();
         		} }});  
 		clearPerm.addActionListener(new ActionListener() {
@@ -256,7 +246,6 @@ public class fenetre  extends JFrame implements MouseListener {
         		try {
         			Runtime.getRuntime().exec("wscript scripts\\focusApp.vbs \"" + nom_fenetre + "\" \"" + param + "\" \"Gestionnaire Invasion\"");
         		} catch (IOException e1) {
-        			// TODO Auto-generated catch block
         			e1.printStackTrace();
         		} }});  
 		clearPeri.addActionListener(new ActionListener() {
@@ -267,7 +256,6 @@ public class fenetre  extends JFrame implements MouseListener {
         		try {
         			Runtime.getRuntime().exec("wscript scripts\\focusApp.vbs \"" + nom_fenetre + "\" \"" + param + "\" \"Gestionnaire Invasion\"");
         		} catch (IOException e1) {
-        			// TODO Auto-generated catch block
         			e1.printStackTrace();
         		} }});  
 		clearAuto.addActionListener(new ActionListener() {
@@ -278,11 +266,8 @@ public class fenetre  extends JFrame implements MouseListener {
         		try {
         			Runtime.getRuntime().exec("wscript scripts\\focusApp.vbs \"" + nom_fenetre + "\" \"" + param + "\" \"Gestionnaire Invasion\"");
         		} catch (IOException e1) {
-        			// TODO Auto-generated catch block
         			e1.printStackTrace();
         		} }});  
-	    
-	    
 	    
 	    JPanel ligneImageD = new JPanel();
 	    
@@ -357,7 +342,6 @@ public class fenetre  extends JFrame implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 		int pos_carte_x = (int)(e.getPoint().getX())*taille_carte/taille_carte_affiche;
 		int pos_carte_y = taille_carte-((int)(e.getPoint().getY())*taille_carte/taille_carte_affiche);
 		String param = new String("&inv " + type_inva + " " + pos_carte_x + " " + pos_carte_y + " " + Integer.parseInt(zoneCarte.getText()) + " " + type_mob + " " + nb_monstres);
@@ -367,7 +351,6 @@ public class fenetre  extends JFrame implements MouseListener {
 		try {
 			Runtime.getRuntime().exec("wscript scripts\\focusApp.vbs \"" + nom_fenetre + "\" \"" + param + "\" \"Gestionnaire Invasion\"");
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
@@ -375,26 +358,18 @@ public class fenetre  extends JFrame implements MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	private void active_button_mob (JButton b)
