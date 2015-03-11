@@ -9,11 +9,14 @@ import java.awt.RenderingHints;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -67,11 +70,10 @@ public class fenetre  extends JFrame implements MouseListener {
 	private static JButton nbMonstre100 = new JButton("100");
 	
 	//Gauche de l'image
-	JLabel pseudo = new JLabel("Pseudo");
+	JLabel pseudo = new JLabel("Burno");
 	private TextField zonePseudo = new TextField("",10); 
-	JLabel serveur = new JLabel("Serveur");
-	String[] items = {"main", "test"};
-	JComboBox zoneServeur = new JComboBox(items); 
+	JLabel server = new JLabel("Serveur");
+	JComboBox<String> zoneServer = new JComboBox<String>(new String[]{"main", "test"}); 
 	JLabel carte = new JLabel("Num Carte");
 	private TextField zoneCarte = new TextField("1",10);
 	JLabel clear = new JLabel("Clear");
@@ -92,8 +94,14 @@ public class fenetre  extends JFrame implements MouseListener {
 	public fenetre() {
 		JFrame fenetre = creer_fenetre();
 		this.leInterface = new LEInterface();
+		this.updateLEInterface();
 	}
 	
+	private void updateLEInterface() {
+		this.leInterface.setPseudo(zonePseudo.getText());
+		this.leInterface.setServer(zoneServer.getSelectedItem().toString());
+	}
+
 	JFrame creer_fenetre()
 	{
 		
@@ -213,8 +221,8 @@ public class fenetre  extends JFrame implements MouseListener {
 	    ligneImageG.setLayout(new GridLayout(15, 1));
 		ligneImageG.add(pseudo);
 		ligneImageG.add(zonePseudo);
-		ligneImageG.add(serveur);
-		ligneImageG.add(zoneServeur);
+		ligneImageG.add(server);
+		ligneImageG.add(zoneServer);
 		ligneImageG.add(carte);
 		ligneImageG.add(zoneCarte);
 		ligneImageG.add(clear);
@@ -225,6 +233,27 @@ public class fenetre  extends JFrame implements MouseListener {
 		ligneImageG.add(imageAf);
 		choixImage.setPreferredSize(taille_nb);
 		ligneImageG.add(choixImage);
+		
+		zonePseudo.addKeyListener(new KeyListener() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				updateLEInterface();
+			}
+			@Override
+			public void keyTyped(KeyEvent e) {}
+			@Override
+			public void keyPressed(KeyEvent e) {}
+		});
+		zoneServer.addKeyListener(new KeyListener() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				updateLEInterface();
+			}
+			@Override
+			public void keyTyped(KeyEvent e) {}
+			@Override
+			public void keyPressed(KeyEvent e) {}
+		});
 		
 		//Clear
 		clearPonct.addActionListener(new ActionListener() {
@@ -290,7 +319,6 @@ public class fenetre  extends JFrame implements MouseListener {
 	    pan.add(ligneImage);
 	    fenetre.setContentPane(pan);
 	    
-	    //Et enfin, la rendre visible        
 	    fenetre.setVisible(true);
 	    
 	    return fenetre;

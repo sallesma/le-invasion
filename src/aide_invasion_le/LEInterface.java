@@ -8,8 +8,8 @@ public class LEInterface {
 	public static final String INVASION_TYPE_PERI = "peri";
 	public static final String INVASION_TYPE_AUTO = "auto";
 
-	private String pseudo = "Burno";
-	private String server = "test";
+	private String pseudo = "";
+	private String server = "";
 
 	public void addInvasion(String invasionType, int xPos, int yPos, int mapId, String monsterType, int monsterNumber)
 	{
@@ -28,5 +28,15 @@ public class LEInterface {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+	}
+	
+	public void setPseudo(String pseudo)
+	{
+		this.pseudo = pseudo;
+	}
+	
+	public void setServer(String server)
+	{
+		this.server = server;
 	}
 }
