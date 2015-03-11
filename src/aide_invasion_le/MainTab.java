@@ -2,6 +2,8 @@ package aide_invasion_le;
 
 import java.awt.GridLayout;
 import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -38,15 +40,11 @@ public class MainTab extends JPanel {
 			@Override
 			public void keyPressed(KeyEvent e) {}
 		});
-		zoneServer.addKeyListener(new KeyListener() {
+		zoneServer.addActionListener(new ActionListener() {
 			@Override
-			public void keyReleased(KeyEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				updateLEInterface();
 			}
-			@Override
-			public void keyTyped(KeyEvent e) {}
-			@Override
-			public void keyPressed(KeyEvent e) {}
 		});
 	    //pan.add(ligneImage);
 	    this.add(ligneImage);
