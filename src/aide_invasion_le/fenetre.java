@@ -66,12 +66,18 @@ public class fenetre  extends JFrame implements MouseListener {
 	private static JButton nbMonstre50 = new JButton("50");
 	private static JButton nbMonstre100 = new JButton("100");
 	
+	//type inva
+	private static JButton ponctB = new JButton("Ponctuel");
+	private static JButton permB = new JButton("Permanent");
+	private static JButton periB = new JButton("Périssable");
+	private static JButton autoB = new JButton("Automatique");
+	
 	//Gauche de l'image
 	JLabel pseudo = new JLabel("Pseudo");
 	private TextField zonePseudo = new TextField("",10); 
 	JLabel serveur = new JLabel("Serveur");
 	String[] items = {"main", "test"};
-	JComboBox zoneServeur = new JComboBox(items); 
+	JComboBox<String> zoneServeur = new JComboBox<String>(items); 
 	JLabel carte = new JLabel("Num Carte");
 	private TextField zoneCarte = new TextField("1",10);
 	JLabel clear = new JLabel("Clear");
@@ -204,6 +210,26 @@ public class fenetre  extends JFrame implements MouseListener {
             public void actionPerformed(ActionEvent e){
             nb_monstres = 100; active_button_nb(nbMonstre100); }});  
 	    
+		
+		JPanel ligne6 = new JPanel();
+		ligne6.add(ponctB);
+		ponctB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+            	type_inva = "ponct"; active_button_type(ponctB); }}); 
+		ligne6.add(permB);
+		permB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+            	type_inva = "perm"; active_button_type(ponctB); }}); 
+		ligne6.add(periB);
+		periB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+            	type_inva = "peri"; active_button_type(ponctB); }}); 
+		ligne6.add(autoB);
+		autoB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+            	type_inva = "auto"; active_button_type(ponctB); }}); 
+		
+		
 	    JPanel ligneImage = new JPanel();
 	    
 	    //ligneImage.setLayout(new GridLayout(1, 2));
@@ -255,7 +281,7 @@ public class fenetre  extends JFrame implements MouseListener {
 	    JPanel ligneImageD = new JPanel();
 	    
 	    ImageIcon carteIc = new ImageIcon( "images/vide.jpg");
-	    Image zoom = scaleImage(carteIc.getImage(), taille_carte_affiche);//taille en pixels
+	    Image zoom = Resize_image.scaleImage(carteIc.getImage(), taille_carte_affiche);//taille en pixels
 	    Icon iconScaled = new ImageIcon(zoom);
 	    image = new JLabel(iconScaled);
 	    //pan.setLayout(new BorderLayout, CENTER);
@@ -273,7 +299,7 @@ public class fenetre  extends JFrame implements MouseListener {
         		    fichier2 = dialogue.getSelectedFile();
         		    System.out.println(dialogue.getName(fichier2));
         		    ImageIcon carteIc = new ImageIcon( "images/" + dialogue.getName(fichier2));
-        		    Image zoom = scaleImage(carteIc.getImage(), taille_carte_affiche);//taille en pixels
+        		    Image zoom = Resize_image.scaleImage(carteIc.getImage(), taille_carte_affiche);//taille en pixels
         		    Icon iconScaled = new ImageIcon(zoom);
         		    image.setIcon(iconScaled);
         		    choixImage.setText(dialogue.getName(fichier2));
@@ -287,6 +313,7 @@ public class fenetre  extends JFrame implements MouseListener {
 	    pan.add(ligne3);
 	    pan.add(ligne4);
 	    pan.add(ligne5);
+	    pan.add(ligne6);
 	    pan.add(ligneImage);
 	    fenetre.setContentPane(pan);
 	    
@@ -294,32 +321,6 @@ public class fenetre  extends JFrame implements MouseListener {
 	    fenetre.setVisible(true);
 	    
 	    return fenetre;
-	}
-	
-	//avec une taille en pixels (=hauteur si portrait, largeur si paysage):
-	static Image scaleImage(Image source, int size) {
-	    int width = source.getWidth(null);
-	    int height = source.getHeight(null);
-	    double f = 0;
-	    if (width < height) {//portrait
-	        f = (double) height / (double) width;
-	        width = (int) (size / f);
-	        height = size;
-	    } else {//paysage
-	        f = (double) width / (double) height;
-	        width = size;
-	        height = (int) (size / f);
-	    }
-	    return scaleImage(source, width, height);
-	}
-	
-	static Image scaleImage(Image source, int width, int height) {
-	    BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-	    Graphics2D g = (Graphics2D) img.getGraphics();
-	    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-	    g.drawImage(source, 0, 0, width, height, null);
-	    g.dispose();
-	    return img;
 	}
 	
 
@@ -372,6 +373,15 @@ public class fenetre  extends JFrame implements MouseListener {
 		passive_button(nbMonstre30);
 		passive_button(nbMonstre50);
 		passive_button(nbMonstre100);
+		
+		active_button(b);
+	}
+	private void active_button_type(JButton b)
+	{
+		passive_button(ponctB);
+		passive_button(permB);
+		passive_button(periB);
+		passive_button(autoB);
 		
 		active_button(b);
 	}
