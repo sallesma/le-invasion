@@ -9,12 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -71,8 +69,6 @@ public class MapTab extends JPanel implements MouseListener {
 	private static JButton clearPerm = new JButton("Permanent");
 	private static JButton clearPeri = new JButton("Périssable");
 	private static JButton clearAuto = new JButton("Automatique");
-	JLabel imageAf = new JLabel("Image");
-	private static JButton choixImage = new JButton("...");
 	
 	private final static int TAILLE_CARTE_AFFICHE = 400;
 	private final static int TAILLE_CARTE = 384;
@@ -228,9 +224,6 @@ public class MapTab extends JPanel implements MouseListener {
 		ligneImageG.add(clearPerm);
 		ligneImageG.add(clearPeri);
 		ligneImageG.add(clearAuto);
-		ligneImageG.add(imageAf);
-		choixImage.setPreferredSize(TAILLE_NB_BUTTON);
-		ligneImageG.add(choixImage);
 		
 		//Clear
 		clearPonct.addActionListener(new ActionListener() {
@@ -267,23 +260,6 @@ public class MapTab extends JPanel implements MouseListener {
 	    //pan.setLayout(new BorderLayout, CENTER);
 	    image.addMouseListener(this);
 	    ligneImageD.add(image);
-	    
-		//Choix Image
-		choixImage.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-        		JFileChooser dialogue = new JFileChooser(new File(".\\images"));
-        		File fichier2;
-        		
-        		if (dialogue.showOpenDialog(null)== 
-        		    JFileChooser.APPROVE_OPTION) {
-        		    fichier2 = dialogue.getSelectedFile();
-        		    System.out.println(dialogue.getName(fichier2));
-        		    ImageIcon carteIc = new ImageIcon( "images/" + dialogue.getName(fichier2));
-        		    Image zoom = Resize_image.scaleImage(carteIc.getImage(), TAILLE_CARTE_AFFICHE);//taille en pixels
-        		    Icon iconScaled = new ImageIcon(zoom);
-        		    image.setIcon(iconScaled);
-        		    choixImage.setText(dialogue.getName(fichier2));
-        		} }});  
 	    
 	    ligneImage.add(ligneImageG);
 	    ligneImage.add(ligneImageD);

@@ -1,5 +1,6 @@
 package aide_invasion_le;
 
+import java.io.File;
 import java.io.IOException;
 
 public class LEInterface {
@@ -10,6 +11,7 @@ public class LEInterface {
 
 	private String pseudo = "";
 	private String server = "";
+	private File leMapFolder = null;
 
 	public void addInvasion(String invasionType, int xPos, int yPos, int mapId, String monsterType, int monsterNumber)
 	{
@@ -25,6 +27,16 @@ public class LEInterface {
 		this.sendCommandToLE(command, windowName);
 	}
 	
+	private void sendCommandToLE(String command, String windowName)
+	{
+		System.out.println(windowName + " - " + command);
+		try {
+			Runtime.getRuntime().exec("wscript scripts\\focusApp.vbs \"" + windowName + "\" \"" + command + "\" \"Gestionnaire Invasion\"");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void setPseudo(String pseudo)
 	{
 		this.pseudo = pseudo;
@@ -34,14 +46,12 @@ public class LEInterface {
 	{
 		this.server = server;
 	}
-	
-	private void sendCommandToLE(String command, String windowName)
-	{
-		System.out.println(windowName + " - " + command);
-		try {
-			Runtime.getRuntime().exec("wscript scripts\\focusApp.vbs \"" + windowName + "\" \"" + command + "\" \"Gestionnaire Invasion\"");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+	public File getLeMapFolder() {
+		return leMapFolder;
+	}
+
+	public void setLeMapFolder(File leMapFolder) {
+		this.leMapFolder = leMapFolder;
 	}
 }
