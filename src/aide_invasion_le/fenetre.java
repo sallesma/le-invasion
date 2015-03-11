@@ -69,6 +69,12 @@ public class Fenetre  extends JFrame implements MouseListener {
 	private static JButton nbMonstre50 = new JButton("50");
 	private static JButton nbMonstre100 = new JButton("100");
 	
+	//type inva
+	private static JButton ponctB = new JButton("Ponctuel");
+	private static JButton permB = new JButton("Permanent");
+	private static JButton periB = new JButton("Périssable");
+	private static JButton autoB = new JButton("Automatique");
+	
 	//Gauche de l'image
 	JLabel pseudo = new JLabel("Burno");
 	private TextField zonePseudo = new TextField("",10); 
@@ -212,6 +218,26 @@ public class Fenetre  extends JFrame implements MouseListener {
             public void actionPerformed(ActionEvent e){
             nb_monstres = 100; activeButtonNb(nbMonstre100); }});  
 	    
+		
+		JPanel ligne6 = new JPanel();
+		ligne6.add(ponctB);
+		ponctB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+            	type_inva = "ponct"; activeButtonType(ponctB); }}); 
+		ligne6.add(permB);
+		permB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+            	type_inva = "perm"; activeButtonType(permB); }}); 
+		ligne6.add(periB);
+		periB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+            	type_inva = "peri"; activeButtonType(periB); }}); 
+		ligne6.add(autoB);
+		autoB.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+            	type_inva = "auto"; activeButtonType(autoB); }}); 
+		
+		
 	    JPanel ligneImage = new JPanel();
 	    
 	    //ligneImage.setLayout(new GridLayout(1, 2));
@@ -284,7 +310,7 @@ public class Fenetre  extends JFrame implements MouseListener {
 	    JPanel ligneImageD = new JPanel();
 	    
 	    ImageIcon carteIc = new ImageIcon( "images/vide.jpg");
-	    Image zoom = scaleImage(carteIc.getImage(), TAILLE_CARTE_AFFICHE);//taille en pixels
+	    Image zoom = Resize_image.scaleImage(carteIc.getImage(), TAILLE_CARTE_AFFICHE);//taille en pixels
 	    Icon iconScaled = new ImageIcon(zoom);
 	    image = new JLabel(iconScaled);
 	    //pan.setLayout(new BorderLayout, CENTER);
@@ -302,7 +328,7 @@ public class Fenetre  extends JFrame implements MouseListener {
         		    fichier2 = dialogue.getSelectedFile();
         		    System.out.println(dialogue.getName(fichier2));
         		    ImageIcon carteIc = new ImageIcon( "images/" + dialogue.getName(fichier2));
-        		    Image zoom = scaleImage(carteIc.getImage(), TAILLE_CARTE_AFFICHE);//taille en pixels
+        		    Image zoom = Resize_image.scaleImage(carteIc.getImage(), TAILLE_CARTE_AFFICHE);//taille en pixels
         		    Icon iconScaled = new ImageIcon(zoom);
         		    image.setIcon(iconScaled);
         		    choixImage.setText(dialogue.getName(fichier2));
@@ -316,6 +342,7 @@ public class Fenetre  extends JFrame implements MouseListener {
 	    pan.add(ligne3);
 	    pan.add(ligne4);
 	    pan.add(ligne5);
+	    pan.add(ligne6);
 	    pan.add(ligneImage);
 	    fenetre.setContentPane(pan);
 	    
@@ -324,32 +351,7 @@ public class Fenetre  extends JFrame implements MouseListener {
 	    return fenetre;
 	}
 	
-	//avec une taille en pixels (=hauteur si portrait, largeur si paysage):
-	static Image scaleImage(Image source, int size) {
-	    int width = source.getWidth(null);
-	    int height = source.getHeight(null);
-	    double f = 0;
-	    if (width < height) {//portrait
-	        f = (double) height / (double) width;
-	        width = (int) (size / f);
-	        height = size;
-	    } else {//paysage
-	        f = (double) width / (double) height;
-	        width = size;
-	        height = (int) (size / f);
-	    }
-	    return scaleImage(source, width, height);
-	}
-	
-	static Image scaleImage(Image source, int width, int height) {
-	    BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-	    Graphics2D g = (Graphics2D) img.getGraphics();
-	    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-	    g.drawImage(source, 0, 0, width, height, null);
-	    g.dispose();
-	    return img;
-	}
-	
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		int xPos = (int)(e.getPoint().getX())*TAILLE_CARTE/TAILLE_CARTE_AFFICHE;
@@ -389,6 +391,7 @@ public class Fenetre  extends JFrame implements MouseListener {
 		
 		activeButton(b);
 	}
+	
 	private void activeButtonNb(JButton b)
 	{
 		passiveButton(nbMonstre1);
@@ -399,6 +402,16 @@ public class Fenetre  extends JFrame implements MouseListener {
 		passiveButton(nbMonstre30);
 		passiveButton(nbMonstre50);
 		passiveButton(nbMonstre100);
+		
+		activeButton(b);
+	}
+
+	private void activeButtonType(JButton b)
+	{
+		passiveButton(ponctB);
+		passiveButton(permB);
+		passiveButton(periB);
+		passiveButton(autoB);
 		
 		activeButton(b);
 	}
