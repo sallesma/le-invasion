@@ -223,20 +223,31 @@ public class Fenetre  extends JFrame implements MouseListener {
 		ligne6.add(ponctB);
 		ponctB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	type_inva = "ponct"; activeButtonType(ponctB); }}); 
+            	type_inva = LEInterface.INVASION_TYPE_PONCT;
+            	activeButtonType(ponctB);
+            }
+        }); 
 		ligne6.add(permB);
 		permB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	type_inva = "perm"; activeButtonType(permB); }}); 
+            	type_inva = LEInterface.INVASION_TYPE_PERM;
+            	activeButtonType(permB);
+            }
+        }); 
 		ligne6.add(periB);
 		periB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	type_inva = "peri"; activeButtonType(periB); }}); 
+            	type_inva = LEInterface.INVASION_TYPE_PERI;
+            	activeButtonType(periB);
+            }
+        }); 
 		ligne6.add(autoB);
 		autoB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	type_inva = "auto"; activeButtonType(autoB); }}); 
-		
+            	type_inva = LEInterface.INVASION_TYPE_AUTO;
+            	activeButtonType(autoB);
+            }
+        }); 
 		
 	    JPanel ligneImage = new JPanel();
 	    
