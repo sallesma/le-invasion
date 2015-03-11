@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 
 public class fenetre  extends JFrame implements MouseListener {
 	JLabel image;
+	LEInterface leInterface;
 	
 	//Mobs Ligne 1
 	private static final long serialVersionUID = 1L;
@@ -84,13 +85,13 @@ public class fenetre  extends JFrame implements MouseListener {
 	private int taille_carte_affiche = 400;
 	private int taille_carte = 384;
 	
-	private String nom_fenetre ="(Burno sur main) Landes Eternelles";
 	private String type_inva = "ponct";
 	private String type_mob = "rat";
 	private int nb_monstres = 1;
 	
 	public fenetre() {
 		JFrame fenetre = creer_fenetre();
+		this.leInterface = new LEInterface();
 	}
 	
 	JFrame creer_fenetre()
@@ -230,44 +231,28 @@ public class fenetre  extends JFrame implements MouseListener {
 		//Clear
 		clearPonct.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	String param = new String("&clear_inv ponct " + Integer.parseInt(zoneCarte.getText()));
-        		System.out.println(param);
-        		nom_fenetre ="(" + zonePseudo.getText() + " sur " + zoneServeur.getSelectedItem() + ") Landes Eternelles";
-        		try {
-        			Runtime.getRuntime().exec("wscript scripts\\focusApp.vbs \"" + nom_fenetre + "\" \"" + param + "\" \"Gestionnaire Invasion\"");
-        		} catch (IOException e1) {
-        			e1.printStackTrace();
-        		} }});  
+            	int mapId = Integer.parseInt(zoneCarte.getText());
+        		leInterface.clearInvasion("ponct", mapId);
+            }
+		});  
 		clearPerm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	String param = new String("&clear_inv perm " + Integer.parseInt(zoneCarte.getText()));
-        		System.out.println(param);
-        		nom_fenetre ="(" + zonePseudo.getText() + " sur " + zoneServeur.getSelectedItem() + ") Landes Eternelles";
-        		try {
-        			Runtime.getRuntime().exec("wscript scripts\\focusApp.vbs \"" + nom_fenetre + "\" \"" + param + "\" \"Gestionnaire Invasion\"");
-        		} catch (IOException e1) {
-        			e1.printStackTrace();
-        		} }});  
+            	int mapId = Integer.parseInt(zoneCarte.getText());
+        		leInterface.clearInvasion("perm", mapId);
+        	}
+        });  
 		clearPeri.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	String param = new String("&clear_inv peri " + Integer.parseInt(zoneCarte.getText()));
-        		System.out.println(param);
-        		nom_fenetre ="(" + zonePseudo.getText() + " sur " + zoneServeur.getSelectedItem() + ") Landes Eternelles";
-        		try {
-        			Runtime.getRuntime().exec("wscript scripts\\focusApp.vbs \"" + nom_fenetre + "\" \"" + param + "\" \"Gestionnaire Invasion\"");
-        		} catch (IOException e1) {
-        			e1.printStackTrace();
-        		} }});  
+            	int mapId = Integer.parseInt(zoneCarte.getText());
+            	leInterface.clearInvasion("peri", mapId);
+        	}
+        });  
 		clearAuto.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	String param = new String("&clear_inv auto " + Integer.parseInt(zoneCarte.getText()));
-        		System.out.println(param);
-        		nom_fenetre ="(" + zonePseudo.getText() + " sur " + zoneServeur.getSelectedItem() + ") Landes Eternelles";
-        		try {
-        			Runtime.getRuntime().exec("wscript scripts\\focusApp.vbs \"" + nom_fenetre + "\" \"" + param + "\" \"Gestionnaire Invasion\"");
-        		} catch (IOException e1) {
-        			e1.printStackTrace();
-        		} }});  
+            	int mapId = Integer.parseInt(zoneCarte.getText());
+            	leInterface.clearInvasion("auto", mapId);
+            }
+		});  
 	    
 	    JPanel ligneImageD = new JPanel();
 	    
@@ -342,18 +327,9 @@ public class fenetre  extends JFrame implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		int pos_carte_x = (int)(e.getPoint().getX())*taille_carte/taille_carte_affiche;
-		int pos_carte_y = taille_carte-((int)(e.getPoint().getY())*taille_carte/taille_carte_affiche);
-		String param = new String("&inv " + type_inva + " " + pos_carte_x + " " + pos_carte_y + " " + Integer.parseInt(zoneCarte.getText()) + " " + type_mob + " " + nb_monstres);
-		System.out.println(param);
-		nom_fenetre ="(" + zonePseudo.getText() + " sur " + zoneServeur.getSelectedItem() + ") Landes Eternelles";
-		System.out.println(nom_fenetre);
-		try {
-			Runtime.getRuntime().exec("wscript scripts\\focusApp.vbs \"" + nom_fenetre + "\" \"" + param + "\" \"Gestionnaire Invasion\"");
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		
+		int xPos = (int)(e.getPoint().getX())*taille_carte/taille_carte_affiche;
+		int yPos = taille_carte-((int)(e.getPoint().getY())*taille_carte/taille_carte_affiche);
+		leInterface.addInvasion(type_inva, xPos, yPos, Integer.parseInt(zoneCarte.getText()), type_mob, nb_monstres);
 	}
 
 	@Override
