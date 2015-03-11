@@ -98,14 +98,12 @@ public class fenetre  extends JFrame implements MouseListener {
 	{
 		
 		JFrame fenetre = new JFrame();
-		//Définit un titre pour notre fenêtre
 	    fenetre.setTitle("Gestionnaire Invasion");
-	    //Définit sa taille : 400 pixels de large et 100 pixels de haut
 	    fenetre.setSize(600, 800);
-	    //Nous demandons maintenant à notre objet de se positionner au centre
+	    //Nous demandons maintenant à notre fenêtre de se positionner au centre
 	    fenetre.setLocationRelativeTo(null);
-	    //Termine le processus lorsqu'on clique sur la croix rouge
 	    fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    
 	    JPanel ligne1 = new JPanel();
 	    ligne1.add(tm1);
 	    ligne1.add(tm2);
@@ -232,25 +230,25 @@ public class fenetre  extends JFrame implements MouseListener {
 		clearPonct.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
             	int mapId = Integer.parseInt(zoneCarte.getText());
-        		leInterface.clearInvasion("ponct", mapId);
+        		leInterface.clearInvasion(LEInterface.INVASION_TYPE_PONCT, mapId);
             }
 		});  
 		clearPerm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
             	int mapId = Integer.parseInt(zoneCarte.getText());
-        		leInterface.clearInvasion("perm", mapId);
+        		leInterface.clearInvasion(LEInterface.INVASION_TYPE_PERM, mapId);
         	}
         });  
 		clearPeri.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
             	int mapId = Integer.parseInt(zoneCarte.getText());
-            	leInterface.clearInvasion("peri", mapId);
+            	leInterface.clearInvasion(LEInterface.INVASION_TYPE_PERI, mapId);
         	}
         });  
 		clearAuto.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
             	int mapId = Integer.parseInt(zoneCarte.getText());
-            	leInterface.clearInvasion("auto", mapId);
+            	leInterface.clearInvasion(LEInterface.INVASION_TYPE_AUTO, mapId);
             }
 		});  
 	    

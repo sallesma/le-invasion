@@ -3,6 +3,10 @@ package aide_invasion_le;
 import java.io.IOException;
 
 public class LEInterface {
+	public static final String INVASION_TYPE_PONCT = "ponct";
+	public static final String INVASION_TYPE_PERM = "perm";
+	public static final String INVASION_TYPE_PERI = "peri";
+	public static final String INVASION_TYPE_AUTO = "auto";
 
 	private String pseudo = "Burno";
 	private String server = "test";
