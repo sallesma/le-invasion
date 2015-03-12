@@ -29,7 +29,10 @@ public class LEInterface {
 	{
 		System.out.println(windowName + " - " + command);
 		try {
-			Runtime.getRuntime().exec("wscript scripts\\focusApp.vbs \"" + windowName + "\" \"" + command + "\" \"Gestionnaire Invasion\"");
+			if (System.getProperty("os.name").startsWith("Windows"))
+				Runtime.getRuntime().exec("wscript scripts\\focusApp.vbs \"" + windowName + "\" \"" + command + "\" \"Gestionnaire Invasion\"");
+			else if (System.getProperty("os.name").startsWith("Linux"))
+				Runtime.getRuntime().exec(new String[]{"scripts/focusApp.sh", windowName, command});
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

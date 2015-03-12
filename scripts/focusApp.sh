@@ -1,5 +1,5 @@
 #! /bin/bash
 
-wmctrl -a $1;
+wmctrl -a "$1";
 xdotool type "$2";
-xdotool key Return;
+xdotool key "Return";
