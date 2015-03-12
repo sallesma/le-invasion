@@ -29,7 +29,7 @@ public class FormCommando extends FormAbstract {
 	
 	private JLabel choixGroupe = new JLabel("Groupe");
 	//Nombres
-	private final static Dimension TAILLE_GRP_BUTTON = new Dimension(50,26);
+	//private final static Dimension TAILLE_GRP_BUTTON = new Dimension(50,26);
 	private JButton groupe1 = new JButton("1");
 	private JButton groupe2 = new JButton("2");
 	private JButton groupe3 = new JButton("3");
