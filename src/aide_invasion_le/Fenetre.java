@@ -30,9 +30,9 @@ public class Fenetre  extends JFrame {
 	    tabbedPane.addTab("Main", null, mainTab, "Main Tab");
 
 	    FormClassic formC= new FormClassic();
-	    tabbedPane.addTab("Test Form 1", null, formC.getFormClassic(), "Form 1 Tab");
+	    tabbedPane.addTab("Test Form 1", null, formC, "Form 1 Tab");
 	    FormCommando formCom= new FormCommando();
-	    tabbedPane.addTab("Test Form 2", null, formCom.getFormCommando(), "Form 2 Tab");
+	    tabbedPane.addTab("Test Form 2", null, formCom, "Form 2 Tab");
 
 	    fenetre.add(tabbedPane);
 	    

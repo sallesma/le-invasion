@@ -10,8 +10,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class FormClassic {
+public class FormClassic extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//Mobs Ligne 1
 		private static JButton boutonMonstre1 = new JButton("Créature 1");
 		private static JButton boutonMonstre2 = new JButton("Créature 2");
@@ -61,10 +65,6 @@ public class FormClassic {
 	public FormClassic() {
 		// TODO Auto-generated constructor stub
 		
-	}
-	
-	public JPanel getFormClassic()
-	{
 		JPanel formClassicP = new JPanel();
 		
 		JPanel ligne1 = new JPanel();
@@ -204,8 +204,6 @@ public class FormClassic {
 		formClassicP.add(ligne4);
 		formClassicP.add(ligne5);
 		formClassicP.add(ligne6);
-		
-	    return formClassicP;
 	}
 	
 	private void activeButtonMob (JButton b)
@@ -263,7 +261,7 @@ public class FormClassic {
 		return type_inva;
 	}
 
-	public void setType_inva(String type_inva) {
+	void setType_inva(String type_inva) {
 		this.type_inva = type_inva;
 	}
 
@@ -271,7 +269,7 @@ public class FormClassic {
 		return type_mob;
 	}
 
-	public void setType_mob(String type_mob) {
+	void setType_mob(String type_mob) {
 		this.type_mob = type_mob;
 	}
 
@@ -279,7 +277,7 @@ public class FormClassic {
 		return nb_monstres;
 	}
 
-	public void setNb_monstres(int nb_monstres) {
+	void setNb_monstres(int nb_monstres) {
 		this.nb_monstres = nb_monstres;
 	}
 
