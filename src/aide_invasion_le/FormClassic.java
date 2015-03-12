@@ -50,12 +50,10 @@ public class FormClassic extends FormAbstract {
 	//type inva
 	private JButton ponctB = new JButton("Ponctuel");
 	private JButton permB = new JButton("Permanent");
-	private JButton periB = new JButton("Périssable");
-	private JButton autoB = new JButton("Automatique");
 	
-	private String type_inva = "ponct";
-	private String type_mob = "rat";
-	private int nb_monstres = 1;
+	private String invasionType = LEInterface.INVASION_TYPE_PONCT;
+	private String monsterType = "rat";
+	private int monsterNumber = 1;
 
 	public FormClassic() {
 		JPanel ligne1 = new JPanel();
@@ -67,19 +65,19 @@ public class FormClassic extends FormAbstract {
 	    
 	    boutonMonstre1.addActionListener(new ActionListener() {
              public void actionPerformed(ActionEvent e){
-            	setType_mob(tm1.getText()); activeButtonMob(boutonMonstre1); }});  
+            	setMonsterType(tm1.getText()); activeButtonMob(boutonMonstre1); }});  
 	    boutonMonstre2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	setType_mob(tm2.getText()); activeButtonMob(boutonMonstre2); }});
+           	setMonsterType(tm2.getText()); activeButtonMob(boutonMonstre2); }});
 	    boutonMonstre3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	setType_mob(tm3.getText()); activeButtonMob(boutonMonstre3); }});
+           	setMonsterType(tm3.getText()); activeButtonMob(boutonMonstre3); }});
 	    boutonMonstre4.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	setType_mob(tm4.getText()); activeButtonMob(boutonMonstre4); }});
+           	setMonsterType(tm4.getText()); activeButtonMob(boutonMonstre4); }});
 	    boutonMonstre5.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	setType_mob(tm5.getText()); activeButtonMob(boutonMonstre5); }});
+           	setMonsterType(tm5.getText()); activeButtonMob(boutonMonstre5); }});
 	    JPanel ligne2 = new JPanel();
 	    ligne2.add(boutonMonstre1);
 	    ligne2.add(boutonMonstre2);
@@ -96,19 +94,19 @@ public class FormClassic extends FormAbstract {
 	    
 	    boutonMonstre6.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	setType_mob(tm6.getText()); activeButtonMob(boutonMonstre6); }});
+           	setMonsterType(tm6.getText()); activeButtonMob(boutonMonstre6); }});
 	    boutonMonstre7.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	setType_mob(tm7.getText()); activeButtonMob(boutonMonstre7); }});
+           	setMonsterType(tm7.getText()); activeButtonMob(boutonMonstre7); }});
 	    boutonMonstre8.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	setType_mob(tm8.getText()); activeButtonMob(boutonMonstre8); }});
+           	setMonsterType(tm8.getText()); activeButtonMob(boutonMonstre8); }});
 	    boutonMonstre9.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	setType_mob(tm9.getText()); activeButtonMob(boutonMonstre9); }});
+           	setMonsterType(tm9.getText()); activeButtonMob(boutonMonstre9); }});
 	    boutonMonstre10.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	setType_mob(tm10.getText()); activeButtonMob(boutonMonstre10); }});
+           	setMonsterType(tm10.getText()); activeButtonMob(boutonMonstre10); }});
 	    JPanel ligne4 = new JPanel();
 	    ligne4.add(boutonMonstre6);
 	    ligne4.add(boutonMonstre7);
@@ -119,28 +117,28 @@ public class FormClassic extends FormAbstract {
 	    JPanel ligne5 = new JPanel();
 		nbMonstre1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	setNb_monstres(1); activeButtonNb(nbMonstre1); }});
+           	setMonsterNumber(1); activeButtonNb(nbMonstre1); }});
 		nbMonstre5.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            setNb_monstres(5); activeButtonNb(nbMonstre5); }});
+            setMonsterNumber(5); activeButtonNb(nbMonstre5); }});
 		nbMonstre10.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            setNb_monstres(10); activeButtonNb(nbMonstre10); }});
+            setMonsterNumber(10); activeButtonNb(nbMonstre10); }});
 		nbMonstre15.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            setNb_monstres(15); activeButtonNb(nbMonstre15); }});
+            setMonsterNumber(15); activeButtonNb(nbMonstre15); }});
 		nbMonstre20.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            setNb_monstres(20); activeButtonNb(nbMonstre20); }});
+            setMonsterNumber(20); activeButtonNb(nbMonstre20); }});
 		nbMonstre30.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            setNb_monstres(30); activeButtonNb(nbMonstre30); }});
+            setMonsterNumber(30); activeButtonNb(nbMonstre30); }});
 		nbMonstre50.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            setNb_monstres(50); activeButtonNb(nbMonstre50); }});
+            setMonsterNumber(50); activeButtonNb(nbMonstre50); }});
 		nbMonstre100.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            setNb_monstres(100); activeButtonNb(nbMonstre100); }});
+            setMonsterNumber(100); activeButtonNb(nbMonstre100); }});
 		nbMonstre1.setPreferredSize(TAILLE_NB_BUTTON);
 		nbMonstre5.setPreferredSize(TAILLE_NB_BUTTON);
 		nbMonstre10.setPreferredSize(TAILLE_NB_BUTTON);
@@ -161,32 +159,18 @@ public class FormClassic extends FormAbstract {
 		JPanel ligne6 = new JPanel();
 		ponctB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	setType_inva(LEInterface.INVASION_TYPE_PONCT);
+            	setInvasionType(LEInterface.INVASION_TYPE_PONCT);
             	activeButtonType(ponctB);
             }
         });
 		permB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	setType_inva(LEInterface.INVASION_TYPE_PERM);
+            	setInvasionType(LEInterface.INVASION_TYPE_PERM);
             	activeButtonType(permB);
-            }
-        });
-		periB.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-            	setType_inva(LEInterface.INVASION_TYPE_PERI);
-            	activeButtonType(periB);
-            }
-        });
-		autoB.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-            	setType_inva(LEInterface.INVASION_TYPE_AUTO);
-            	activeButtonType(autoB);
             }
         });
 		ligne6.add(ponctB);
 		ligne6.add(permB);
-		ligne6.add(periB);
-		ligne6.add(autoB);
 		
 		this.add(ligne1);
 		this.add(ligne2);
@@ -232,34 +216,32 @@ public class FormClassic extends FormAbstract {
 	{
 		passiveButton(ponctB);
 		passiveButton(permB);
-		passiveButton(periB);
-		passiveButton(autoB);
 		
 		activeButton(b);
 	}
 
-	public String getType_inva() {
-		return type_inva;
+	public String getInvasionType() {
+		return this.invasionType;
 	}
 
-	public void setType_inva(String type_inva) {
-		this.type_inva = type_inva;
+	public void setInvasionType(String invasionType) {
+		this.invasionType = invasionType;
 	}
 
-	public String getType_mob() {
-		return type_mob;
+	public String getMonsterType() {
+		return this.monsterType;
 	}
 
-	public void setType_mob(String type_mob) {
-		this.type_mob = type_mob;
+	public void setMonsterType(String monsterType) {
+		this.monsterType = monsterType;
 	}
 
-	public int getNb_monstres() {
-		return nb_monstres;
+	public int getMonsterNumber() {
+		return this.monsterNumber;
 	}
 
-	public void setNb_monstres(int nb_monstres) {
-		this.nb_monstres = nb_monstres;
+	public void setMonsterNumber(int monsterNumber) {
+		this.monsterNumber = monsterNumber;
 	}
 
 }

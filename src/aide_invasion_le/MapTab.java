@@ -160,7 +160,7 @@ public class MapTab extends JPanel implements MouseListener {
 			}
 		}
 		else
-			leInterface.addInvasion(formClassic.getType_inva(), xPos, yPos, Integer.parseInt(zoneCarte.getText()), formClassic.getType_mob(), formClassic.getNb_monstres());
+			leInterface.addInvasion(formClassic.getInvasionType(), xPos, yPos, Integer.parseInt(zoneCarte.getText()), formClassic.getMonsterType(), formClassic.getMonsterNumber());
 	}
 
 	@Override
