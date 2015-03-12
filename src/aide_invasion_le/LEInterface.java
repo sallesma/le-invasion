@@ -27,14 +27,14 @@ public class LEInterface {
 	
 	public void commandoAjouter(int xPos, int yPos, int mapId, int commandoType, int commandoGroup)
 	{
-		String command = new String("&commando_ajouter " + xPos + " " + yPos + " " + mapId + " " + commandoType + " " + commandoGroup);
+		String command = new String("&comdo_script_ajouter " + mapId + " " + xPos + " " + yPos + " " + commandoType + " " + commandoGroup);
 		String windowName ="(" + pseudo + " sur " + server + ") Landes Eternelles";
 		this.sendCommandToLE(command, windowName);
 	}
 	
 	public void commandoGo(int xPos, int yPos, int mapId, int commandoType, int commandoGroup)
 	{
-		String command = new String("&commando_go " + xPos + " " + yPos + " " + mapId + " " + commandoType + " " + commandoGroup);
+		String command = new String("&comdo_script_go " + mapId + " " + xPos + " " + yPos + " " + commandoType + " " + commandoGroup);
 		String windowName ="(" + pseudo + " sur " + server + ") Landes Eternelles";
 		this.sendCommandToLE(command, windowName);
 	}
