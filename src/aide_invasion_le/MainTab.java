@@ -9,6 +9,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileFilter;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,6 +19,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class MainTab extends JPanel {
+
+	private static final long serialVersionUID = 1L;
+
 	private Fenetre parentWindow;
 	private LEInterface leInterface;
 	
@@ -107,14 +112,21 @@ public class MainTab extends JPanel {
 	}
 	
 	private void updateMapList(File folder) {
-		for (File mapFile : folder.listFiles(new FileFilter() {
+		File[] files = folder.listFiles(new FileFilter() {
 			@Override
 			public boolean accept(File pathname) {
 				if (pathname.getName().endsWith(".jpg"))
 					return true;
 				return false;
 			}
-		})) {
+		});
+		Arrays.sort(files, new Comparator<File>() {
+			@Override
+			public int compare(File f1, File f2) {
+				return f1.getName().compareTo(f2.getName());
+			}
+		});
+		for (File mapFile : files) {
 			this.openMapComboBox.addItem(mapFile.getName());
 		}
 	}
