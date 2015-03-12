@@ -67,10 +67,11 @@ public class ClosableTabbedPane extends JTabbedPane {
      * > getFocusTraversalKeys permet de récupérer les touches par défaut du composant.
      * > on retire les touches ctrl+t et ctrl+w de la liste des touches du composant.
      */
-    Set forwardKeys = new HashSet(tabbedPane.getFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS));
+    
+    Set<AWTKeyStroke> forwardKeys = new HashSet<AWTKeyStroke>(tabbedPane.getFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS));
     forwardKeys.remove(ctrlTab);
     tabbedPane.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, forwardKeys);
-    Set backwardKeys = new HashSet(tabbedPane.getFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS));
+    Set<AWTKeyStroke> backwardKeys = new HashSet<AWTKeyStroke>(tabbedPane.getFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS));
     backwardKeys.remove(ctrlShiftTab);
     tabbedPane.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, backwardKeys);
 

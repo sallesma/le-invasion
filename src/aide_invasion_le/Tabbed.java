@@ -22,7 +22,6 @@ public class Tabbed extends BasicTabbedPaneUI {
      */
     protected void paintTabBackground(Graphics g, int tabPlacement,
     int tabIndex, int x, int y, int w, int h, boolean isSelected) {
-      Rectangle rect = new Rectangle();
       g.setColor(new Color(170,180,179));
       g.fillRect(x, y, w, h);
       if(isSelected) {
@@ -38,7 +37,6 @@ public class Tabbed extends BasicTabbedPaneUI {
      */
     protected void paintTabBorder(Graphics g, int tabPlacement,
     int tabIndex, int x, int y, int w, int h, boolean isSelected) {
-      Rectangle rect = getTabBounds(tabIndex, new Rectangle(x, y, w, h));
       g.setColor(new Color(19,19,19));
       g.drawRect(x, y, w, h);
       if(isSelected)
