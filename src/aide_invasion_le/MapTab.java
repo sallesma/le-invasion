@@ -145,6 +145,7 @@ public class MapTab extends JPanel implements MouseListener {
 		int xPos = (int)(e.getPoint().getX())*Integer.parseInt(zoneCarteT.getText())/TAILLE_CARTE_AFFICHE;
 		int yPos = Integer.parseInt(zoneCarteT.getText())-((int)(e.getPoint().getY())*Integer.parseInt(zoneCarteT.getText())/TAILLE_CARTE_AFFICHE);
 		
+		System.out.println(xPos + " - " + yPos);
 		if(commandoButton.isSelected())
 		{
 			if (formCommando.getOrdre() == 1)

@@ -81,8 +81,8 @@ public class FormClassic extends FormAbstract {
             public void actionPerformed(ActionEvent e){
            	setType_mob(tm5.getText()); activeButtonMob(boutonMonstre5); }});
 	    JPanel ligne2 = new JPanel();
-	    ligne2.add(boutonMonstre2);
 	    ligne2.add(boutonMonstre1);
+	    ligne2.add(boutonMonstre2);
 	    ligne2.add(boutonMonstre3);
 	    ligne2.add(boutonMonstre4);
 	    ligne2.add(boutonMonstre5);
