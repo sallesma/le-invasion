@@ -17,6 +17,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import aide_invasion_le.FormCommando.CommandoOrder;
+
 public class MapTab extends JPanel implements MouseListener {
 
 	private static final long serialVersionUID = 1L;
@@ -148,13 +150,13 @@ public class MapTab extends JPanel implements MouseListener {
 		System.out.println(xPos + " - " + yPos);
 		if(commandoButton.isSelected())
 		{
-			if (formCommando.getOrdre() == 1)
+			if (formCommando.getOrder() == CommandoOrder.Add)
 			{
-				leInterface.commandoAjouter(xPos, yPos, Integer.parseInt(zoneCarte.getText()), formCommando.getType(), formCommando.getGroupe());
+				leInterface.commandoAjouter(xPos, yPos, Integer.parseInt(zoneCarte.getText()), formCommando.getCommandoType(), formCommando.getGroupId());
 			}
-			else if (formCommando.getOrdre() == 2)
+			else if (formCommando.getOrder() == CommandoOrder.Go)
 			{
-				leInterface.commandoGo(xPos, yPos, Integer.parseInt(zoneCarte.getText()), -1, formCommando.getGroupe());
+				leInterface.commandoGo(xPos, yPos, Integer.parseInt(zoneCarte.getText()), -1, formCommando.getGroupId());
 			}
 		}
 		else

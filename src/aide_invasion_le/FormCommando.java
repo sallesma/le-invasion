@@ -47,9 +47,15 @@ public class FormCommando extends FormAbstract {
 	private JButton ordreFree = new JButton("Dispersion !");
 	private JButton ordreStop = new JButton("Halte !");
 	
-	private int type = 1;
-	private int groupe = 1;
-	private int ordre = 0;
+	private int commandoType = 1;
+	private int groupId = 1;
+	
+	public enum CommandoOrder {
+		Add,
+		Go,
+		DoNothing
+	}
+	private CommandoOrder order = CommandoOrder.DoNothing;
 	
 	public FormCommando(final LEInterface leInterface, final MapTab parent) {
 		// TODO search in file
@@ -79,7 +85,7 @@ public class FormCommando extends FormAbstract {
 			final JButton jb = new JButton(valButtonCommando.get(i));
 			jb.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent e){
-	                setType(Integer.parseInt(jb.getText())); activeButtonCommando(jb); }});
+	                setCommandoType(Integer.parseInt(jb.getText())); activeButtonCommando(jb); }});
 			tablButtonCommando[i] = jb;
 			prov.add(tablButtonCommando[i]);
 
@@ -93,34 +99,34 @@ public class FormCommando extends FormAbstract {
 		JPanel ligne4 = new JPanel();
 		groupe1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	setGroupe(1); activeButtonGroup(groupe1); }});
+            	setGroupId(1); activeButtonGroup(groupe1); }});
 		groupe2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	setGroupe(2); activeButtonGroup(groupe2); }});
+            	setGroupId(2); activeButtonGroup(groupe2); }});
 		groupe3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	setGroupe(3); activeButtonGroup(groupe3); }});
+            	setGroupId(3); activeButtonGroup(groupe3); }});
 		groupe4.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	setGroupe(4); activeButtonGroup(groupe4); }});
+            	setGroupId(4); activeButtonGroup(groupe4); }});
 		groupe5.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	setGroupe(5); activeButtonGroup(groupe5); }});
+            	setGroupId(5); activeButtonGroup(groupe5); }});
 		groupe6.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	setGroupe(6); activeButtonGroup(groupe6); }});
+            	setGroupId(6); activeButtonGroup(groupe6); }});
 		groupe7.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	setGroupe(7); activeButtonGroup(groupe7); }});
+            	setGroupId(7); activeButtonGroup(groupe7); }});
 		groupe8.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	setGroupe(8); activeButtonGroup(groupe8); }});
+            	setGroupId(8); activeButtonGroup(groupe8); }});
 		groupe9.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	setGroupe(9); activeButtonGroup(groupe9); }});
+            	setGroupId(9); activeButtonGroup(groupe9); }});
 		groupe10.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	setGroupe(10); activeButtonGroup(groupe10); }});
+            	setGroupId(10); activeButtonGroup(groupe10); }});
 		ligne4.add(groupe1);
 		ligne4.add(groupe2);
 		ligne4.add(groupe3);
@@ -138,16 +144,16 @@ public class FormCommando extends FormAbstract {
 		JPanel ligne6 = new JPanel();
 		ordreAjouter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	setOrdre(1); activeButtonOrder(ordreAjouter); }});
+           	setOrder(CommandoOrder.Add); activeButtonOrder(ordreAjouter); }});
 		ordreGo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            setOrdre(2); activeButtonOrder(ordreGo); }});
+            setOrder(CommandoOrder.Go); activeButtonOrder(ordreGo); }});
 		ordreFree.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            setOrdre(0); activeButtonOrder(ordreFree); leInterface.commandoFree(parent.getNumCarte(), -1, getGroupe()); }});
+            setOrder(CommandoOrder.DoNothing); activeButtonOrder(ordreFree); leInterface.commandoFree(parent.getNumCarte(), -1, getGroupId()); }});
 		ordreStop.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            setOrdre(0); activeButtonOrder(ordreStop); leInterface.commandoStop(parent.getNumCarte(), -1, getGroupe()); }});
+            setOrder(CommandoOrder.DoNothing); activeButtonOrder(ordreStop); leInterface.commandoStop(parent.getNumCarte(), -1, getGroupId()); }});
 		ligne6.add(ordreAjouter);
 		ligne6.add(ordreGo);
 		ligne6.add(ordreFree);
@@ -223,27 +229,27 @@ public class FormCommando extends FormAbstract {
 		}
 	}
 	
-	public int getGroupe() {
-		return groupe;
+	public int getGroupId() {
+		return groupId;
 	}
 
-	public void setGroupe(int groupe) {
-		this.groupe = groupe;
+	public void setGroupId(int groupId) {
+		this.groupId = groupId;
 	}
 	
-	public int getOrdre() {
-		return ordre;
+	public CommandoOrder getOrder() {
+		return order;
 	}
 
-	public void setOrdre(int ordre) {
-		this.ordre = ordre;
+	public void setOrder(CommandoOrder order) {
+		this.order = order;
 	}
 	
-	public int getType() {
-		return type;
+	public int getCommandoType() {
+		return commandoType;
 	}
 
-	public void setType(int type) {
-		this.type = type;
+	public void setCommandoType(int commandoType) {
+		this.commandoType = commandoType;
 	}
 }
