@@ -51,7 +51,7 @@ public class MapTab extends JPanel implements MouseListener {
 	public MapTab(final LEInterface leInterface, Path mapFile, int defautSize, int defautNumber)
 	{
 		this.leInterface = leInterface;
-		formCommando = new FormCommando(leInterface);
+		formCommando = new FormCommando(leInterface, this);
         requestFocus();
 
 		classicButton = new JRadioButton("Classique");
@@ -174,6 +174,10 @@ public class MapTab extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+	}
+	
+	public int getNumCarte() {
+		return Integer.parseInt(zoneCarte.getText());
 	}
 }
 

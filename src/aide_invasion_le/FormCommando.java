@@ -20,6 +20,7 @@ public class FormCommando extends FormAbstract {
 	private static final long serialVersionUID = 1L;
 	
 	LEInterface leInterface;
+	MapTab parent;
 
 	private JLabel choixCom = new JLabel("Commando");
 	String commandoFilePath = Paths.get("data", "commando.list").toString();
@@ -51,9 +52,10 @@ public class FormCommando extends FormAbstract {
 	private int groupe = 1;
 	private int ordre = 0;
 	
-	public FormCommando(final LEInterface leInterface) {
+	public FormCommando(final LEInterface leInterface, final MapTab parent) {
 		// TODO search in file
 		this.leInterface = leInterface;
+		this.parent = parent;
 		
 		recupCommandos();
 		
@@ -75,7 +77,11 @@ public class FormCommando extends FormAbstract {
 				prov = new JPanel();
 				
 			}
-			tablButtonCommando[i] = new JButton(valButtonCommando.get(i));
+			final JButton jb = new JButton(valButtonCommando.get(i));
+			jb.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e){
+	                setType(Integer.parseInt(jb.getText())); activeButtonCommando(jb); }});
+			tablButtonCommando[i] = jb;
 			prov.add(tablButtonCommando[i]);
 
 		}
@@ -139,10 +145,10 @@ public class FormCommando extends FormAbstract {
             setOrdre(2); activeButtonOrder(ordreGo); }});
 		ordreFree.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            setOrdre(0); activeButtonOrder(ordreFree); leInterface.commandoFree(109, getType(), getGroupe()); }});
+            setOrdre(0); activeButtonOrder(ordreFree); leInterface.commandoFree(parent.getNumCarte(), getType(), getGroupe()); }});
 		ordreStop.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            setOrdre(0); activeButtonOrder(ordreStop); leInterface.commandoStop(109, getType(), getGroupe()); }});
+            setOrdre(0); activeButtonOrder(ordreStop); leInterface.commandoStop(parent.getNumCarte(), getType(), getGroupe()); }});
 		ligne6.add(ordreAjouter);
 		ligne6.add(ordreGo);
 		ligne6.add(ordreFree);
@@ -175,6 +181,16 @@ public class FormCommando extends FormAbstract {
 			System.out.println(e.toString());
 		}
 		
+	}
+	
+	
+	private void activeButtonCommando(JButton b)
+	{
+		for (int i=0; i<valButtonCommando.size(); i++) {
+			passiveButton(tablButtonCommando[i]);
+		}
+		
+		activeButton(b);
 	}
 	
 	private void activeButtonGroup(JButton b)
