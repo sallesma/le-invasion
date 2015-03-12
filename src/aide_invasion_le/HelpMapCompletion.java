@@ -4,11 +4,12 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class HelpMapCompletion {
 	
-	 String fichier ="data\\maps.map";
+	 String mapsFilePath = Paths.get("data", "maps.map").toString();
 	 ArrayList<String[]> aListMaps = new ArrayList<String[]>();
 	 
 	 String mapName = "";
@@ -17,7 +18,7 @@ public class HelpMapCompletion {
 
 	public HelpMapCompletion() {
 		try{
-			InputStream ips=new FileInputStream(fichier); 
+			InputStream ips=new FileInputStream(mapsFilePath); 
 			InputStreamReader ipsr=new InputStreamReader(ips);
 			BufferedReader br=new BufferedReader(ipsr);
 			String ligne;
