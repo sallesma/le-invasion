@@ -1,12 +1,14 @@
 package aide_invasion_le;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javax.swing.JFrame;
 
-public class Fenetre  extends JFrame {
+public class Fenetre  extends JFrame implements KeyListener  {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -22,6 +24,7 @@ public class Fenetre  extends JFrame {
 	    fenetre.setLocationRelativeTo(null); // Center window
 	    fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
+	    
 	    leInterface = new LEInterface();
 	    mapFolder = new File("images/");
 	    
@@ -29,6 +32,9 @@ public class Fenetre  extends JFrame {
         tabbedPane.setUI(new Tabbed());
         MainTab mainTab = new MainTab(this, leInterface);
         tabbedPane.addTab("Main Tab", mainTab);
+        
+        tabbedPane.addKeyListener(this);
+        requestFocus();
         
         this.add(tabbedPane);
         this.setSize(600, 800);
@@ -50,5 +56,23 @@ public class Fenetre  extends JFrame {
 	
 	public void setMapFolder(File mapFolder){
 		this.mapFolder = mapFolder;
+	}
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		System.out.println("test");
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }
