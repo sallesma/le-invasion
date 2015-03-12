@@ -1,6 +1,5 @@
 package aide_invasion_le;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
@@ -9,7 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class FormClassic extends JPanel {
+public class FormClassic extends FormAbstract {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -237,16 +236,6 @@ public class FormClassic extends JPanel {
 		passiveButton(autoB);
 		
 		activeButton(b);
-	}
-	private void activeButton (JButton b)
-	{
-	    b.setBackground(Color.blue);
-	    b.setForeground(Color.white);
-	}
-	private void passiveButton (JButton b)
-	{
-	    b.setBackground(null);
-	    b.setForeground(null);
 	}
 
 	public String getType_inva() {

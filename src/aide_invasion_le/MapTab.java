@@ -30,8 +30,8 @@ public class MapTab extends JPanel implements MouseListener {
 	private JRadioButton commandoButton;
 	
 	private JPanel formPane = new JPanel();
-	private FormClassic formC = new FormClassic();
-	private FormCommando formCom;
+	private FormClassic formClassic = new FormClassic();
+	private FormCommando formCommando;
 	
 	//Gauche de l'image
 	private JPanel ligneImage = new JPanel();
@@ -51,7 +51,7 @@ public class MapTab extends JPanel implements MouseListener {
 	public MapTab(final LEInterface leInterface, Path mapFile, int defautSize, int defautNumber)
 	{
 		this.leInterface = leInterface;
-		formCom = new FormCommando(leInterface);
+		formCommando = new FormCommando(leInterface);
         requestFocus();
 
 		classicButton = new JRadioButton("Classique");
@@ -66,7 +66,7 @@ public class MapTab extends JPanel implements MouseListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				formPane.removeAll();
-				formPane.add(formC);
+				formPane.add(formClassic);
 				formPane.updateUI();
 			}
 		});
@@ -74,7 +74,7 @@ public class MapTab extends JPanel implements MouseListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				formPane.removeAll();
-				formPane.add(formCom);
+				formPane.add(formCommando);
 				formPane.updateUI();
 			}
 		});
@@ -147,17 +147,17 @@ public class MapTab extends JPanel implements MouseListener {
 		
 		if(commandoButton.isSelected())
 		{
-			if (formCom.getOrdre() == 1)
+			if (formCommando.getOrdre() == 1)
 			{
-				leInterface.commandoAjouter(xPos, yPos, Integer.parseInt(zoneCarte.getText()), formCom.getType(), formCom.getGroupe());
+				leInterface.commandoAjouter(xPos, yPos, Integer.parseInt(zoneCarte.getText()), formCommando.getType(), formCommando.getGroupe());
 			}
-			else if (formCom.getOrdre() == 2)
+			else if (formCommando.getOrdre() == 2)
 			{
-				leInterface.commandoGo(xPos, yPos, Integer.parseInt(zoneCarte.getText()), formCom.getType(), formCom.getGroupe());
+				leInterface.commandoGo(xPos, yPos, Integer.parseInt(zoneCarte.getText()), formCommando.getType(), formCommando.getGroupe());
 			}
 		}
 		else
-			leInterface.addInvasion(formC.getType_inva(), xPos, yPos, Integer.parseInt(zoneCarte.getText()), formC.getType_mob(), formC.getNb_monstres());
+			leInterface.addInvasion(formClassic.getType_inva(), xPos, yPos, Integer.parseInt(zoneCarte.getText()), formClassic.getType_mob(), formClassic.getNb_monstres());
 	}
 
 	@Override

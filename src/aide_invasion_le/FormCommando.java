@@ -1,6 +1,5 @@
 package aide_invasion_le;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -16,12 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class FormCommando extends JPanel {
-
-	/*JLabel carte = new JLabel("Num Carte");
-	private TextField zoneCarte = new TextField("1",10);
-	JLabel clear = new JLabel("Clear invasions");
-	private static JButton clearPonct = new JButton("Ponctuel");*/
+public class FormCommando extends FormAbstract {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -218,17 +212,6 @@ public class FormCommando extends JPanel {
 			} 
 			passiveButton(b);
 		}
-	}
-	
-	private void activeButton (JButton b)
-	{
-	    b.setBackground(Color.blue);
-	    b.setForeground(Color.white);
-	}
-	private void passiveButton (JButton b)
-	{
-	    b.setBackground(null);
-	    b.setForeground(null);
 	}
 	
 	public int getGroupe() {
