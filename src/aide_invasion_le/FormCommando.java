@@ -51,6 +51,7 @@ public class FormCommando extends JPanel{
 		bloc.add(prov);
 
 		this.add(bloc);
+		this.setPreferredSize (new Dimension(600, 250));
 	}
 
 }

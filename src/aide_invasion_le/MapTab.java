@@ -1,7 +1,5 @@
 package aide_invasion_le;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.TextField;
@@ -11,32 +9,37 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.nio.file.Path;
 
+import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 public class MapTab extends JPanel implements MouseListener {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
+
 	JLabel image;
 	LEInterface leInterface;
 	
+	private JPanel ligneFormSelect = new JPanel();
+	private JLabel formButtonLabel = new JLabel("Type de formulaire :");
+	private JRadioButton classicButton;
+	private JRadioButton commandoButton;
+	
+	private JPanel formPane = new JPanel();
 	FormClassic formC = new FormClassic();
 	FormCommando formCom = new FormCommando();
 	
-	int numForm = 1;
-
-	
 	//Gauche de l'image
-	JLabel carte = new JLabel("Num Carte");
+	private JPanel ligneImage = new JPanel();
+	private JLabel carte = new JLabel("Num Carte");
 	private TextField zoneCarte = new TextField("1",10);
-	JLabel carteT = new JLabel("Taille Carte");
+	private JLabel carteT = new JLabel("Taille Carte");
 	private TextField zoneCarteT = new TextField("384",10);
-	JLabel clear = new JLabel("Clear invasions");
+	private JLabel clear = new JLabel("Clear invasions");
 	private static JButton clearPonct = new JButton("Ponctuel");
 	private static JButton clearPerm = new JButton("Permanent");
 	private static JButton clearPeri = new JButton("Périssable");
@@ -47,19 +50,40 @@ public class MapTab extends JPanel implements MouseListener {
 	
 	public MapTab(final LEInterface leInterface, Path mapFile, int defautSize, int defautNumber)
 	{
+		this.leInterface = leInterface;
+
+		classicButton = new JRadioButton("Classique");
+	    commandoButton = new JRadioButton("Commando");
+
+	    ButtonGroup group = new ButtonGroup();
+	    group.add(classicButton);
+	    group.add(commandoButton);
+	    
+	    classicButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				formPane.removeAll();
+				formPane.add(formC);
+			}
+		});
+	    commandoButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				formPane.removeAll();
+				formPane.add(formCom);
+			}
+		});
+	    classicButton.doClick();
+	    ligneFormSelect.add(formButtonLabel);
+	    ligneFormSelect.add(classicButton);
+	    ligneFormSelect.add(commandoButton);
+	    this.add(ligneFormSelect);
+	    this.add(formPane);
+		
 		zoneCarte.setText(Integer.toString(defautNumber));
 		zoneCarteT.setText(Integer.toString(defautSize));
 		
-		JPanel ligne1 = new JPanel();
-	    
-	    
-	   
-	    JPanel ligneImage = new JPanel();
-	    
-	    //ligneImage.setLayout(new GridLayout(1, 2));
-	    
 	    JPanel ligneImageG = new JPanel();
-	    
 	    ligneImageG.setLayout(new GridLayout(15, 1));
 		ligneImageG.add(carte);
 		ligneImageG.add(zoneCarte);
@@ -98,33 +122,17 @@ public class MapTab extends JPanel implements MouseListener {
 		});  
 	    
 	    JPanel ligneImageD = new JPanel();
-	    
 	    ImageIcon carteIc = new ImageIcon( mapFile.toString() );
 	    Image zoom = Resize_image.scaleImage(carteIc.getImage(), TAILLE_CARTE_AFFICHE);//taille en pixels
 	    Icon iconScaled = new ImageIcon(zoom);
 	    image = new JLabel(iconScaled);
-	    //pan.setLayout(new BorderLayout, CENTER);
 	    image.addMouseListener(this);
 	    ligneImageD.add(image);
 	    
 	    ligneImage.add(ligneImageG);
 	    ligneImage.add(ligneImageD);
-
-	    if (numForm == 0)
-	    {
-	    	FormClassic formC= new FormClassic();
-	    	formC.setPreferredSize (new Dimension(600, 250));
-	    	this.add(formC);
-	    } else if (numForm == 1)
-	    {
-	    	FormCommando formCom= new FormCommando();
-	    	formCom.setPreferredSize (new Dimension(600, 250));
-	    	this.add(formCom);
-	    }
 	    
 	    this.add(ligneImage);
-	    
-		this.leInterface = leInterface;
 	}
 	
 	@Override

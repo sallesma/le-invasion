@@ -204,6 +204,7 @@ public class FormClassic extends JPanel {
 		this.add(ligne4);
 		this.add(ligne5);
 		this.add(ligne6);
+		this.setPreferredSize (new Dimension(600, 250));
 	}
 	
 	private void activeButtonMob (JButton b)
