@@ -19,8 +19,8 @@ public class FormCommando extends FormAbstract {
 	
 	private static final long serialVersionUID = 1L;
 	
-	LEInterface leInterface;
-	MapTab parent;
+	private LEInterface leInterface;
+	private int mapId;
 
 	private JLabel choixCom = new JLabel("Commando");
 	String commandoFilePath = Paths.get("data", "commando.list").toString();
@@ -57,16 +57,15 @@ public class FormCommando extends FormAbstract {
 	}
 	private CommandoOrder order = CommandoOrder.DoNothing;
 	
-	public FormCommando(final LEInterface leInterface, final MapTab parent) {
+	public FormCommando(final LEInterface leInterface, final int mapId) {
 		// TODO search in file
 		this.leInterface = leInterface;
-		this.parent = parent;
+		this.mapId = mapId;
 		
 		this.recupCommandos();
 		
 		JPanel bloc = new JPanel();
 		bloc.setLayout(new GridLayout(8, 1));
-		
 		
 		JPanel ligne1 = new JPanel();
 		ligne1.add(choixCom);
@@ -88,45 +87,73 @@ public class FormCommando extends FormAbstract {
 	                setCommandoType(Integer.parseInt(jb.getText())); activeButtonCommando(jb); }});
 			tablButtonCommando[i] = jb;
 			prov.add(tablButtonCommando[i]);
-
 		}
 		bloc.add(prov);
-
 		
 		JPanel ligne3 = new JPanel();
 		ligne3.add(choixGroupe);
 		
 		JPanel ligne4 = new JPanel();
 		groupe1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-            	setGroupId(1); activeButtonGroup(groupe1); }});
+			public void actionPerformed(ActionEvent e) {
+				setGroupId(1);
+				activeButtonGroup(groupe1);
+			}
+		});
 		groupe2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-            	setGroupId(2); activeButtonGroup(groupe2); }});
+			public void actionPerformed(ActionEvent e) {
+				setGroupId(2);
+				activeButtonGroup(groupe2);
+			}
+		});
 		groupe3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-            	setGroupId(3); activeButtonGroup(groupe3); }});
+			public void actionPerformed(ActionEvent e) {
+				setGroupId(3);
+				activeButtonGroup(groupe3);
+			}
+		});
 		groupe4.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-            	setGroupId(4); activeButtonGroup(groupe4); }});
+			public void actionPerformed(ActionEvent e) {
+				setGroupId(4);
+				activeButtonGroup(groupe4);
+			}
+		});
 		groupe5.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-            	setGroupId(5); activeButtonGroup(groupe5); }});
+			public void actionPerformed(ActionEvent e) {
+				setGroupId(5);
+				activeButtonGroup(groupe5);
+			}
+		});
 		groupe6.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-            	setGroupId(6); activeButtonGroup(groupe6); }});
+			public void actionPerformed(ActionEvent e) {
+				setGroupId(6);
+				activeButtonGroup(groupe6);
+			}
+		});
 		groupe7.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-            	setGroupId(7); activeButtonGroup(groupe7); }});
+			public void actionPerformed(ActionEvent e) {
+				setGroupId(7);
+				activeButtonGroup(groupe7);
+			}
+		});
 		groupe8.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-            	setGroupId(8); activeButtonGroup(groupe8); }});
+			public void actionPerformed(ActionEvent e) {
+				setGroupId(8);
+				activeButtonGroup(groupe8);
+			}
+		});
 		groupe9.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-            	setGroupId(9); activeButtonGroup(groupe9); }});
+			public void actionPerformed(ActionEvent e) {
+				setGroupId(9);
+				activeButtonGroup(groupe9);
+			}
+		});
 		groupe10.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-            	setGroupId(10); activeButtonGroup(groupe10); }});
+			public void actionPerformed(ActionEvent e) {
+				setGroupId(10);
+				activeButtonGroup(groupe10);
+			}
+		});
 		ligne4.add(groupe1);
 		ligne4.add(groupe2);
 		ligne4.add(groupe3);
@@ -144,16 +171,30 @@ public class FormCommando extends FormAbstract {
 		JPanel ligne6 = new JPanel();
 		ordreAjouter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-           	setOrder(CommandoOrder.Add); activeButtonOrder(ordreAjouter); }});
+            	setOrder(CommandoOrder.Add);
+            	activeButtonOrder(ordreAjouter);
+            }
+        });
 		ordreGo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            setOrder(CommandoOrder.Go); activeButtonOrder(ordreGo); }});
+            	setOrder(CommandoOrder.Go);
+            	activeButtonOrder(ordreGo);
+            }
+        });
 		ordreFree.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            setOrder(CommandoOrder.DoNothing); activeButtonOrder(ordreFree); leInterface.commandoFree(parent.getNumCarte(), -1, getGroupId()); }});
+            	setOrder(CommandoOrder.DoNothing);
+            	activeButtonOrder(ordreFree);
+            	FormCommando.this.leInterface.commandoFree(FormCommando.this.mapId, -1, getGroupId());
+            }
+        });
 		ordreStop.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            setOrder(CommandoOrder.DoNothing); activeButtonOrder(ordreStop); leInterface.commandoStop(parent.getNumCarte(), -1, getGroupId()); }});
+            	setOrder(CommandoOrder.DoNothing);
+            	activeButtonOrder(ordreStop);
+            	FormCommando.this.leInterface.commandoStop(FormCommando.this.mapId, -1, getGroupId());
+            }
+        });
 		ligne6.add(ordreAjouter);
 		ligne6.add(ordreGo);
 		ligne6.add(ordreFree);
@@ -179,7 +220,7 @@ public class FormCommando extends FormAbstract {
 				valButtonCommando.add(str[0]);
 			}
 			br.close(); 
-		}		
+		}
 		catch (Exception e){
 			System.out.println(e.toString());
 		}
