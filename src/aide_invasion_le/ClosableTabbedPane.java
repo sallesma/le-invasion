@@ -80,11 +80,12 @@ public class ClosableTabbedPane extends JTabbedPane {
      * une touche est enfoncée. 
      */
     AbstractAction closeTabAction = new AbstractAction() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        if(tabbedPane.getTabCount() > 0)
-          tabbedPane.remove(tabbedPane.getSelectedIndex());
-      }
+		private static final long serialVersionUID = 1L;
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(tabbedPane.getTabCount() > 0)
+				tabbedPane.remove(tabbedPane.getSelectedIndex());
+		}
     };
     /* On récupère l'entréee du composant utilisé, et on utilise ces constantes. 
        On ajoute avec le put la liaison entre le keystroke et l'action du même nom

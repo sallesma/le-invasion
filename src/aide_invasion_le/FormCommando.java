@@ -30,7 +30,6 @@ public class FormCommando extends FormAbstract {
 	
 	private JLabel choixGroupe = new JLabel("Groupe");
 	//Nombres
-	//private final static Dimension TAILLE_GRP_BUTTON = new Dimension(50,26);
 	private JButton groupe1 = new JButton("1");
 	private JButton groupe2 = new JButton("2");
 	private JButton groupe3 = new JButton("3");
@@ -57,7 +56,7 @@ public class FormCommando extends FormAbstract {
 		this.leInterface = leInterface;
 		this.parent = parent;
 		
-		recupCommandos();
+		this.recupCommandos();
 		
 		JPanel bloc = new JPanel();
 		bloc.setLayout(new GridLayout(8, 1));
@@ -163,8 +162,6 @@ public class FormCommando extends FormAbstract {
 	}
 
 	private void recupCommandos() {
-		// TODO Auto-generated method stub
-		
 		try{
 			InputStream ips=new FileInputStream(commandoFilePath); 
 			InputStreamReader ipsr=new InputStreamReader(ips);
@@ -180,16 +177,13 @@ public class FormCommando extends FormAbstract {
 		catch (Exception e){
 			System.out.println(e.toString());
 		}
-		
 	}
-	
 	
 	private void activeButtonCommando(JButton b)
 	{
 		for (int i=0; i<valButtonCommando.size(); i++) {
 			passiveButton(tablButtonCommando[i]);
 		}
-		
 		activeButton(b);
 	}
 	
@@ -223,7 +217,6 @@ public class FormCommando extends FormAbstract {
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
 			passiveButton(b);
