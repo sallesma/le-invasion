@@ -14,11 +14,11 @@ public class FormClassic extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	//Mobs Ligne 1
-	private static JButton boutonMonstre1 = new JButton("Créature 1");
-	private static JButton boutonMonstre2 = new JButton("Créature 2");
-	private static JButton boutonMonstre3 = new JButton("Créature 3");
-	private static JButton boutonMonstre4 = new JButton("Créature 4");
-	private static JButton boutonMonstre5 = new JButton("Créature 5");
+	private JButton boutonMonstre1 = new JButton("Créature 1");
+	private JButton boutonMonstre2 = new JButton("Créature 2");
+	private JButton boutonMonstre3 = new JButton("Créature 3");
+	private JButton boutonMonstre4 = new JButton("Créature 4");
+	private JButton boutonMonstre5 = new JButton("Créature 5");
 	private TextField tm1 = new TextField("lapin_brun",10);
 	private TextField tm2 = new TextField("lapin_blanc",10); 
 	private TextField tm3 = new TextField("rat",10); 
@@ -26,11 +26,11 @@ public class FormClassic extends JPanel {
 	private TextField tm5 = new TextField("lutin",10); 
 	
 	//Mobs Ligne 2
-	private static JButton boutonMonstre6 = new JButton("Créature 6");
-	private static JButton boutonMonstre7 = new JButton("Créature 7");
-	private static JButton boutonMonstre8 = new JButton("Créature 8");
-	private static JButton boutonMonstre9 = new JButton("Créature 9");
-	private static JButton boutonMonstre10 = new JButton("Créature10");
+	private JButton boutonMonstre6 = new JButton("Créature 6");
+	private JButton boutonMonstre7 = new JButton("Créature 7");
+	private JButton boutonMonstre8 = new JButton("Créature 8");
+	private JButton boutonMonstre9 = new JButton("Créature 9");
+	private JButton boutonMonstre10 = new JButton("Créature10");
 	private TextField tm6 = new TextField("squelette",10);
 	private TextField tm7 = new TextField("squelette_faible",10); 
 	private TextField tm8 = new TextField("squelette_brille",10); 
@@ -39,20 +39,20 @@ public class FormClassic extends JPanel {
 	
 	//Nombres
 	private final static Dimension TAILLE_NB_BUTTON = new Dimension(60,26);
-	private static JButton nbMonstre1 = new JButton("1");
-	private static JButton nbMonstre5 = new JButton("5");
-	private static JButton nbMonstre10 = new JButton("10");
-	private static JButton nbMonstre15 = new JButton("15");
-	private static JButton nbMonstre20 = new JButton("20");
-	private static JButton nbMonstre30 = new JButton("30");
-	private static JButton nbMonstre50 = new JButton("50");
-	private static JButton nbMonstre100 = new JButton("100");
+	private JButton nbMonstre1 = new JButton("1");
+	private JButton nbMonstre5 = new JButton("5");
+	private JButton nbMonstre10 = new JButton("10");
+	private JButton nbMonstre15 = new JButton("15");
+	private JButton nbMonstre20 = new JButton("20");
+	private JButton nbMonstre30 = new JButton("30");
+	private JButton nbMonstre50 = new JButton("50");
+	private JButton nbMonstre100 = new JButton("100");
 	
 	//type inva
-	private static JButton ponctB = new JButton("Ponctuel");
-	private static JButton permB = new JButton("Permanent");
-	private static JButton periB = new JButton("Périssable");
-	private static JButton autoB = new JButton("Automatique");
+	private JButton ponctB = new JButton("Ponctuel");
+	private JButton permB = new JButton("Permanent");
+	private JButton periB = new JButton("Périssable");
+	private JButton autoB = new JButton("Automatique");
 	
 	private String type_inva = "ponct";
 	private String type_mob = "rat";
