@@ -1,5 +1,6 @@
 package aide_invasion_le;
 
+import java.io.File;
 import java.nio.file.Path;
 
 import javax.swing.JFrame;
@@ -24,6 +25,12 @@ public class Fenetre  extends JFrame {
 	    tabbedPane = new JTabbedPane();
 	    MainTab mainTab = new MainTab(this, leInterface);
 	    tabbedPane.addTab("Main", null, mainTab, "Main Tab");
+
+	    FormClassic formC= new FormClassic();
+	    tabbedPane.addTab("Test Form 1", null, formC.getFormClassic(), "Form 1 Tab");
+	    FormCommando formCom= new FormCommando();
+	    tabbedPane.addTab("Test Form 2", null, formCom.getFormCommando(), "Form 2 Tab");
+
 	    
 	    fenetre.add(tabbedPane);
 	    
