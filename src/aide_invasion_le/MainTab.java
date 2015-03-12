@@ -41,7 +41,7 @@ public class MainTab extends JPanel {
 
 	private JLabel mapFolderLabel = new JLabel("Cartes");
 	private JLabel currentMapFolderTitle = new JLabel("Dossier courant :");
-	private JLabel currentMapFolder = new JLabel("Cartes de l'outil");
+	private JLabel currentMapFolder = new JLabel("Par défaut, le logiciel utilise ses cartes");
 	private static JButton mapFolderChooser = new JButton("Utiliser mon propre dossier de cartes");
 	
 	private JLabel openMapLabel = new JLabel("Ouvrir une carte");
@@ -104,7 +104,6 @@ public class MainTab extends JPanel {
         		dialog.setDialogTitle("Sélectionner le dossier contenant les cartes");
         		if (dialog.showOpenDialog(null)==  JFileChooser.APPROVE_OPTION) {
         			File folder = dialog.getSelectedFile();
-        		    System.out.println(folder.getPath());
         		    currentMapFolder.setText(folder.getPath());
         		    MainTab.this.parentWindow.setMapFolder(folder);
         		    updateMapList(folder);
@@ -113,13 +112,6 @@ public class MainTab extends JPanel {
         });
 		
 		this.updateMapList(this.parentWindow.getMapFolder());
-		openMapComboBox.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String mapName = (String)openMapComboBox.getSelectedItem();
-				MainTab.this.parentWindow.openMapTab(mapName);
-			}
-		});
 
 		panel.add(pseudo);
 		panel.add(zonePseudo);
@@ -143,6 +135,10 @@ public class MainTab extends JPanel {
 	}
 	
 	private void updateMapList(File folder) {
+		for (ActionListener actionListener : this.openMapComboBox.getActionListeners()) {
+			this.openMapComboBox.removeActionListener(actionListener);
+		};
+		this.openMapComboBox.removeAllItems();
 		File[] files = folder.listFiles(new FileFilter() {
 			@Override
 			public boolean accept(File pathname) {
@@ -160,6 +156,15 @@ public class MainTab extends JPanel {
 		for (File mapFile : files) {
 			this.openMapComboBox.addItem(mapFile.getName());
 		}
+		openMapComboBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String mapName = (String)openMapComboBox.getSelectedItem();
+				System.out.println("mapname : "+ mapName);
+				if(mapName != null)
+					MainTab.this.parentWindow.openMapTab(mapName);
+			}
+		});
 	}
 
 	private void updateConfigFile()
