@@ -198,12 +198,12 @@ public class FormClassic extends JPanel {
             }
         }); 
 		
-		formClassicP.add(ligne1);
-		formClassicP.add(ligne2);
-		formClassicP.add(ligne3);
-		formClassicP.add(ligne4);
-		formClassicP.add(ligne5);
-		formClassicP.add(ligne6);
+		this.add(ligne1);
+		this.add(ligne2);
+		this.add(ligne3);
+		this.add(ligne4);
+		this.add(ligne5);
+		this.add(ligne6);
 	}
 	
 	private void activeButtonMob (JButton b)
@@ -261,7 +261,7 @@ public class FormClassic extends JPanel {
 		return type_inva;
 	}
 
-	void setType_inva(String type_inva) {
+	public void setType_inva(String type_inva) {
 		this.type_inva = type_inva;
 	}
 
@@ -269,7 +269,7 @@ public class FormClassic extends JPanel {
 		return type_mob;
 	}
 
-	void setType_mob(String type_mob) {
+	public void setType_mob(String type_mob) {
 		this.type_mob = type_mob;
 	}
 
@@ -277,7 +277,7 @@ public class FormClassic extends JPanel {
 		return nb_monstres;
 	}
 
-	void setNb_monstres(int nb_monstres) {
+	public void setNb_monstres(int nb_monstres) {
 		this.nb_monstres = nb_monstres;
 	}
 
