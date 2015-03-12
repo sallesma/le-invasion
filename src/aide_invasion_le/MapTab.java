@@ -45,8 +45,11 @@ public class MapTab extends JPanel implements MouseListener {
 	private final static int TAILLE_CARTE_AFFICHE = 400;
 	
 	
-	public MapTab(final LEInterface leInterface, Path mapFile)
+	public MapTab(final LEInterface leInterface, Path mapFile, int defautSize, int defautNumber)
 	{
+		zoneCarte.setText(Integer.toString(defautNumber));
+		zoneCarteT.setText(Integer.toString(defautSize));
+		
 		JPanel ligne1 = new JPanel();
 	    
 	    

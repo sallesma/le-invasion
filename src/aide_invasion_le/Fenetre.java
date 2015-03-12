@@ -25,6 +25,7 @@ public class Fenetre  extends JFrame {
 	private JTabbedPane tabbedPane;
 	private File mapFolder;
 	private ClosableTabbedPane p;
+	HelpMapCompletion mapCompletion = new HelpMapCompletion();
 	
 	/*public Fenetre() {
 		JFrame fenetre = new JFrame();
@@ -76,7 +77,11 @@ public class Fenetre  extends JFrame {
 
 	public void openMapTab(String mapName) {
 		Path mapFile = Paths.get( this.mapFolder.getAbsolutePath(), mapName);
-		MapTab mapTab = new MapTab(leInterface, mapFile);
+		System.out.println(mapName);
+		
+		mapCompletion.setMap(mapName);
+		
+		MapTab mapTab = new MapTab(leInterface, mapFile, mapCompletion.getSize(), mapCompletion.getNumber());
 	    /*tabbedPane.addTab(mapFile.getFileName().toString(), null, mapTab, "Map Tab");
 	    tabbedPane.setSelectedIndex(tabbedPane.getComponentCount()-1);*/
 		p.addTab("Map Tab", mapTab);
