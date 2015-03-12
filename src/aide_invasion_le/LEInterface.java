@@ -1,6 +1,5 @@
 package aide_invasion_le;
 
-import java.io.File;
 import java.io.IOException;
 
 public class LEInterface {
@@ -11,7 +10,6 @@ public class LEInterface {
 
 	private String pseudo = "";
 	private String server = "";
-	private File leMapFolder = null;
 
 	public void addInvasion(String invasionType, int xPos, int yPos, int mapId, String monsterType, int monsterNumber)
 	{
@@ -45,13 +43,5 @@ public class LEInterface {
 	public void setServer(String server)
 	{
 		this.server = server;
-	}
-
-	public File getLeMapFolder() {
-		return leMapFolder;
-	}
-
-	public void setLeMapFolder(File leMapFolder) {
-		this.leMapFolder = leMapFolder;
 	}
 }

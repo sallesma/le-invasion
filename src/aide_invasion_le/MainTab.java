@@ -1,5 +1,6 @@
 package aide_invasion_le;
 
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
@@ -8,8 +9,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileFilter;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -26,11 +25,11 @@ public class MainTab extends JPanel {
 	
 	private JLabel server = new JLabel("Serveur");
 	private JComboBox<String> zoneServer = new JComboBox<String>(new String[]{"main", "test"});
-	
-	private JLabel mapFolderLabel = new JLabel("Map Folder");
-	private static JButton mapFolderChooser = new JButton("Définir");
+
+	private JLabel mapFolderLabel = new JLabel("Cartes");
 	private JLabel currentMapFolderTitle = new JLabel("Dossier courant :");
-	private JLabel currentMapFolder = new JLabel("Non défini...");
+	private JLabel currentMapFolder = new JLabel("Cartes de l'outil");
+	private static JButton mapFolderChooser = new JButton("Utiliser mon propre dossier de cartes");
 	
 	private JLabel openMapLabel = new JLabel("Ouvrir une carte");
 	private JComboBox<String> openMapComboBox = new JComboBox<String>();
@@ -39,12 +38,11 @@ public class MainTab extends JPanel {
 		this.parentWindow = parentWindow;
 		
 	    JPanel panel = new JPanel();
-	    
 	    panel.setLayout(new GridLayout(15, 1));
-		panel.add(pseudo);
-		panel.add(zonePseudo);
-		panel.add(server);
-		panel.add(zoneServer);
+	    
+	    pseudo.setFont(new Font(pseudo.getName(), Font.PLAIN, 20));
+	    server.setFont(new Font(server.getName(), Font.PLAIN, 20));
+	    mapFolderLabel.setFont(new Font(mapFolderLabel.getName(), Font.PLAIN, 20));
 		zonePseudo.addKeyListener(new KeyListener() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -72,37 +70,31 @@ public class MainTab extends JPanel {
         			File folder = dialog.getSelectedFile();
         		    System.out.println(folder.getPath());
         		    currentMapFolder.setText(folder.getPath());
-        		    MainTab.this.leInterface.setLeMapFolder(folder);
-        		    for (File mapFile : folder.listFiles(new FileFilter() {
-        				@Override
-        				public boolean accept(File pathname) {
-        					if (pathname.getName().endsWith(".jpg"))
-        						return true;
-        					return false;
-        				}
-        			})) {
-        				openMapComboBox.addItem(mapFile.getName());
-        			}
+        		    MainTab.this.parentWindow.setMapFolder(folder);
+        		    updateMapList(folder);
         		}
         	}
         });
 		
+		this.updateMapList(this.parentWindow.getMapFolder());
 		openMapComboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String mapName = (String)openMapComboBox.getSelectedItem();
-				Path mapFile = Paths.get( MainTab.this.leInterface.getLeMapFolder().getAbsolutePath(), mapName);
-				MainTab.this.parentWindow.openMapTab(mapFile);
+				MainTab.this.parentWindow.openMapTab(mapName);
 			}
 		});
-		
+
+		panel.add(pseudo);
+		panel.add(zonePseudo);
+		panel.add(server);
+		panel.add(zoneServer);
 		panel.add(mapFolderLabel);
-		panel.add(mapFolderChooser);
 		panel.add(currentMapFolderTitle);
 		panel.add(currentMapFolder);
+		panel.add(mapFolderChooser);
 		panel.add(openMapLabel);
 		panel.add(openMapComboBox);
-		
 	    this.add(panel);
 	    
 		this.leInterface = leInterface;
@@ -112,5 +104,18 @@ public class MainTab extends JPanel {
 	private void updateLEInterface() {
 		this.leInterface.setPseudo(zonePseudo.getText());
 		this.leInterface.setServer(zoneServer.getSelectedItem().toString());
+	}
+	
+	private void updateMapList(File folder) {
+		for (File mapFile : folder.listFiles(new FileFilter() {
+			@Override
+			public boolean accept(File pathname) {
+				if (pathname.getName().endsWith(".jpg"))
+					return true;
+				return false;
+			}
+		})) {
+			this.openMapComboBox.addItem(mapFile.getName());
+		}
 	}
 }
