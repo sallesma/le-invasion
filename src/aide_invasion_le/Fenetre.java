@@ -29,10 +29,7 @@ public class Fenetre  extends JFrame {
         tabbedPane.setUI(new Tabbed());
         MainTab mainTab = new MainTab(this, leInterface);
         tabbedPane.addTab("Main Tab", mainTab);
-        FormClassic formC= new FormClassic();
-        tabbedPane.addTab("Form 1 Tab",formC);
-        FormCommando formCom= new FormCommando();
-        tabbedPane.addTab("Form 2 Tab",formCom);
+        
         this.add(tabbedPane);
         this.setSize(600, 800);
         this.setVisible(true);
