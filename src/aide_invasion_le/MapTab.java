@@ -64,6 +64,7 @@ public class MapTab extends JPanel implements MouseListener {
 			public void actionPerformed(ActionEvent e) {
 				formPane.removeAll();
 				formPane.add(formC);
+				formPane.updateUI();
 			}
 		});
 	    commandoButton.addActionListener(new ActionListener() {
@@ -71,6 +72,7 @@ public class MapTab extends JPanel implements MouseListener {
 			public void actionPerformed(ActionEvent e) {
 				formPane.removeAll();
 				formPane.add(formCom);
+				formPane.updateUI();
 			}
 		});
 	    classicButton.doClick();
