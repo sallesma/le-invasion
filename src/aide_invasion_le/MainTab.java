@@ -7,6 +7,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.io.FileFilter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class MainTab extends JPanel {
+	private Fenetre parentWindow;
 	private LEInterface leInterface;
 	
 	private JLabel pseudo = new JLabel("Pseudo");
@@ -28,8 +32,12 @@ public class MainTab extends JPanel {
 	private JLabel currentMapFolderTitle = new JLabel("Dossier courant :");
 	private JLabel currentMapFolder = new JLabel("Non défini...");
 	
-	public MainTab(LEInterface leInterface)
-	{
+	private JLabel openMapLabel = new JLabel("Ouvrir une carte");
+	private JComboBox<String> openMapComboBox = new JComboBox<String>();
+	
+	public MainTab(Fenetre parentWindow, LEInterface leInterface) {
+		this.parentWindow = parentWindow;
+		
 	    JPanel panel = new JPanel();
 	    
 	    panel.setLayout(new GridLayout(15, 1));
@@ -61,17 +69,40 @@ public class MainTab extends JPanel {
         		dialog.setApproveButtonText("Selectionner");
         		dialog.setDialogTitle("Sélectionner le dossier contenant les cartes");
         		if (dialog.showOpenDialog(null)==  JFileChooser.APPROVE_OPTION) {
-        			File path = dialog.getSelectedFile();
-        		    System.out.println(path.getPath());
-        		    currentMapFolder.setText(path.getPath());
-        		    MainTab.this.leInterface.setLeMapFolder(path);
+        			File folder = dialog.getSelectedFile();
+        		    System.out.println(folder.getPath());
+        		    currentMapFolder.setText(folder.getPath());
+        		    MainTab.this.leInterface.setLeMapFolder(folder);
+        		    for (File mapFile : folder.listFiles(new FileFilter() {
+        				@Override
+        				public boolean accept(File pathname) {
+        					if (pathname.getName().endsWith(".jpg"))
+        						return true;
+        					return false;
+        				}
+        			})) {
+        				openMapComboBox.addItem(mapFile.getName());
+        			}
         		}
         	}
-        });  
+        });
+		
+		openMapComboBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String mapName = (String)openMapComboBox.getSelectedItem();
+				Path mapFile = Paths.get( MainTab.this.leInterface.getLeMapFolder().getAbsolutePath(), mapName);
+				MainTab.this.parentWindow.openMapTab(mapFile);
+			}
+		});
+		
 		panel.add(mapFolderLabel);
 		panel.add(mapFolderChooser);
 		panel.add(currentMapFolderTitle);
 		panel.add(currentMapFolder);
+		panel.add(openMapLabel);
+		panel.add(openMapComboBox);
+		
 	    this.add(panel);
 	    
 		this.leInterface = leInterface;

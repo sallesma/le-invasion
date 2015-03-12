@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.nio.file.Path;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -77,7 +78,7 @@ public class MapTab extends JPanel implements MouseListener {
 	private String type_mob = "rat";
 	private int nb_monstres = 1;
 	
-	public MapTab(final LEInterface leInterface)
+	public MapTab(final LEInterface leInterface, Path mapFile)
 	{
 		JPanel ligne1 = new JPanel();
 	    ligne1.add(tm1);
@@ -253,7 +254,7 @@ public class MapTab extends JPanel implements MouseListener {
 	    
 	    JPanel ligneImageD = new JPanel();
 	    
-	    ImageIcon carteIc = new ImageIcon( "images/vide.jpg");
+	    ImageIcon carteIc = new ImageIcon( mapFile.toString() );
 	    Image zoom = Resize_image.scaleImage(carteIc.getImage(), TAILLE_CARTE_AFFICHE);//taille en pixels
 	    Icon iconScaled = new ImageIcon(zoom);
 	    image = new JLabel(iconScaled);
