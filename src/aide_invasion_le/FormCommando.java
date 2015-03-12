@@ -2,6 +2,12 @@ package aide_invasion_le;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -17,12 +23,15 @@ public class FormCommando extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private JLabel choixCom = new JLabel("Commando");
+	String commandoFilePath = Paths.get("data", "commando.list").toString();
 	
 	private static JButton[] tablButtonCommando = new JButton[50];
-	private static int[] valButtonCommando = {1,2,1010,1011,1012,1013,1014,1015,1016,1017}; //prov
-
+	ArrayList<String> valButtonCommando = new ArrayList<String>();
+	
 	public FormCommando() {
 		// TODO search in file
+		
+		recupCommandos();
 		
 		JPanel bloc = new JPanel();
 		bloc.setLayout(new GridLayout(10, 1));
@@ -34,7 +43,7 @@ public class FormCommando extends JPanel {
 		bloc.add(ligne1);
 		
 		JPanel prov = new JPanel();
-		for (int i=0; i<valButtonCommando.length; i++) {
+		for (int i=0; i<valButtonCommando.size(); i++) {
 			
 			if ( (i % 5) == 0)
 			{
@@ -42,7 +51,7 @@ public class FormCommando extends JPanel {
 				prov = new JPanel();
 				
 			}
-			tablButtonCommando[i] = new JButton(String.valueOf(valButtonCommando[i]));
+			tablButtonCommando[i] = new JButton(valButtonCommando.get(i));
 			prov.add(tablButtonCommando[i]);
 
 		}
@@ -50,5 +59,26 @@ public class FormCommando extends JPanel {
 
 		this.add(bloc);
 		this.setPreferredSize (new Dimension(600, 250));
+	}
+
+	private void recupCommandos() {
+		// TODO Auto-generated method stub
+		
+		try{
+			InputStream ips=new FileInputStream(commandoFilePath); 
+			InputStreamReader ipsr=new InputStreamReader(ips);
+			BufferedReader br=new BufferedReader(ipsr);
+			String ligne;
+			String str[]= new String[4];
+			while ((ligne=br.readLine())!=null){
+				str=ligne.split(";");
+				valButtonCommando.add(str[0]);
+			}
+			br.close(); 
+		}		
+		catch (Exception e){
+			System.out.println(e.toString());
+		}
+		
 	}
 }
