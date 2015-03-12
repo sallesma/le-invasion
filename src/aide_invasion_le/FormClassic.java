@@ -38,7 +38,7 @@ public class FormClassic extends JPanel {
 	private TextField tm10 = new TextField("squelette_horreur",10); 
 	
 	//Nombres
-	private final static Dimension TAILLE_NB_BUTTON = new Dimension(57,26);
+	private final static Dimension TAILLE_NB_BUTTON = new Dimension(60,26);
 	private static JButton nbMonstre1 = new JButton("1");
 	private static JButton nbMonstre5 = new JButton("5");
 	private static JButton nbMonstre10 = new JButton("10");
