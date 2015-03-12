@@ -1,23 +1,22 @@
 package aide_invasion_le;
 
-import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.TextField;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import java.awt.Dimension;
-
-public class FormCommando extends JPanel{
+public class FormCommando extends JPanel {
 
 	/*JLabel carte = new JLabel("Num Carte");
 	private TextField zoneCarte = new TextField("1",10);
 	JLabel clear = new JLabel("Clear invasions");
 	private static JButton clearPonct = new JButton("Ponctuel");*/
 	
-	JLabel choixCom = new JLabel("Commando");
+	private static final long serialVersionUID = 1L;
+
+	private JLabel choixCom = new JLabel("Commando");
 	
 	private static JButton[] tablButtonCommando = new JButton[50];
 	private static int[] valButtonCommando = {1,2,1010,1011,1012,1013,1014,1015,1016,1017}; //prov
@@ -33,7 +32,6 @@ public class FormCommando extends JPanel{
 		ligne1.add(choixCom);
 		
 		bloc.add(ligne1);
-		
 		
 		JPanel prov = new JPanel();
 		for (int i=0; i<valButtonCommando.length; i++) {
@@ -53,5 +51,4 @@ public class FormCommando extends JPanel{
 		this.add(bloc);
 		this.setPreferredSize (new Dimension(600, 250));
 	}
-
 }
