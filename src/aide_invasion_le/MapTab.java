@@ -40,10 +40,10 @@ public class MapTab extends JPanel implements MouseListener {
 	private JLabel carteT = new JLabel("Taille Carte");
 	private TextField zoneCarteT = new TextField("384",10);
 	private JLabel clear = new JLabel("Clear invasions");
-	private static JButton clearPonct = new JButton("Ponctuel");
-	private static JButton clearPerm = new JButton("Permanent");
-	private static JButton clearPeri = new JButton("Périssable");
-	private static JButton clearAuto = new JButton("Automatique");
+	private JButton clearPonct = new JButton("Ponctuel");
+	private JButton clearPerm = new JButton("Permanent");
+	private JButton clearPeri = new JButton("Périssable");
+	private JButton clearAuto = new JButton("Automatique");
 	
 	private final static int TAILLE_CARTE_AFFICHE = 400;
 	
