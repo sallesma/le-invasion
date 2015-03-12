@@ -17,10 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-public class MapTab extends JPanel implements KeyListener, MouseListener {
+public class MapTab extends JPanel implements MouseListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -55,8 +52,6 @@ public class MapTab extends JPanel implements KeyListener, MouseListener {
 	{
 		this.leInterface = leInterface;
 		formCom = new FormCommando(leInterface);
-		 // ajoute un écouteur d'événements
-		addKeyListener(this);
         requestFocus();
 
 		classicButton = new JRadioButton("Classique");
@@ -180,26 +175,5 @@ public class MapTab extends JPanel implements KeyListener, MouseListener {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 	}
-	
-    public void keyTyped(KeyEvent e) {
-        // on ne fait rien
-    	
-    }
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		   System.out.println("test");
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-
-
 }
 
