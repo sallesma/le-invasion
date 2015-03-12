@@ -154,7 +154,7 @@ public class MapTab extends JPanel implements MouseListener {
 			}
 			else if (formCommando.getOrdre() == 2)
 			{
-				leInterface.commandoGo(xPos, yPos, Integer.parseInt(zoneCarte.getText()), formCommando.getType(), formCommando.getGroupe());
+				leInterface.commandoGo(xPos, yPos, Integer.parseInt(zoneCarte.getText()), -1, formCommando.getGroupe());
 			}
 		}
 		else

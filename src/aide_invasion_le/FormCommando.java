@@ -144,10 +144,10 @@ public class FormCommando extends FormAbstract {
             setOrdre(2); activeButtonOrder(ordreGo); }});
 		ordreFree.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            setOrdre(0); activeButtonOrder(ordreFree); leInterface.commandoFree(parent.getNumCarte(), getType(), getGroupe()); }});
+            setOrdre(0); activeButtonOrder(ordreFree); leInterface.commandoFree(parent.getNumCarte(), -1, getGroupe()); }});
 		ordreStop.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            setOrdre(0); activeButtonOrder(ordreStop); leInterface.commandoStop(parent.getNumCarte(), getType(), getGroupe()); }});
+            setOrdre(0); activeButtonOrder(ordreStop); leInterface.commandoStop(parent.getNumCarte(), -1, getGroupe()); }});
 		ligne6.add(ordreAjouter);
 		ligne6.add(ordreGo);
 		ligne6.add(ordreFree);
