@@ -33,8 +33,8 @@ public class MapTab extends JPanel implements KeyListener, MouseListener {
 	private JRadioButton commandoButton;
 	
 	private JPanel formPane = new JPanel();
-	FormClassic formC = new FormClassic();
-	FormCommando formCom = new FormCommando();
+	private FormClassic formC = new FormClassic();
+	private FormCommando formCom = new FormCommando();
 	
 	//Gauche de l'image
 	private JPanel ligneImage = new JPanel();
