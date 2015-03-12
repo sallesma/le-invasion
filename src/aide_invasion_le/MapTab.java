@@ -34,7 +34,7 @@ public class MapTab extends JPanel implements KeyListener, MouseListener {
 	
 	private JPanel formPane = new JPanel();
 	private FormClassic formC = new FormClassic();
-	private FormCommando formCom = new FormCommando();
+	private FormCommando formCom;
 	
 	//Gauche de l'image
 	private JPanel ligneImage = new JPanel();
@@ -54,7 +54,7 @@ public class MapTab extends JPanel implements KeyListener, MouseListener {
 	public MapTab(final LEInterface leInterface, Path mapFile, int defautSize, int defautNumber)
 	{
 		this.leInterface = leInterface;
-		
+		formCom = new FormCommando(leInterface);
 		 // ajoute un écouteur d'événements
 		addKeyListener(this);
         requestFocus();
@@ -149,7 +149,20 @@ public class MapTab extends JPanel implements KeyListener, MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		int xPos = (int)(e.getPoint().getX())*Integer.parseInt(zoneCarteT.getText())/TAILLE_CARTE_AFFICHE;
 		int yPos = Integer.parseInt(zoneCarteT.getText())-((int)(e.getPoint().getY())*Integer.parseInt(zoneCarteT.getText())/TAILLE_CARTE_AFFICHE);
-		leInterface.addInvasion(formC.getType_inva(), xPos, yPos, Integer.parseInt(zoneCarte.getText()), formC.getType_mob(), formC.getNb_monstres());
+		
+		if(commandoButton.isSelected())
+		{
+			if (formCom.getOrdre() == 1)
+			{
+				leInterface.commandoAjouter(xPos, yPos, Integer.parseInt(zoneCarte.getText()), formCom.getType(), formCom.getGroupe());
+			}
+			else if (formCom.getOrdre() == 2)
+			{
+				leInterface.commandoGo(xPos, yPos, Integer.parseInt(zoneCarte.getText()), formCom.getType(), formCom.getGroupe());
+			}
+		}
+		else
+			leInterface.addInvasion(formC.getType_inva(), xPos, yPos, Integer.parseInt(zoneCarte.getText()), formC.getType_mob(), formC.getNb_monstres());
 	}
 
 	@Override

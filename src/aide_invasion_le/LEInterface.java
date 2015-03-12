@@ -25,6 +25,34 @@ public class LEInterface {
 		this.sendCommandToLE(command, windowName);
 	}
 	
+	public void commandoAjouter(int xPos, int yPos, int mapId, int commandoType, int commandoGroup)
+	{
+		String command = new String("&commando_ajouter " + xPos + " " + yPos + " " + mapId + " " + commandoType + " " + commandoGroup);
+		String windowName ="(" + pseudo + " sur " + server + ") Landes Eternelles";
+		this.sendCommandToLE(command, windowName);
+	}
+	
+	public void commandoGo(int xPos, int yPos, int mapId, int commandoType, int commandoGroup)
+	{
+		String command = new String("&commando_go " + xPos + " " + yPos + " " + mapId + " " + commandoType + " " + commandoGroup);
+		String windowName ="(" + pseudo + " sur " + server + ") Landes Eternelles";
+		this.sendCommandToLE(command, windowName);
+	}
+	
+	public void commandoFree (int mapId, int commandoType, int commandoGroup)
+	{
+		String command = new String("&commando_free " + mapId + " " + commandoType + " " + commandoGroup);
+		String windowName ="(" + pseudo + " sur " + server + ") Landes Eternelles";
+		this.sendCommandToLE(command, windowName);
+	}
+	
+	public void commandoStop(int mapId, int commandoType, int commandoGroup)
+	{
+		String command = new String("&commando_stop " + mapId + " " + commandoType + " " + commandoGroup);
+		String windowName ="(" + pseudo + " sur " + server + ") Landes Eternelles";
+		this.sendCommandToLE(command, windowName);
+	}
+	
 	private void sendCommandToLE(String command, String windowName)
 	{
 		System.out.println(windowName + " - " + command);
