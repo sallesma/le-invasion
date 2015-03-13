@@ -13,7 +13,7 @@ public class Window  extends JFrame {
 	private LEInterface leInterface;
 	private File mapFolder;
 	private TabbedPaneClosable tabbedPane;
-	private HelpMapCompletion mapCompletion = new HelpMapCompletion();
+	private HelpMapCompletion mapCompletion;
 	
     public Window() {
 		JFrame fenetre = new JFrame();
@@ -24,6 +24,7 @@ public class Window  extends JFrame {
 	    
 	    
 	    leInterface = new LEInterface();
+	    mapCompletion = new HelpMapCompletion();
 	    mapFolder = new File("images/");
 	    
         tabbedPane = new TabbedPaneClosable();
@@ -41,9 +42,7 @@ public class Window  extends JFrame {
 	public void openMapTab(String mapName) {
 		Path mapFile = Paths.get( this.mapFolder.getAbsolutePath(), mapName);
 		
-		mapCompletion.setMap(mapName);
-		
-		TabMap mapTab = new TabMap(leInterface, mapFile, mapCompletion.getSize(), mapCompletion.getNumber());
+		TabMap mapTab = new TabMap(leInterface, mapFile, mapCompletion.getMapSize(mapName), mapCompletion.getMapId(mapName));
 		tabbedPane.addTab(mapFile.getFileName().toString(), mapTab);
 	}
 	

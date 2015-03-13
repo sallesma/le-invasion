@@ -5,18 +5,16 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HelpMapCompletion {
 	
 	 String mapsFilePath = Paths.get("data", "maps.map").toString();
-	 ArrayList<String[]> aListMaps = new ArrayList<String[]>();
-	 
-	 String mapName = "";
-	 int number = 0;
-	 int size = 0;
+	 Map<String, int[]> maps;
 
 	public HelpMapCompletion() {
+		maps = new HashMap<String, int[]>();
 		try{
 			InputStream ips=new FileInputStream(mapsFilePath); 
 			InputStreamReader ipsr=new InputStreamReader(ips);
@@ -25,7 +23,10 @@ public class HelpMapCompletion {
 			String str[]= new String[4];
 			while ((ligne=br.readLine())!=null){
 				str=ligne.split(";");
-				aListMaps.add(str);
+				String name = str[2];
+				int id = Integer.parseInt(str[0]);
+				int size = Integer.parseInt(str[1]);
+				maps.put(name, new int[]{id, size});
 			}
 			br.close(); 
 		}		
@@ -34,25 +35,12 @@ public class HelpMapCompletion {
 		}
 	}
 
-	public void setMap(String mapName) {
-		this.mapName = mapName;
-		
-		for(int i = 0; i < aListMaps.size(); i++)
-	    {
-			if (mapName.equals(aListMaps.get(i)[2]))
-			{
-				this.number = Integer.parseInt(aListMaps.get(i)[0]);
-				this.size = Integer.parseInt(aListMaps.get(i)[1]);
-			}
-	    }
+	public int getMapId(String mapName) {
+		return maps.get(mapName)[0];
 	}
 
-	public int getNumber() {
-		return number;
-	}
-
-	public int getSize() {
-		return size;
+	public int getMapSize(String mapName) {
+		return maps.get(mapName)[1];
 	}
 
 }
