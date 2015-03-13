@@ -31,6 +31,10 @@ public class Window  extends JFrame {
         tabbedPane.setUI(new Tabbed());
         TabMain mainTab = new TabMain(this, leInterface);
         tabbedPane.addTab("Main Tab", mainTab);
+        tabbedPane.selectLast();
+        
+        LEInterfaceNetPanelTest testInt = new LEInterfaceNetPanelTest();
+        tabbedPane.addTab("Interf Tab", testInt);
         
         requestFocus();
         
@@ -44,6 +48,7 @@ public class Window  extends JFrame {
 		
 		TabMap mapTab = new TabMap(leInterface, mapFile, mapCompletion.getMapSize(mapName), mapCompletion.getMapId(mapName));
 		tabbedPane.addTab(mapFile.getFileName().toString(), mapTab);
+		tabbedPane.selectLast();
 	}
 	
 	public File getMapFolder(){

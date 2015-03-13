@@ -32,8 +32,11 @@ public class TabbedPaneClosable extends JTabbedPane {
   @Override
   public void addTab(String title, Component component) {
     super.addTab(title + "  ", component);
-    this.setSelectedIndex(this.getComponentCount()-1);
   }
+  
+  public void selectLast() {
+	    this.setSelectedIndex(this.getComponentCount()-1);
+	  }
    
   /**
    * La methode getTabTitleAt, permet de récupérer le nom de l'onglet
