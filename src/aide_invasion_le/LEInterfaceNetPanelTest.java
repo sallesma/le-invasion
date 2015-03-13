@@ -1,5 +1,6 @@
 package aide_invasion_le;
 
+import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,30 +10,83 @@ import javax.swing.JPanel;
 
 public class LEInterfaceNetPanelTest  extends JPanel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	LEInterfaceNet interfaceNet = new LEInterfaceNet();
 	
+	private TextField serveradr = new TextField("jeu.landes-eternelles.com",10);
+	private TextField port = new TextField("3001",10);
+	private JButton connect = new JButton("Connect");
 	
 	private TextField pseudo = new TextField("test_interf",10);
 	private TextField pwd = new TextField("azerty",10);
-	private JButton connect = new JButton("Connect");
+	private JButton login = new JButton("Login");
+	
+	private TextField message = new TextField("",30);
+	private JButton send = new JButton("Send");
 	
 	public LEInterfaceNetPanelTest() {
 		// TODO Auto-generated constructor stub
+		
+		JPanel bloc = new JPanel();
+		bloc.setLayout(new GridLayout(8, 1));
+		
+		JPanel ligne1 = new JPanel();
 		connect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
             	connection(); }});
 		
-		JPanel ligne1 = new JPanel();
-		ligne1.add(pseudo);
-		ligne1.add(pwd);
+		ligne1.add(serveradr);
+		ligne1.add(port);
 		ligne1.add(connect);
+		bloc.add(ligne1);
 		
-		this.add(ligne1);
+		JPanel ligne2 = new JPanel();
+		login.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+            	loginFunc(); }});
+		
+		ligne2.add(pseudo);
+		ligne2.add(pwd);
+		ligne2.add(login);
+		bloc.add(ligne2);
+		
+		JPanel ligne3 = new JPanel();
+		send.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+            	sendMessage(); }});
+		
+		ligne3.add(message);
+		ligne3.add(send);
+		bloc.add(ligne3);
+		
+		this.add(bloc);
 	}
 	
 	public void connection()
 	{
-		interfaceNet.connection();
+		interfaceNet.connection(serveradr.getText(), Integer.parseInt(port.getText()));
+	}
+	
+	public void loginFunc()
+	{
+		interfaceNet.login(pseudo.getText(), pwd.getText());
+		interfaceNet.startHeart_Beat();
+	}
+	
+	public void close()
+	{
+		interfaceNet.close();
+	}
+	
+	public void sendMessage()
+	{
+		if (message.getText().length()>0)
+			interfaceNet.sendMessage(message.getText());
 	}
 
 }

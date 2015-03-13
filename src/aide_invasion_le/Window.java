@@ -12,6 +12,7 @@ public class Window  extends JFrame {
 	
 	private LEInterface leInterface;
 	private TabbedPaneClosable tabbedPane;
+	private LEInterfaceNetPanelTest testInt;
 	
     public Window() {
 		JFrame fenetre = new JFrame();
@@ -22,6 +23,7 @@ public class Window  extends JFrame {
 	    
 	    addWindowListener(new WindowAdapter() {
 	        public void windowClosing(WindowEvent e) {
+	        	testInt.close();
 	        	System.out.println("Close");
 	            System.exit(0);
 	          }
@@ -35,7 +37,7 @@ public class Window  extends JFrame {
         tabbedPane.addTab("Main Tab", mainTab);
         tabbedPane.selectLast();
         
-        LEInterfaceNetPanelTest testInt = new LEInterfaceNetPanelTest();
+        testInt = new LEInterfaceNetPanelTest();
         tabbedPane.addTab("Interf Tab", testInt);
         
         requestFocus();
