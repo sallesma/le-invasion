@@ -22,7 +22,6 @@ import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -43,12 +42,8 @@ public class TabMain extends JPanel {
 	private JComboBox<String> zoneServer = new JComboBox<String>(new String[]{"main", "test"});
 
 	private JLabel mapFolderLabel = new JLabel("Cartes");
-	private JLabel currentMapFolderTitle = new JLabel("Dossier courant :");
-	private JLabel currentMapFolder = new JLabel("Par défaut, le logiciel utilise ses cartes");
-	private static JButton mapFolderChooser = new JButton("Utiliser mon propre dossier de cartes");
-	
-	private JLabel openMapLabel = new JLabel("Ouvrir une carte");
-	private JComboBox<String> openMapComboBox = new JComboBox<String>();
+	private JComboBox<String> mapsComboBox = new JComboBox<String>();
+	private JButton openMapButton = new JButton("Ouvrir la carte");
 	
 	public TabMain(Window parentWindow, LEInterface leInterface) {
 		this.parentWindow = parentWindow;
@@ -102,33 +97,28 @@ public class TabMain extends JPanel {
 			}
 		});
 		
-		mapFolderChooser.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-        		JFileChooser dialog = new JFileChooser(new File(".\\images"));
-        		dialog.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        		dialog.setApproveButtonText("Selectionner");
-        		dialog.setDialogTitle("Sélectionner le dossier contenant les cartes");
-        		if (dialog.showOpenDialog(null)==  JFileChooser.APPROVE_OPTION) {
-        			File folder = dialog.getSelectedFile();
-        		    currentMapFolder.setText(folder.getPath());
-        		    TabMain.this.mapFolder = folder;
-        		    updateMapList();
-        		}
-        	}
-        });
-		
-		this.updateMapList();
+		this.fillMapList();
+		openMapButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String mapName = (String)mapsComboBox.getSelectedItem();
+				System.out.println("mapname : " + mapName);
+				if(mapName != null) {
+					Path mapFile = Paths.get( mapFolder.getAbsolutePath(), mapName);
+					int mapId = mapCompletion.getMapId(mapName);
+					int mapSize = mapCompletion.getMapSize(mapName);
+					TabMain.this.parentWindow.openMapTab(mapFile, mapId, mapSize);
+				}
+			}
+		});
 
 		panel.add(pseudo);
 		panel.add(zonePseudo);
 		panel.add(server);
 		panel.add(zoneServer);
 		panel.add(mapFolderLabel);
-		panel.add(currentMapFolderTitle);
-		panel.add(currentMapFolder);
-		panel.add(mapFolderChooser);
-		panel.add(openMapLabel);
-		panel.add(openMapComboBox);
+		panel.add(mapsComboBox);
+		panel.add(openMapButton);
 	    this.add(panel);
 	    
 		this.updateLEInterface();
@@ -139,11 +129,7 @@ public class TabMain extends JPanel {
 		this.leInterface.setServer(zoneServer.getSelectedItem().toString());
 	}
 	
-	private void updateMapList() {
-		for (ActionListener actionListener : this.openMapComboBox.getActionListeners()) {
-			this.openMapComboBox.removeActionListener(actionListener);
-		};
-		this.openMapComboBox.removeAllItems();
+	private void fillMapList() {
 		File[] files = this.mapFolder.listFiles(new FileFilter() {
 			@Override
 			public boolean accept(File pathname) {
@@ -159,21 +145,8 @@ public class TabMain extends JPanel {
 			}
 		});
 		for (File mapFile : files) {
-			this.openMapComboBox.addItem(mapFile.getName());
+			this.mapsComboBox.addItem(mapFile.getName());
 		}
-		openMapComboBox.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String mapName = (String)openMapComboBox.getSelectedItem();
-				System.out.println("mapname : "+ mapName);
-				if(mapName != null) {
-					Path mapFile = Paths.get( mapFolder.getAbsolutePath(), mapName);
-					int mapId = mapCompletion.getMapId(mapName);
-					int mapSize = mapCompletion.getMapSize(mapName);
-					TabMain.this.parentWindow.openMapTab(mapFile, mapId, mapSize);
-				}
-			}
-		});
 	}
 
 	private void updateConfigFile()
