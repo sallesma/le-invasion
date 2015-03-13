@@ -18,7 +18,6 @@ public class Window  extends JFrame {
 	    fenetre.setLocationRelativeTo(null); // Center window
 	    fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
-	    
 	    leInterface = new LEInterface();
 	    
         tabbedPane = new TabbedPaneClosable();
@@ -37,7 +36,7 @@ public class Window  extends JFrame {
         this.setVisible(true);
     }
 
-	public void openMapTab(Path mapPath, int mapSize, int mapId) {
+	public void openMapTab(Path mapPath, int mapId, int mapSize) {
 		TabMap mapTab = new TabMap(leInterface, mapPath, mapSize, mapId);
 		tabbedPane.addTab(mapPath.getFileName().toString(), mapTab);
 		tabbedPane.selectLast();
