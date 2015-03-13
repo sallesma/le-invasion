@@ -1,5 +1,7 @@
 package aide_invasion_le;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,7 +22,14 @@ public class Window  extends JFrame {
 	    fenetre.setTitle("Gestionnaire Invasion");
 	    fenetre.setSize(600, 800);
 	    fenetre.setLocationRelativeTo(null); // Center window
-	    fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    //fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    
+	    addWindowListener(new WindowAdapter() {
+	        public void windowClosing(WindowEvent e) {
+	        	System.out.println("Close");
+	            System.exit(0);
+	          }
+	        });
 	    
 	    
 	    leInterface = new LEInterface();

@@ -22,9 +22,12 @@ public class LEInterfaceNetPanelTest  extends JPanel{
             public void actionPerformed(ActionEvent e){
             	connection(); }});
 		
-		this.add(pseudo);
-		this.add(pwd);
-		this.add(connect);
+		JPanel ligne1 = new JPanel();
+		ligne1.add(pseudo);
+		ligne1.add(pwd);
+		ligne1.add(connect);
+		
+		this.add(ligne1);
 	}
 	
 	public void connection()
