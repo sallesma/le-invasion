@@ -23,38 +23,37 @@ public class MapTab extends JPanel implements MouseListener {
 
 	private static final long serialVersionUID = 1L;
 
-	JLabel image;
-	LEInterface leInterface;
+	private JLabel image;
+	private LEInterface leInterface;
 	
 	private JPanel ligneFormSelect = new JPanel();
 	private JLabel formButtonLabel = new JLabel("Type de formulaire :");
 	private JRadioButton classicButton;
 	private JRadioButton commandoButton;
 	
-	private JPanel formPane = new JPanel();
-	private FormClassic formClassic = new FormClassic();
+	private JPanel formPanel = new JPanel();
+	private FormClassic formClassic;
 	private FormCommando formCommando;
 	
-	//Gauche de l'image
-	private JPanel ligneImage = new JPanel();
-	private JLabel carte = new JLabel("Num Carte");
-	private TextField zoneCarte = new TextField("1",10);
-	private JLabel carteT = new JLabel("Taille Carte");
-	private TextField zoneCarteT = new TextField("384",10);
-	private JLabel clear = new JLabel("Clear invasions");
+	private JPanel bottomPanel = new JPanel();
+	private JLabel mapIdLabel = new JLabel("Numéro Carte :");
+	private TextField mapIdValue = new TextField("1",10);
+	private JLabel mapSizeLabel = new JLabel("Taille Carte :");
+	private TextField mapSizeValue = new TextField("384",10);
+	private JLabel clearLabel = new JLabel("Clear invasions");
 	private JButton clearPonct = new JButton("Ponctuel");
 	private JButton clearPerm = new JButton("Permanent");
 	private JButton clearPeri = new JButton("Périssable");
 	private JButton clearAuto = new JButton("Automatique");
 	
-	private final static int TAILLE_CARTE_AFFICHE = 400;
-	
+	private final static int DISPLAYED_MAP_SIZE = 400;
 	
 	public MapTab(final LEInterface leInterface, Path mapFile, int defautSize, int defautNumber)
 	{
 		this.leInterface = leInterface;
-		formCommando = new FormCommando(leInterface, defautNumber);
-        requestFocus();
+		this.formClassic = new FormClassic();
+		this.formCommando = new FormCommando(leInterface, defautNumber);
+        this.requestFocus();
 
 		classicButton = new JRadioButton("Classique");
 	    commandoButton = new JRadioButton("Commando");
@@ -66,102 +65,101 @@ public class MapTab extends JPanel implements MouseListener {
 	    classicButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				formPane.removeAll();
-				formPane.add(formClassic);
-				formPane.updateUI();
+				formPanel.removeAll();
+				formPanel.add(formClassic);
+				formPanel.updateUI();
 			}
 		});
 	    commandoButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				formPane.removeAll();
-				formPane.add(formCommando);
-				formPane.updateUI();
+				formPanel.removeAll();
+				formPanel.add(formCommando);
+				formPanel.updateUI();
 			}
 		});
-	    classicButton.doClick();
 	    ligneFormSelect.add(formButtonLabel);
 	    ligneFormSelect.add(classicButton);
 	    ligneFormSelect.add(commandoButton);
 	    this.add(ligneFormSelect);
-	    this.add(formPane);
+	    this.add(formPanel);
+	    classicButton.doClick();
 		
-		zoneCarte.setText(Integer.toString(defautNumber));
-		zoneCarte.setEditable(false);
-		zoneCarteT.setText(Integer.toString(defautSize));
-		zoneCarteT.setEditable(false);
+		mapIdValue.setText(Integer.toString(defautNumber));
+		mapIdValue.setEditable(false);
+		mapSizeValue.setText(Integer.toString(defautSize));
+		mapSizeValue.setEditable(false);
 		
-	    JPanel ligneImageG = new JPanel();
-	    ligneImageG.setLayout(new GridLayout(15, 1));
-		ligneImageG.add(carte);
-		ligneImageG.add(zoneCarte);
-		ligneImageG.add(carteT);
-		ligneImageG.add(zoneCarteT);
-		ligneImageG.add(clear);
-		ligneImageG.add(clearPonct);
-		ligneImageG.add(clearPerm);
-		ligneImageG.add(clearPeri);
-		ligneImageG.add(clearAuto);
+	    JPanel bottomLeftPanel = new JPanel();
+	    bottomLeftPanel.setLayout(new GridLayout(15, 1));
+		bottomLeftPanel.add(mapIdLabel);
+		bottomLeftPanel.add(mapIdValue);
+		bottomLeftPanel.add(mapSizeLabel);
+		bottomLeftPanel.add(mapSizeValue);
+		bottomLeftPanel.add(clearLabel);
+		bottomLeftPanel.add(clearPonct);
+		bottomLeftPanel.add(clearPerm);
+		bottomLeftPanel.add(clearPeri);
+		bottomLeftPanel.add(clearAuto);
 		
-		//Clear
 		clearPonct.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	int mapId = Integer.parseInt(zoneCarte.getText());
+            	int mapId = Integer.parseInt(mapIdValue.getText());
         		leInterface.clearInvasion(LEInterface.INVASION_TYPE_PONCT, mapId);
             }
 		});  
 		clearPerm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	int mapId = Integer.parseInt(zoneCarte.getText());
+            	int mapId = Integer.parseInt(mapIdValue.getText());
         		leInterface.clearInvasion(LEInterface.INVASION_TYPE_PERM, mapId);
         	}
         });  
 		clearPeri.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	int mapId = Integer.parseInt(zoneCarte.getText());
+            	int mapId = Integer.parseInt(mapIdValue.getText());
             	leInterface.clearInvasion(LEInterface.INVASION_TYPE_PERI, mapId);
         	}
         });  
 		clearAuto.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	int mapId = Integer.parseInt(zoneCarte.getText());
+            	int mapId = Integer.parseInt(mapIdValue.getText());
             	leInterface.clearInvasion(LEInterface.INVASION_TYPE_AUTO, mapId);
             }
 		});  
 	    
-	    JPanel ligneImageD = new JPanel();
-	    ImageIcon carteIc = new ImageIcon( mapFile.toString() );
-	    Image zoom = Resize_image.scaleImage(carteIc.getImage(), TAILLE_CARTE_AFFICHE);//taille en pixels
-	    Icon iconScaled = new ImageIcon(zoom);
-	    image = new JLabel(iconScaled);
-	    image.addMouseListener(this);
-	    ligneImageD.add(image);
+	    JPanel bottomRightPanel = new JPanel();
+	    ImageIcon mapIcon = new ImageIcon( mapFile.toString() );
+	    Image scaledMapImage = Resize_image.scaleImage(mapIcon.getImage(), DISPLAYED_MAP_SIZE);//size in pixels
+	    Icon scaledMapIcon = new ImageIcon(scaledMapImage);
+	    this.image = new JLabel(scaledMapIcon);
+	    this.image.addMouseListener(this);
+	    bottomRightPanel.add(image);
 	    
-	    ligneImage.add(ligneImageG);
-	    ligneImage.add(ligneImageD);
+	    bottomPanel.add(bottomLeftPanel);
+	    bottomPanel.add(bottomRightPanel);
 	    
-	    this.add(ligneImage);
+	    this.add(bottomPanel);
 	}
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		int xPos = (int)(e.getPoint().getX())*Integer.parseInt(zoneCarteT.getText())/TAILLE_CARTE_AFFICHE;
-		int yPos = Integer.parseInt(zoneCarteT.getText())-((int)(e.getPoint().getY())*Integer.parseInt(zoneCarteT.getText())/TAILLE_CARTE_AFFICHE);
+		int xPos = (int)(e.getPoint().getX())*Integer.parseInt(mapSizeValue.getText())/DISPLAYED_MAP_SIZE;
+		int yPos = Integer.parseInt(mapSizeValue.getText())-((int)(e.getPoint().getY())*Integer.parseInt(mapSizeValue.getText())/DISPLAYED_MAP_SIZE);
 		
 		System.out.println(xPos + " - " + yPos);
 		if(commandoButton.isSelected())
 		{
 			if (formCommando.getOrder() == CommandoOrder.Add)
 			{
-				leInterface.commandoAjouter(xPos, yPos, Integer.parseInt(zoneCarte.getText()), formCommando.getCommandoType(), formCommando.getGroupId());
+				leInterface.commandoAjouter(xPos, yPos, Integer.parseInt(mapIdValue.getText()), formCommando.getCommandoType(), formCommando.getGroupId());
 			}
 			else if (formCommando.getOrder() == CommandoOrder.Go)
 			{
-				leInterface.commandoGo(xPos, yPos, Integer.parseInt(zoneCarte.getText()), -1, formCommando.getGroupId());
+				leInterface.commandoGo(xPos, yPos, Integer.parseInt(mapIdValue.getText()), -1, formCommando.getGroupId());
 			}
 		}
 		else
-			leInterface.addInvasion(formClassic.getInvasionType(), xPos, yPos, Integer.parseInt(zoneCarte.getText()), formClassic.getMonsterType(), formClassic.getMonsterNumber());
+			leInterface.addInvasion(formClassic.getInvasionType(), xPos, yPos, Integer.parseInt(mapIdValue.getText()), formClassic.getMonsterType(), formClassic.getMonsterNumber());
 	}
 
 	@Override
