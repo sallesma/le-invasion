@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -31,6 +32,8 @@ public class TabMain extends JPanel {
 
 	private Window parentWindow;
 	private LEInterface leInterface;
+	private File mapFolder;
+	private HelpMapCompletion mapCompletion;
 	private String configFile = Paths.get("data", "config.properties").toString();
 	
 	private JLabel pseudo = new JLabel("Pseudo");
@@ -49,6 +52,9 @@ public class TabMain extends JPanel {
 	
 	public TabMain(Window parentWindow, LEInterface leInterface) {
 		this.parentWindow = parentWindow;
+		this.leInterface = leInterface;
+	    this.mapFolder = new File("images/");
+	    this.mapCompletion = new HelpMapCompletion();
 		
 	    JPanel panel = new JPanel();
 	    panel.setLayout(new GridLayout(15, 1));
@@ -105,13 +111,13 @@ public class TabMain extends JPanel {
         		if (dialog.showOpenDialog(null)==  JFileChooser.APPROVE_OPTION) {
         			File folder = dialog.getSelectedFile();
         		    currentMapFolder.setText(folder.getPath());
-        		    TabMain.this.parentWindow.setMapFolder(folder);
-        		    updateMapList(folder);
+        		    TabMain.this.mapFolder = folder;
+        		    updateMapList();
         		}
         	}
         });
 		
-		this.updateMapList(this.parentWindow.getMapFolder());
+		this.updateMapList();
 
 		panel.add(pseudo);
 		panel.add(zonePseudo);
@@ -125,7 +131,6 @@ public class TabMain extends JPanel {
 		panel.add(openMapComboBox);
 	    this.add(panel);
 	    
-		this.leInterface = leInterface;
 		this.updateLEInterface();
 	}
 
@@ -134,12 +139,12 @@ public class TabMain extends JPanel {
 		this.leInterface.setServer(zoneServer.getSelectedItem().toString());
 	}
 	
-	private void updateMapList(File folder) {
+	private void updateMapList() {
 		for (ActionListener actionListener : this.openMapComboBox.getActionListeners()) {
 			this.openMapComboBox.removeActionListener(actionListener);
 		};
 		this.openMapComboBox.removeAllItems();
-		File[] files = folder.listFiles(new FileFilter() {
+		File[] files = this.mapFolder.listFiles(new FileFilter() {
 			@Override
 			public boolean accept(File pathname) {
 				if (pathname.getName().endsWith(".jpg"))
@@ -161,8 +166,12 @@ public class TabMain extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String mapName = (String)openMapComboBox.getSelectedItem();
 				System.out.println("mapname : "+ mapName);
-				if(mapName != null)
-					TabMain.this.parentWindow.openMapTab(mapName);
+				if(mapName != null) {
+					Path mapFile = Paths.get( mapFolder.getAbsolutePath(), mapName);
+					int mapId = mapCompletion.getMapId(mapName);
+					int mapSize = mapCompletion.getMapSize(mapName);
+					TabMain.this.parentWindow.openMapTab(mapFile, mapId, mapSize);
+				}
 			}
 		});
 	}

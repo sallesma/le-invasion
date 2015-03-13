@@ -19,19 +19,23 @@ public class HelpMapCompletion {
 			InputStream ips=new FileInputStream(mapsFilePath); 
 			InputStreamReader ipsr=new InputStreamReader(ips);
 			BufferedReader br=new BufferedReader(ipsr);
-			String ligne;
+			String line;
 			String str[]= new String[4];
-			while ((ligne=br.readLine())!=null){
-				str=ligne.split(";");
-				String name = str[2];
-				int id = Integer.parseInt(str[0]);
-				int size = Integer.parseInt(str[1]);
-				maps.put(name, new int[]{id, size});
+			while ((line=br.readLine())!=null){
+				try {
+					str=line.split(";");
+					String name = str[2];
+					int id = Integer.parseInt(str[0]);
+					int size = Integer.parseInt(str[1]);
+					maps.put(name, new int[]{id, size});
+				} catch (NumberFormatException e) {
+					System.out.println("Ignoring line in maps because of bad numbe format: " + line);
+				}
 			}
 			br.close(); 
 		}		
 		catch (Exception e){
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 	}
 
