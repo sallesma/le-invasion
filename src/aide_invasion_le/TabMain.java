@@ -21,6 +21,7 @@ import java.util.Properties;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class TabMain extends JPanel {
@@ -102,13 +103,17 @@ public class TabMain extends JPanel {
 		openMapButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String mapName = (String)mapsComboBox.getSelectedItem();
-				System.out.println("mapname : " + mapName);
-				if(mapName != null) {
-					Path mapFile = mapsManager.getMapFilePath(mapName);
-					int mapId = mapsManager.getMapId(mapName);
-					int mapSize = mapsManager.getMapSize(mapName);
-					TabMain.this.parentWindow.openMapTab(mapFile, mapId, mapSize);
+				if (isValidConfig()) {
+					String mapName = (String)mapsComboBox.getSelectedItem();
+					System.out.println("mapname : " + mapName);
+					if(mapName != null) {
+						Path mapFile = mapsManager.getMapFilePath(mapName);
+						int mapId = mapsManager.getMapId(mapName);
+						int mapSize = mapsManager.getMapSize(mapName);
+						TabMain.this.parentWindow.openMapTab(mapFile, mapId, mapSize);
+					}
+				} else {
+					JOptionPane.showMessageDialog(TabMain.this, "The config is not properly set", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -151,5 +156,11 @@ public class TabMain extends JPanel {
 				}
 			}
 		}
+	}
+	
+	private boolean isValidConfig() {
+		if (zonePseudo.getText().equals(""))
+			return false;
+		return true;
 	}
 }
