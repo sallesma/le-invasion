@@ -8,21 +8,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class TabMain extends JPanel {
@@ -31,6 +30,7 @@ public class TabMain extends JPanel {
 
 	private Window parentWindow;
 	private LEInterface leInterface;
+	private MapsManager mapsManager;
 	private String configFile = Paths.get("data", "config.properties").toString();
 	
 	private JLabel pseudo = new JLabel("Pseudo");
@@ -40,15 +40,13 @@ public class TabMain extends JPanel {
 	private JComboBox<String> zoneServer = new JComboBox<String>(new String[]{"main", "test"});
 
 	private JLabel mapFolderLabel = new JLabel("Cartes");
-	private JLabel currentMapFolderTitle = new JLabel("Dossier courant :");
-	private JLabel currentMapFolder = new JLabel("Par défaut, le logiciel utilise ses cartes");
-	private static JButton mapFolderChooser = new JButton("Utiliser mon propre dossier de cartes");
-	
-	private JLabel openMapLabel = new JLabel("Ouvrir une carte");
-	private JComboBox<String> openMapComboBox = new JComboBox<String>();
+	private JComboBox<String> mapsComboBox = new JComboBox<String>();
+	private JButton openMapButton = new JButton("Ouvrir la carte");
 	
 	public TabMain(Window parentWindow, LEInterface leInterface) {
 		this.parentWindow = parentWindow;
+		this.leInterface = leInterface;
+	    this.mapsManager = new MapsManager();
 		
 	    JPanel panel = new JPanel();
 	    panel.setLayout(new GridLayout(15, 1));
@@ -95,76 +93,46 @@ public class TabMain extends JPanel {
 				updateConfigFile();
 			}
 		});
+
+		String[] maps = this.mapsManager.getMapNames();
+		Arrays.sort(maps);
+		for (String map : maps) {
+			this.mapsComboBox.addItem(map);
+		}
 		
-		mapFolderChooser.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-        		JFileChooser dialog = new JFileChooser(new File(".\\images"));
-        		dialog.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        		dialog.setApproveButtonText("Selectionner");
-        		dialog.setDialogTitle("Sélectionner le dossier contenant les cartes");
-        		if (dialog.showOpenDialog(null)==  JFileChooser.APPROVE_OPTION) {
-        			File folder = dialog.getSelectedFile();
-        		    currentMapFolder.setText(folder.getPath());
-        		    TabMain.this.parentWindow.setMapFolder(folder);
-        		    updateMapList(folder);
-        		}
-        	}
-        });
-		
-		this.updateMapList(this.parentWindow.getMapFolder());
+		openMapButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (isValidConfig()) {
+					String mapName = (String)mapsComboBox.getSelectedItem();
+					System.out.println("mapname : " + mapName);
+					if(mapName != null) {
+						Path mapFile = mapsManager.getMapFilePath(mapName);
+						int mapId = mapsManager.getMapId(mapName);
+						int mapSize = mapsManager.getMapSize(mapName);
+						TabMain.this.parentWindow.openMapTab(mapFile, mapId, mapSize);
+					}
+				} else {
+					JOptionPane.showMessageDialog(TabMain.this, "The config is not properly set", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 
 		panel.add(pseudo);
 		panel.add(zonePseudo);
 		panel.add(server);
 		panel.add(zoneServer);
 		panel.add(mapFolderLabel);
-		panel.add(currentMapFolderTitle);
-		panel.add(currentMapFolder);
-		panel.add(mapFolderChooser);
-		panel.add(openMapLabel);
-		panel.add(openMapComboBox);
+		panel.add(mapsComboBox);
+		panel.add(openMapButton);
 	    this.add(panel);
 	    
-		this.leInterface = leInterface;
 		this.updateLEInterface();
 	}
 
 	private void updateLEInterface() {
 		this.leInterface.setPseudo(zonePseudo.getText());
 		this.leInterface.setServer(zoneServer.getSelectedItem().toString());
-	}
-	
-	private void updateMapList(File folder) {
-		for (ActionListener actionListener : this.openMapComboBox.getActionListeners()) {
-			this.openMapComboBox.removeActionListener(actionListener);
-		};
-		this.openMapComboBox.removeAllItems();
-		File[] files = folder.listFiles(new FileFilter() {
-			@Override
-			public boolean accept(File pathname) {
-				if (pathname.getName().endsWith(".jpg"))
-					return true;
-				return false;
-			}
-		});
-		Arrays.sort(files, new Comparator<File>() {
-			@Override
-			public int compare(File f1, File f2) {
-				return f1.getName().compareTo(f2.getName());
-			}
-		});
-		for (File mapFile : files) {
-			this.openMapComboBox.addItem(mapFile.getName());
-		}
-		openMapComboBox.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String mapName = (String)openMapComboBox.getSelectedItem();
-				System.out.println("mapname : "+ mapName);
-				if(mapName != null)
-					TabMain.this.parentWindow.openMapTab(mapName);
-			}
-		});
 	}
 
 	private void updateConfigFile()
@@ -188,5 +156,11 @@ public class TabMain extends JPanel {
 				}
 			}
 		}
+	}
+	
+	private boolean isValidConfig() {
+		if (zonePseudo.getText().equals(""))
+			return false;
+		return true;
 	}
 }
