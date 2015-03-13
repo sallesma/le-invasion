@@ -19,7 +19,7 @@ import javax.swing.JRadioButton;
 
 import aide_invasion_le.FormCommando.CommandoOrder;
 
-public class MapTab extends JPanel implements MouseListener {
+public class TabMap extends JPanel implements MouseListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -48,7 +48,7 @@ public class MapTab extends JPanel implements MouseListener {
 	
 	private final static int DISPLAYED_MAP_SIZE = 400;
 	
-	public MapTab(final LEInterface leInterface, Path mapFile, int defautSize, int defautNumber)
+	public TabMap(final LEInterface leInterface, Path mapFile, int defautSize, int defautNumber)
 	{
 		this.leInterface = leInterface;
 		this.formClassic = new FormClassic();

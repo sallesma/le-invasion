@@ -6,16 +6,16 @@ import java.nio.file.Paths;
 
 import javax.swing.JFrame;
 
-public class Fenetre  extends JFrame {
+public class Window  extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private LEInterface leInterface;
 	private File mapFolder;
-	private ClosableTabbedPane tabbedPane;
+	private TabbedPaneClosable tabbedPane;
 	private HelpMapCompletion mapCompletion = new HelpMapCompletion();
 	
-    public Fenetre() {
+    public Window() {
 		JFrame fenetre = new JFrame();
 	    fenetre.setTitle("Gestionnaire Invasion");
 	    fenetre.setSize(600, 800);
@@ -26,9 +26,9 @@ public class Fenetre  extends JFrame {
 	    leInterface = new LEInterface();
 	    mapFolder = new File("images/");
 	    
-        tabbedPane = new ClosableTabbedPane();
+        tabbedPane = new TabbedPaneClosable();
         tabbedPane.setUI(new Tabbed());
-        MainTab mainTab = new MainTab(this, leInterface);
+        TabMain mainTab = new TabMain(this, leInterface);
         tabbedPane.addTab("Main Tab", mainTab);
         
         requestFocus();
@@ -43,7 +43,7 @@ public class Fenetre  extends JFrame {
 		
 		mapCompletion.setMap(mapName);
 		
-		MapTab mapTab = new MapTab(leInterface, mapFile, mapCompletion.getSize(), mapCompletion.getNumber());
+		TabMap mapTab = new TabMap(leInterface, mapFile, mapCompletion.getSize(), mapCompletion.getNumber());
 		tabbedPane.addTab(mapFile.getFileName().toString(), mapTab);
 	}
 	

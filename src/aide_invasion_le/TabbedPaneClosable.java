@@ -18,7 +18,7 @@ import javax.swing.KeyStroke;
  * La classe ClosableTabbedPane extends la classe JTabbedPane permettant ainsi
  * au JTabbedPane d'avoir un système de fermeture des onglets.
  */
-public class ClosableTabbedPane extends JTabbedPane {
+public class TabbedPaneClosable extends JTabbedPane {
   private static final long serialVersionUID = 1L;
   private TabCloseUI closeUI = new TabCloseUI(this);
   public void paint(Graphics g) {

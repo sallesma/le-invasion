@@ -25,11 +25,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class MainTab extends JPanel {
+public class TabMain extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private Fenetre parentWindow;
+	private Window parentWindow;
 	private LEInterface leInterface;
 	private String configFile = Paths.get("data", "config.properties").toString();
 	
@@ -47,7 +47,7 @@ public class MainTab extends JPanel {
 	private JLabel openMapLabel = new JLabel("Ouvrir une carte");
 	private JComboBox<String> openMapComboBox = new JComboBox<String>();
 	
-	public MainTab(Fenetre parentWindow, LEInterface leInterface) {
+	public TabMain(Window parentWindow, LEInterface leInterface) {
 		this.parentWindow = parentWindow;
 		
 	    JPanel panel = new JPanel();
@@ -105,7 +105,7 @@ public class MainTab extends JPanel {
         		if (dialog.showOpenDialog(null)==  JFileChooser.APPROVE_OPTION) {
         			File folder = dialog.getSelectedFile();
         		    currentMapFolder.setText(folder.getPath());
-        		    MainTab.this.parentWindow.setMapFolder(folder);
+        		    TabMain.this.parentWindow.setMapFolder(folder);
         		    updateMapList(folder);
         		}
         	}
@@ -162,7 +162,7 @@ public class MainTab extends JPanel {
 				String mapName = (String)openMapComboBox.getSelectedItem();
 				System.out.println("mapname : "+ mapName);
 				if(mapName != null)
-					MainTab.this.parentWindow.openMapTab(mapName);
+					TabMain.this.parentWindow.openMapTab(mapName);
 			}
 		});
 	}

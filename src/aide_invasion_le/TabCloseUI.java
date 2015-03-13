@@ -11,7 +11,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
   public class TabCloseUI implements MouseListener, MouseMotionListener {
-    private ClosableTabbedPane tabbedPane; 
+    private TabbedPaneClosable tabbedPane; 
     private int closeX = 0, closeY = 0, meX = 0, meY = 0;
     private int selectedTab; // un int qui récupere l'onglet selectionné
     private final int width = 8, height = 8;  // largeur et hauteur de la croix
@@ -22,7 +22,7 @@ import java.awt.event.MouseMotionListener;
      * car cela permet d'ajouter à ce JTabbedPane redéfinit la fermeture des onglets.
      * @param pane
      */
-    public TabCloseUI(ClosableTabbedPane pane) {
+    public TabCloseUI(TabbedPaneClosable pane) {
       tabbedPane = pane;
       tabbedPane.addMouseMotionListener(this);
       tabbedPane.addMouseListener(this);
