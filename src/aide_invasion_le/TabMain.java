@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,7 +16,6 @@ import java.io.OutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Properties;
 
 import javax.swing.JButton;
@@ -31,8 +29,7 @@ public class TabMain extends JPanel {
 
 	private Window parentWindow;
 	private LEInterface leInterface;
-	private File mapFolder;
-	private HelpMapCompletion mapCompletion;
+	private MapsManager mapsManager;
 	private String configFile = Paths.get("data", "config.properties").toString();
 	
 	private JLabel pseudo = new JLabel("Pseudo");
@@ -48,8 +45,7 @@ public class TabMain extends JPanel {
 	public TabMain(Window parentWindow, LEInterface leInterface) {
 		this.parentWindow = parentWindow;
 		this.leInterface = leInterface;
-	    this.mapFolder = new File("images/");
-	    this.mapCompletion = new HelpMapCompletion();
+	    this.mapsManager = new MapsManager();
 		
 	    JPanel panel = new JPanel();
 	    panel.setLayout(new GridLayout(15, 1));
@@ -96,17 +92,22 @@ public class TabMain extends JPanel {
 				updateConfigFile();
 			}
 		});
+
+		String[] maps = this.mapsManager.getMapNames();
+		Arrays.sort(maps);
+		for (String map : maps) {
+			this.mapsComboBox.addItem(map);
+		}
 		
-		this.fillMapList();
 		openMapButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String mapName = (String)mapsComboBox.getSelectedItem();
 				System.out.println("mapname : " + mapName);
 				if(mapName != null) {
-					Path mapFile = Paths.get( mapFolder.getAbsolutePath(), mapName);
-					int mapId = mapCompletion.getMapId(mapName);
-					int mapSize = mapCompletion.getMapSize(mapName);
+					Path mapFile = mapsManager.getMapFilePath(mapName);
+					int mapId = mapsManager.getMapId(mapName);
+					int mapSize = mapsManager.getMapSize(mapName);
 					TabMain.this.parentWindow.openMapTab(mapFile, mapId, mapSize);
 				}
 			}
@@ -127,26 +128,6 @@ public class TabMain extends JPanel {
 	private void updateLEInterface() {
 		this.leInterface.setPseudo(zonePseudo.getText());
 		this.leInterface.setServer(zoneServer.getSelectedItem().toString());
-	}
-	
-	private void fillMapList() {
-		File[] files = this.mapFolder.listFiles(new FileFilter() {
-			@Override
-			public boolean accept(File pathname) {
-				if (pathname.getName().endsWith(".jpg"))
-					return true;
-				return false;
-			}
-		});
-		Arrays.sort(files, new Comparator<File>() {
-			@Override
-			public int compare(File f1, File f2) {
-				return f1.getName().compareTo(f2.getName());
-			}
-		});
-		for (File mapFile : files) {
-			this.mapsComboBox.addItem(mapFile.getName());
-		}
 	}
 
 	private void updateConfigFile()
