@@ -72,7 +72,8 @@ public class LEInterfaceNet{
 			//[LOG_IN (140)][LENGTH]USERNAME[SPACE]PASSWORD[NULL]
 			//byte[] outByteMessage = {(byte)140,(byte)21,(byte)'t', (byte)'e', (byte)'s', (byte)'t', (byte)'_', (byte)'i', (byte)'n', (byte)'t', (byte)'e', (byte)'r', (byte)'f', (byte)' ', (byte)'a', (byte)'z', (byte)'e', (byte)'r', (byte)'t', (byte)'y', 0};
 				
-			byte[] dat = new byte[21];
+			//Test unint8 length
+			/*byte[] dat = new byte[21];
 			dat[0] = (byte)140;
 			dat[1] = 21;
 			dat[2] = 't';
@@ -93,7 +94,32 @@ public class LEInterfaceNet{
 			dat[17] = 'r';
 			dat[18] = 't';
 			dat[19] = 'y';
-			dat[20] = 0;
+			dat[20] = 0;*/
+			
+			//Test unint16 length
+			byte[] dat = new byte[22];
+			dat[0] = (byte)140;
+			dat[1] = 0;
+			dat[2] = 22;
+			dat[3] = 't';
+			dat[4] = 'e';
+			dat[5] = 's';
+			dat[6] = 't';
+			dat[7] = '_';
+			dat[8] = 'i';
+			dat[9] = 'n';
+			dat[10] = 't';
+			dat[11] = 'e';
+			dat[12] = 'r';
+			dat[13] = 'f';
+			dat[14] = ' ';
+			dat[15] = 'a';
+			dat[16] = 'z';
+			dat[17] = 'e';
+			dat[18] = 'r';
+			dat[19] = 't';
+			dat[20] = 'y';
+			dat[21] = 0;
 				
 			send(dat);
 		
@@ -145,14 +171,16 @@ public class LEInterfaceNet{
 	public void send(byte[] data)
 	{
 		try {
-			System.out.println("Bytes sended : " + data[0]+ ":"  + data[1]+ ":"  + data[2] + " : " + new String(data, "ISO8859-1") + data[data.length-3]+ ":"  + data[data.length-2]+ ":"  + data[data.length-1]);
+			System.out.println("Bytes sended : " + data[0]+ ":"  + data[1]+ ":"  + data[2] + " : " + new String(data, "ISO8859-1") + " : "  + data[data.length-3] + ":"  + data[data.length-2]+ ":"  + data[data.length-1]);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//out.println(data);
-		out.print(data);
-		//out.write(data);
+		//out.print(data);
+		
+		out.write(new String(data), 0, data.length);
+		
 	    out.flush();
 	}
 	

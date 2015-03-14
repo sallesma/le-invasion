@@ -24,10 +24,23 @@ public class Reception implements Runnable {
 			if(nullnbr <= 3 && message == null)
 				nullnbr++;
 			
-			if(nullnbr == 3)
-				System.out.println("Reçu : more than 2 null in row");
-			else if(nullnbr <= 2)
-				System.out.println("Reçu : " + message);
+			if( message == null)
+			{
+				if(nullnbr == 3)
+					System.out.println("Reçu : more than 2 null in row");
+				else if(nullnbr <= 2)
+					System.out.println("Reçu : " + message);
+			}
+			else
+			{
+				nullnbr=0;
+				System.out.print("Reçu : " + message);
+				for(int i = 0; i<message.length()-1;i++)
+				{
+					System.out.print(' ' + message.charAt(i));
+				}
+				System.out.println("");
+			}
 
 			
 		    } catch (IOException e) {
