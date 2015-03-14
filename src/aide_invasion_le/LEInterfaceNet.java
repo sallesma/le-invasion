@@ -99,8 +99,8 @@ public class LEInterfaceNet{
 			//Test unint16 length
 			byte[] dat = new byte[22];
 			dat[0] = (byte)140;
-			dat[1] = 0;
-			dat[2] = 22;
+			dat[1] = 22;
+			dat[2] = 0;
 			dat[3] = 't';
 			dat[4] = 'e';
 			dat[5] = 's';
