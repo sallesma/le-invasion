@@ -51,22 +51,51 @@ public class LEInterfaceNet{
 		byte[] name;
 		try {
 			name = pseudo.getBytes("ISO8859-1");
-		byte[] pass = pwd.getBytes("ISO8859-1");
-		int size = name.length + 1 + pass.length + 1;
-		byte[] out = new byte[size + 2];
-
-		//java primitives are signed, we're receiving unsigned. bit shift!
-		out[0] = (byte)140;
-		out[1] = (byte)((size >> 8) & 0xFF); 
-		out[2] = (byte)((size) & 0xFF);
-
-		int offset = 3;
-		System.arraycopy(name, 0, out, offset, name.length);
-		offset += name.length + 1;
-		out[offset - 1] = " ".getBytes("ISO8859-1")[0];
-		System.arraycopy(pass, 0, out, offset, pass.length);
-		
-		send(out);
+			/*byte[] pass = pwd.getBytes("ISO8859-1");
+			int size = name.length + 1 + pass.length + 1;
+			byte[] out = new byte[size + 2];
+	
+			//java primitives are signed, we're receiving unsigned. bit shift!
+			out[0] = (byte)140;
+			out[1] = (byte)((size >> 8) & 0xFF); 
+			out[2] = (byte)((size) & 0xFF);
+	
+			int offset = 3;
+			System.arraycopy(name, 0, out, offset, name.length);
+			offset += name.length + 1;
+			out[offset - 1] = " ".getBytes("ISO8859-1")[0];
+			System.arraycopy(pass, 0, out, offset, pass.length);
+			
+			send(out);*/
+			
+			//[LOG_IN (140)][LENGTH]USERNAME[SPACE]PASSWORD[NULL]
+			//[LOG_IN (140)][LENGTH]USERNAME[SPACE]PASSWORD[NULL]
+			//byte[] outByteMessage = {(byte)140,(byte)21,(byte)'t', (byte)'e', (byte)'s', (byte)'t', (byte)'_', (byte)'i', (byte)'n', (byte)'t', (byte)'e', (byte)'r', (byte)'f', (byte)' ', (byte)'a', (byte)'z', (byte)'e', (byte)'r', (byte)'t', (byte)'y', 0};
+				
+			byte[] dat = new byte[21];
+			dat[0] = (byte)140;
+			dat[1] = 21;
+			dat[2] = 't';
+			dat[3] = 'e';
+			dat[4] = 's';
+			dat[5] = 't';
+			dat[6] = '_';
+			dat[7] = 'i';
+			dat[8] = 'n';
+			dat[9] = 't';
+			dat[10] = 'e';
+			dat[11] = 'r';
+			dat[12] = 'f';
+			dat[13] = ' ';
+			dat[14] = 'a';
+			dat[15] = 'z';
+			dat[16] = 'e';
+			dat[17] = 'r';
+			dat[18] = 't';
+			dat[19] = 'y';
+			dat[20] = 0;
+				
+			send(dat);
 		
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
@@ -104,6 +133,7 @@ public class LEInterfaceNet{
 			outByteMessage[2] = (byte)((size) & 0xFF);
 			outByteMessage[3] = 1;// the channel number
 			System.arraycopy(msg, 0, outByteMessage, 4, msg.length);
+
 			send(outByteMessage);
 			
 		} catch (UnsupportedEncodingException e) {
@@ -114,8 +144,15 @@ public class LEInterfaceNet{
 	
 	public void send(byte[] data)
 	{
-		System.out.println("Bytes sended : " + data);
-		out.println(data);
+		try {
+			System.out.println("Bytes sended : " + data[0]+ ":"  + data[1]+ ":"  + data[2] + " : " + new String(data, "ISO8859-1") + data[data.length-3]+ ":"  + data[data.length-2]+ ":"  + data[data.length-1]);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//out.println(data);
+		out.print(data);
+		//out.write(data);
 	    out.flush();
 	}
 	
