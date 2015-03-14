@@ -34,12 +34,12 @@ public class Reception implements Runnable {
 			else
 			{
 				nullnbr=0;
-				System.out.print("Reçu : " + message);
-				for(int i = 0; i<message.length()-1;i++)
+				System.out.print("Reçu : " + message + " (");
+				for(int i = 0; i<message.length();i++)
 				{
-					System.out.print(' ' + message.charAt(i));
+					System.out.print(";" + (int)message.charAt(i));
 				}
-				System.out.println("");
+				System.out.println(")");
 			}
 
 			
