@@ -10,16 +10,12 @@ import javax.swing.JPanel;
 
 public class LEInterfaceNetPanelTest  extends JPanel{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
 
 	LEInterfaceNet interfaceNet = new LEInterfaceNet();
 	
-	private TextField serveradr = new TextField("jeu.landes-eternelles.com",10);
-	private TextField port = new TextField("3001",10);
+	private TextField serveradr = new TextField("game.eternal-lands.com",10);
+	private TextField port = new TextField("2000",10);
 	private JButton connect = new JButton("Connect");
 	
 	private TextField pseudo = new TextField("test_interf",10);
@@ -28,6 +24,8 @@ public class LEInterfaceNetPanelTest  extends JPanel{
 	
 	private TextField message = new TextField("",30);
 	private JButton send = new JButton("Send");
+
+	private JButton ping = new JButton("Ping");
 	
 	public LEInterfaceNetPanelTest() {
 		// TODO Auto-generated constructor stub
@@ -64,6 +62,11 @@ public class LEInterfaceNetPanelTest  extends JPanel{
 		ligne3.add(send);
 		bloc.add(ligne3);
 		
+		ping.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+            	ping(); }});
+		bloc.add(ping);
+		
 		this.add(bloc);
 	}
 	
@@ -75,7 +78,11 @@ public class LEInterfaceNetPanelTest  extends JPanel{
 	public void loginFunc()
 	{
 		interfaceNet.login(pseudo.getText(), pwd.getText());
-		interfaceNet.startHeart_Beat();
+	}
+	
+	public void ping()
+	{
+		interfaceNet.ping();
 	}
 	
 	public void close()
