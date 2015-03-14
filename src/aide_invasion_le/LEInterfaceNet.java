@@ -16,6 +16,11 @@ public class LEInterfaceNet{
 	Socket socket;
 	BufferedReader in;
 	PrintWriter out;
+	
+	final private int LOG_IN_TYPE = 140;
+	final private int PIG_TYPE = 60;
+	final private int LOG_IN_OK = 250;
+	final private int LOG_IN_NOT_OK = 251;
 
 	public LEInterfaceNet() {
 		// TODO Auto-generated constructor stub
@@ -32,7 +37,7 @@ public class LEInterfaceNet{
 		    in = new BufferedReader (new InputStreamReader (socket.getInputStream()));
 		    out = new PrintWriter(socket.getOutputStream());
 		    
-		    Thread t3 = new Thread(new Reception(in));
+		    Thread t3 = new Thread(new Reception(in, this));
 			t3.start();
 		    
 		}catch (UnknownHostException e) {
@@ -56,7 +61,7 @@ public class LEInterfaceNet{
 			byte[] out = new byte[size + 2];
 	
 			//java primitives are signed, we're receiving unsigned. bit shift!
-			out[0] = (byte)140;
+			out[0] = (byte)LOG_IN_TYPE;
 			out[1] = (byte)((size >> 8) & 0xFF); 
 			out[2] = (byte)((size) & 0xFF);
 	
@@ -73,8 +78,8 @@ public class LEInterfaceNet{
 			//byte[] outByteMessage = {(byte)140,(byte)21,(byte)'t', (byte)'e', (byte)'s', (byte)'t', (byte)'_', (byte)'i', (byte)'n', (byte)'t', (byte)'e', (byte)'r', (byte)'f', (byte)' ', (byte)'a', (byte)'z', (byte)'e', (byte)'r', (byte)'t', (byte)'y', 0};
 				
 			//Test unint8 length
-			/*byte[] dat = new byte[21];
-			dat[0] = (byte)140;
+			/*char[] dat = new char[21];
+			dat[0] = (char)LOG_IN_TYPE;
 			dat[1] = 21;
 			dat[2] = 't';
 			dat[3] = 'e';
@@ -97,9 +102,9 @@ public class LEInterfaceNet{
 			dat[20] = 0;*/
 			
 			//Test unint16 length
-			byte[] dat = new byte[22];
-			dat[0] = (byte)140;
-			dat[1] = 22;
+			char[] dat = new char[22];
+			dat[0] = (char)LOG_IN_TYPE;
+			dat[1] = 20;
 			dat[2] = 0;
 			dat[3] = 't';
 			dat[4] = 'e';
@@ -137,7 +142,7 @@ public class LEInterfaceNet{
 			@Override
 			public void run() 
 			{
-				byte[] dat = new byte[3];
+				char[] dat = new char[3];
 				 dat[0] = 14;
 				 dat[1] = 1;
 				send(dat);
@@ -148,34 +153,33 @@ public class LEInterfaceNet{
 		timer.scheduleAtFixedRate(task, 0, 25000);
 	}
 	
+	
 	public void sendMessage(String message)
 	{
 		System.out.println("Message : " + message);
-		try {
-			byte[] msg = message.getBytes("ISO8859-1");
-			byte[] outByteMessage = new byte[msg.length + 4];
+
+			char[] msg = message.toCharArray();
+			char[] outByteMessage = new char[msg.length + 4];
 			int size = outByteMessage.length - 2;
-			outByteMessage[1] = (byte)((size >> 8) & 0xFF);
-			outByteMessage[2] = (byte)((size) & 0xFF);
+			outByteMessage[1] = (char)((size >> 8) & 0xFF);
+			outByteMessage[2] = (char)((size) & 0xFF);
 			outByteMessage[3] = 1;// the channel number
 			System.arraycopy(msg, 0, outByteMessage, 4, msg.length);
 
 			send(outByteMessage);
-			
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
-	public void send(byte[] data)
+	public void send(char[] data)
 	{
-		try {
-			System.out.println("Bytes sended : " + data[0]+ ":"  + data[1]+ ":"  + data[2] + " : " + new String(data, "ISO8859-1") + " : "  + data[data.length-3] + ":"  + data[data.length-2]+ ":"  + data[data.length-1]);
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		//System.out.println("Bytes sended : " + data[0]+ ":"  + data[1]+ ":"  + data[2] + " : " + new String(data) + " : "  + data[data.length-3] + ":"  + data[data.length-2]+ ":"  + data[data.length-1]);
+		System.out.print("Sended : " + new String(data) + " (");
+		for(int i = 0; i<data.length;i++)
+		{
+			System.out.print(";" + (int)data[i]);
 		}
+		System.out.println(")");
+		
+		
 		//out.println(data);
 		//out.print(data);
 		
@@ -195,6 +199,29 @@ public class LEInterfaceNet{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	public void reception(char[] data)
+	{
+		System.out.print("Reçu : " + new String(data) + " (");
+		for(int i = 0; i<data.length;i++)
+		{
+			System.out.print(";" + (int)data[i]);
+		}
+		System.out.println(")");
+		
+		
+		if (data[0]==PIG_TYPE)
+		{
+			System.out.println("Pinged");
+			send(data);
+		}else if (data[0]==LOG_IN_OK)
+		{
+			System.out.println("Login OK");
+		} else if (data[0]==LOG_IN_NOT_OK)
+		{
+			System.out.println("Login fail");
 		}
 	}
 

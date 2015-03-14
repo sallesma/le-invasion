@@ -6,12 +6,14 @@ import java.io.IOException;
 
 public class Reception implements Runnable {
 
+	private LEInterfaceNet leInterf;
 	private BufferedReader in;
 	private String message = null;
 	private int nullnbr = 0;
 	
-	public Reception(BufferedReader in){
+	public Reception(BufferedReader in, LEInterfaceNet leInterf){
 		
+		this.leInterf = leInterf;
 		this.in = in;
 	}
 	
@@ -34,12 +36,7 @@ public class Reception implements Runnable {
 			else
 			{
 				nullnbr=0;
-				System.out.print("Reçu : " + message + " (");
-				for(int i = 0; i<message.length();i++)
-				{
-					System.out.print(";" + (int)message.charAt(i));
-				}
-				System.out.println(")");
+				leInterf.reception(message.toCharArray());
 			}
 
 			
