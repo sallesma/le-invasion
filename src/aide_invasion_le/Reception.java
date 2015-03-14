@@ -22,6 +22,8 @@ public class Reception implements Runnable {
 				if (message != null)
 					leInterf.reception(message.toCharArray());
 			} catch (IOException e) {
+				if(e.getMessage().equals("Socket closed"))
+					break;
 				e.printStackTrace();
 			}
 		}

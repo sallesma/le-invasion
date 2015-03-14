@@ -26,6 +26,7 @@ public class LEInterfaceNetPanelTest  extends JPanel{
 	private JButton send = new JButton("Send");
 
 	private JButton ping = new JButton("Ping");
+	private JButton close = new JButton("Close");
 	
 	public LEInterfaceNetPanelTest() {
 		// TODO Auto-generated constructor stub
@@ -67,12 +68,18 @@ public class LEInterfaceNetPanelTest  extends JPanel{
             	ping(); }});
 		bloc.add(ping);
 		
+		close.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+            	close(); }});
+		bloc.add(close);
+		
 		this.add(bloc);
 	}
 	
 	public void connection()
 	{
 		interfaceNet.connection(serveradr.getText(), Integer.parseInt(port.getText()));
+		interfaceNet.startHeart_Beat();
 	}
 	
 	public void loginFunc()
