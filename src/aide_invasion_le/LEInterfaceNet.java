@@ -1,9 +1,8 @@
 package aide_invasion_le;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -13,7 +12,7 @@ import java.util.TimerTask;
 public class LEInterfaceNet{
 
 	private Socket socket;
-	private BufferedReader in;
+	private DataInputStream in;
 	private BufferedOutputStream out;
 	private Timer timer;
 
@@ -41,7 +40,7 @@ public class LEInterfaceNet{
 		    socket = new Socket(ServeurAdresse,port);	
 		    System.out.println("Demande de connexion");
 	
-		    in = new BufferedReader (new InputStreamReader (socket.getInputStream()));
+		    in = new DataInputStream (socket.getInputStream());
 		    out = new BufferedOutputStream(socket.getOutputStream());
 		    
 		    Thread t3 = new Thread(new Reception(in, this));
@@ -150,7 +149,7 @@ public class LEInterfaceNet{
 		{
 			System.out.print(";" + data[i]);
 		}
-		System.out.println(")");
+		System.out.println(")\n\n");
 		
 	    try {
 	    	out.write(data);
@@ -175,52 +174,49 @@ public class LEInterfaceNet{
 		}
 	}
 	
-	
-	public void reception(char[] data)
+	public void reception(byte type, byte[] data)
 	{
+		System.out.println("RECEIVED");
+		System.out.println("Type: " + type);
 		
-		receptionParsed(data);
-	}
-	
-	
-	public void receptionParsed(char[] data)
-	{
-		System.out.println("Reçu : " + new String(data) + " (");
+		if (type==PONG)
+			System.out.println("PONG");
+		else if (type==PING_REQUEST)
+		{
+			System.out.println("PING_REQUEST");
+			//send(data);
+		} else if (type == LOG_IN_OK)
+			System.out.println("LOGIN OK");
+		else if (type == LOG_IN_NOT_OK)
+			System.out.println("LOGIN fail");
+		else if (type == NEW_MINUTE)
+			System.out.println("NEW_MINUTE");
+		else if (type == GET_ACTIVE_SPELL_LIST)
+			System.out.println("GET_ACTIVE_SPELL_LIST");
+		else if (type == SYNC_CLOCK)
+			System.out.println("SYNC_CLOCK");
+		else if (type == YOU_ARE)
+			System.out.println("YOU_ARE");
+		else if (type == CHANGE_MAP)
+			System.out.println("CHANGE_MAP");
+		else if (type == HERE_YOUR_INVENTORY)
+			System.out.println("HERE_YOUR_INVENTORY");
+		else if (type == RAW_TEXT)
+			System.out.println("RAW_TEXT");
+		else if (type == HERE_YOUR_STATS)
+			System.out.println("HERE_YOUR_STATS");
+		
+		System.out.print("ByteData: ");
 		for(int i = 0; i<data.length;i++)
 		{
 			System.out.print(";" + (int)data[i]);
 		}
-		System.out.println(")");
-		
-		if (data[0]==PONG)
+		System.out.println();
+		System.out.print("Textdata: ");
+		for(int i = 0; i<data.length;i++)
 		{
-			System.out.println("PONG");
-		} else if (data[0]==PING_REQUEST)
-		{
-			System.out.println("PING_REQUEST");
-			//send(data);
-		} else if (data[0]==LOG_IN_OK) {
-			System.out.println("Login OK");
-		} else if (data[0]==LOG_IN_NOT_OK) {
-			System.out.println("Login fail");
-		} else if (data[0]==NEW_MINUTE) {
-			System.out.println("NEW_MINUTE");
-		} else if (data[0]==GET_ACTIVE_SPELL_LIST) {
-			System.out.println("GET_ACTIVE_SPELL_LIST");
-		} else if (data[0]==SYNC_CLOCK) {
-			System.out.println("SYNC_CLOCK");
-		} else if (data[0]==YOU_ARE) {
-			System.out.println("YOU_ARE");
-		} else if (data[0]==CHANGE_MAP) {
-			System.out.println("CHANGE_MAP");
-		} else if (data[0]==HERE_YOUR_INVENTORY) {
-			System.out.println("HERE_YOUR_INVENTORY");
-		} else if (data[0]==RAW_TEXT) {
-			System.out.println("RAW_TEXT");
-		} else if (data[0]==HERE_YOUR_STATS) {
-			System.out.println("HERE_YOUR_STATS");
+			System.out.print((char)data[i]);
 		}
-		
 		System.out.println("\n\n");
 	}
 
