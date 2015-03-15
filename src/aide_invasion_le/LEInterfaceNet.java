@@ -14,23 +14,23 @@ public class LEInterfaceNet{
 	private Socket socket;
 	private DataInputStream in;
 	private BufferedOutputStream out;
-	private Timer timer;
+	private Timer heartBeatTimer;
 
-	final static private int LOG_IN_TYPE = 140;
-	final static private int HEART_BEAT = 14;
-	final static private int PING = 13;
-	final static private int PONG = 11;
-	final static private int PING_REQUEST = 60;
-	final static private int LOG_IN_OK = 250;
-	final static private int LOG_IN_NOT_OK = 251;
-	final static private int NEW_MINUTE = 5;
-	final static private int GET_ACTIVE_SPELL_LIST = 45;
-	final static private int SYNC_CLOCK = 4;
-	final static private int YOU_ARE = 3;
-	final static private int CHANGE_MAP = 7;
-	final static private int HERE_YOUR_INVENTORY = 19;
-	final static private int RAW_TEXT = 0;
-	final static private int HERE_YOUR_STATS = 18;
+	final static private byte LOG_IN_TYPE = (byte) 140;
+	final static private byte HEART_BEAT = 14;
+	final static private byte PING = 13;
+	final static private byte PONG = 11;
+	final static private byte PING_REQUEST = 60;
+	final static private byte LOG_IN_OK = (byte) 250;
+	final static private byte LOG_IN_NOT_OK = (byte) 251;
+	final static private byte NEW_MINUTE = 5;
+	final static private byte GET_ACTIVE_SPELL_LIST = 45;
+	final static private byte SYNC_CLOCK = 4;
+	final static private byte YOU_ARE = 3;
+	final static private byte CHANGE_MAP = 7;
+	final static private byte HERE_YOUR_INVENTORY = 19;
+	final static private byte RAW_TEXT = 0;
+	final static private byte HERE_YOUR_STATS = 18;
 	
 	public void connection(String serverAdr, int port)
 	{
@@ -57,42 +57,26 @@ public class LEInterfaceNet{
 	
 	public void login(String pseudo, String pwd)
 	{
-		System.out.println("Login : " + pseudo + " " + pwd);
+		String stringData = pseudo + " " + pwd;
+		System.out.println("Login : " + stringData);
 		
-		int lengt = pseudo.length() + pwd.length() + 3;
-		int i=3, j=0;
-		
-		byte[] dat = new byte[255];
-		dat[0] = (byte)LOG_IN_TYPE;
-		dat[1] = (byte)(lengt);
-		dat[2] = 0;
-		
-		for (j=0; j<pseudo.length() ; j++)
+		byte[] data = new byte[255];
+		for (int i=0; i<stringData.length() && i<254 ; i++)
 		{
-			dat[i+j] = (byte)pseudo.charAt(j);
+			data[i] = (byte)stringData.charAt(i);
 		}
-		i=i+j+1;
-		dat[i] = ' ';
-		for (j=0; j<pwd.length() ; j++)
-		{
-			dat[i+j] = (byte)pwd.charAt(j);
-		}
-		i=i+j+1;
-		dat[i] = 0;
+		data[stringData.length()] = 0;
 			
-		send(dat);
+		send(LOG_IN_TYPE, data);
 	}
 	
 	public void ping() {
-		byte[] dat = new byte[7];
-		dat[0] = PING;
-		dat[1] = 4;
-		dat[2] = 0;
+		byte[] dat = new byte[4];
+		dat[0] = 1;
+		dat[1] = 1;
+		dat[2] = 1;
 		dat[3] = 1;
-		dat[4] = 1;
-		dat[5] = 1;
-		dat[6] = 1;
-		send(dat);
+		send(PING, dat);
 	}
 	
 	public void startHeart_Beat()
@@ -103,56 +87,62 @@ public class LEInterfaceNet{
 			@Override
 			public void run() 
 			{
-				byte[] dat = new byte[3];
-				 dat[0] = HEART_BEAT;
-				 dat[1] = 1;
-				 dat[2] = 0;
-				send(dat);
+				send(HEART_BEAT, null);
 			}	
 		};
 		
-		timer = new Timer();
-		timer.scheduleAtFixedRate(task, 0, 25000);
+		heartBeatTimer = new Timer();
+		heartBeatTimer.scheduleAtFixedRate(task, 0, 25000);
 	}
 	
 	public void stopHeart_Beat()
 	{
 		System.out.println("Stop Heart Beat");
-		timer.cancel();
+		heartBeatTimer.cancel();
 	}
 	
 	public void sendMessage(int channel, String message)
 	{
 		System.out.println("Message : " + channel + " : " + message);
 		
-		int lengt = message.length() + 3;
-		int j=0;
+		byte[] data = new byte[255];
+		data[0] = (byte)channel;
 		
-		byte[] dat = new byte[255];
-		dat[0] = (byte)RAW_TEXT;
-		dat[1] = (byte)(lengt);
-		dat[2] = 0;
-		dat[3] = (byte)channel;
-		
-		for (j=0; j<message.length() ; j++)
+		for (int i=0; i<message.length() && i < 254 ; i++)
 		{
-			dat[j+4] = (byte)message.charAt(j);
+			data[i+1] = (byte)message.charAt(i);
 		}
 			
-		send(dat);
+		send(RAW_TEXT, data);
 	}
 	
-	public void send(byte[] data)
+	public void send(byte type, byte[] data)
 	{
-		System.out.println("Sent : " + new String(data) + " (");
-		for(int i = 0; i<data.length;i++)
+		int dataLength = 0;
+		if (data != null)
+			dataLength = data.length;
+		byte[] message = new byte[dataLength+3];
+
+		message[0] = type;
+		message[1] = (byte) ((dataLength+1) % 256);
+		message[2] = (byte) ((dataLength+1) / 256);
+		
+		if(data != null) {
+			for (int i=0; i<data.length ; i++)
+			{
+				message[i+3] = data[i];
+			}
+		}
+		
+		System.out.println("Sent : " + new String(message) + " (");
+		for(int i = 0; i<message.length;i++)
 		{
-			System.out.print(";" + data[i]);
+			System.out.print(";" + message[i]);
 		}
 		System.out.println(")\n\n");
 		
 	    try {
-	    	out.write(data);
+	    	out.write(message);
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
