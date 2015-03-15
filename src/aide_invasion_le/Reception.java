@@ -1,6 +1,7 @@
 package aide_invasion_le;
 
 import java.io.DataInputStream;
+import java.io.EOFException;
 
 
 public class Reception implements Runnable {
@@ -18,7 +19,13 @@ public class Reception implements Runnable {
 		while (true) {
 			try {
 				Byte type = 0;
-				while ((type = in.readByte()) == null);
+				while (true) {
+					try {
+						type = in.readByte();
+						if (type != null)
+							break;
+					} catch (EOFException e) {}
+				}
 				int length = in.readUnsignedByte() + in.readUnsignedByte() * 256;
 				int dataLength = length - 1;
 				byte[] data = new byte[dataLength];
