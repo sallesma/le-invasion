@@ -134,7 +134,7 @@ public class TabMap extends JPanel implements MouseListener {
 	    
 	    JPanel bottomRightPanel = new JPanel();
 	    ImageIcon mapIcon = new ImageIcon( mapFile.toString() );
-	    Image scaledMapImage = Resize_image.scaleImage(mapIcon.getImage(), DISPLAYED_MAP_SIZE);//size in pixels
+	    Image scaledMapImage = ResizeImage.scaleImage(mapIcon.getImage(), DISPLAYED_MAP_SIZE);//size in pixels
 	    Icon scaledMapIcon = new ImageIcon(scaledMapImage);
 	    this.image = new JLabel(scaledMapIcon);
 	    this.image.addMouseListener(this);

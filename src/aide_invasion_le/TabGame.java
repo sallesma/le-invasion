@@ -72,9 +72,9 @@ public class TabGame extends JPanel implements MouseListener {
 	    layeredPane.add(croix);
 	    
 	    ImageIcon mapIcon = new ImageIcon( mapFile.toString() );
-	    Image scaledMapImage = Resize_image.scaleImage(mapIcon.getImage(), 400);//size in pixels
+	    Image scaledMapImage = ResizeImage.scaleImage(mapIcon.getImage(), 400);//size in pixels
 	    sizeBigMap = ZONE_CARTE*mapSize/CASE_AFFICHEES;
-	    Image scaledMapImage2 = Resize_image.scaleImage(scaledMapImage, sizeBigMap);//size in pixels
+	    Image scaledMapImage2 = ResizeImage.scaleImage(scaledMapImage, sizeBigMap);//size in pixels
 	    Icon scaledMapIcon = new ImageIcon(scaledMapImage2);
 	    this.image = new JLabel(scaledMapIcon);
 	    this.image.addMouseListener(this);
