@@ -115,17 +115,23 @@ public class TabMain extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(windowedButton.isSelected() && isValidWindowedConfig()) {
+					if (leInterface != null)
+						TabMain.this.leInterface.close();
 					TabMain.this.leInterface = new LEInterfaceWindowed(
 							zonePseudo.getText(),
 							zoneServer.getSelectedItem().toString());
 					updateConfigFile();
+					TabMain.this.parentWindow.updateLEInterface(leInterface);
 				} else if(netButton.isSelected() && isValidNetConfig()) {
+					if (leInterface != null)
+						TabMain.this.leInterface.close();
 					TabMain.this.leInterface = new LEInterfaceNet(
 							pseudoNet.getText(),
 							password.getText(),
 							serverAddress.getText(),
 							Integer.parseInt(serverPort.getText()));
 					updateConfigFile();
+					TabMain.this.parentWindow.updateLEInterface(leInterface);
 				} else {
 					JOptionPane.showMessageDialog(TabMain.this, "The config is not valid", "Error", JOptionPane.ERROR_MESSAGE);
 				}

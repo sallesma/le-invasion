@@ -53,11 +53,9 @@ public class LEInterfaceNet implements ILEInterface {
 		    in = new DataInputStream (socket.getInputStream());
 		    out = new BufferedOutputStream(socket.getOutputStream());
 		    
-		    Thread t3 = new Thread(new Reception(in, this));
-			t3.start();
-		    
+		    Thread thread = new Thread(new Reception(in, this));
+		    thread.start();
 		}catch (UnknownHostException e) {
-			
 			e.printStackTrace();
 		}catch (IOException e) {
 			
@@ -162,6 +160,8 @@ public class LEInterfaceNet implements ILEInterface {
 		System.out.println("Close Socket");
         try {
         	if (socket != null && !socket.isClosed()) {
+        		in.close();
+        		out.close();
         		socket.close();
         		this.stopHeart_Beat();
         	}
@@ -224,22 +224,20 @@ public class LEInterfaceNet implements ILEInterface {
 	}
 
 	private void parse_check_inva(byte[] data) {
-		// TODO Auto-generated method stub
 		String s = new String(data);
 		
 		Pattern pattern = Pattern.compile("encore un (.)+ (automatique|périssable|ponctuel|permanent) en : ([0-9])+, ([0-9])+, ([0-9])+.$");
 		Matcher matcher = pattern.matcher(s);
 		if (matcher.find()) {
-		   System.out.println(matcher.group(1)+ Integer.parseInt(matcher.group(3))+  Integer.parseInt(matcher.group(4))+  Integer.parseInt(matcher.group(5)) );
+			System.out.println(matcher.group(1)+ Integer.parseInt(matcher.group(3))+  Integer.parseInt(matcher.group(4))+  Integer.parseInt(matcher.group(5)) );
 		}
 		else 
 		{
-		
 			pattern = Pattern.compile("encore un ([0-9])+ monstres d'invasion.$");
 			matcher = pattern.matcher(s);
 			if (matcher.find()) {
-			   System.out.println(Integer.parseInt(matcher.group(1)));
-			   check_order = NO_CHECK;
+				System.out.println(Integer.parseInt(matcher.group(1)));
+				check_order = NO_CHECK;
 			}
 		}
 	}

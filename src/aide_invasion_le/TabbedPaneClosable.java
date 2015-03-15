@@ -5,7 +5,9 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.AbstractAction;
@@ -21,6 +23,7 @@ import javax.swing.KeyStroke;
 public class TabbedPaneClosable extends JTabbedPane {
   private static final long serialVersionUID = 1L;
   private TabCloseUI closeUI = new TabCloseUI(this);
+  private List<TabMap> tabMaps = new ArrayList<TabMap>();
   public void paint(Graphics g) {
     super.paint(g);
     closeUI.paint(g);
@@ -32,6 +35,8 @@ public class TabbedPaneClosable extends JTabbedPane {
   @Override
   public void addTab(String title, Component component) {
     super.addTab(title + "  ", component);
+    if (component.getClass() == TabMap.class)
+    	tabMaps.add((TabMap) component);
   }
   
   public void selectLast() {
@@ -100,4 +105,8 @@ public class TabbedPaneClosable extends JTabbedPane {
     inputMap.put(controlW, "closeTab");
     tabbedPane.getActionMap().put("closeTab", closeTabAction);
   }
+
+public List<TabMap> getTabMaps() {
+	return tabMaps;
+}
 }

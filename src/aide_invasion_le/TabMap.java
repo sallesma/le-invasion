@@ -56,7 +56,7 @@ public class TabMap extends JPanel implements MouseListener {
 
 	private String croixPath = "images\\croixRed.png";
 	
-	public TabMap(final ILEInterface leInterface, Path mapFile, int mapSize, int mapId)
+	public TabMap(ILEInterface leInterface, Path mapFile, int mapSize, int mapId)
 	{
 		this.leInterface = leInterface;
 		this.mapId = mapId;
@@ -110,22 +110,22 @@ public class TabMap extends JPanel implements MouseListener {
 		
 		clearPonct.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-        		leInterface.clearInvasion(LEInterfaceWindowed.INVASION_TYPE_PONCT, TabMap.this.mapId);
+        		TabMap.this.leInterface.clearInvasion(LEInterfaceWindowed.INVASION_TYPE_PONCT, TabMap.this.mapId);
             }
 		});  
 		clearPerm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-        		leInterface.clearInvasion(LEInterfaceWindowed.INVASION_TYPE_PERM, TabMap.this.mapId);
+            	TabMap.this.leInterface.clearInvasion(LEInterfaceWindowed.INVASION_TYPE_PERM, TabMap.this.mapId);
         	}
         });  
 		clearPeri.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	leInterface.clearInvasion(LEInterfaceWindowed.INVASION_TYPE_PERI, TabMap.this.mapId);
+            	TabMap.this.leInterface.clearInvasion(LEInterfaceWindowed.INVASION_TYPE_PERI, TabMap.this.mapId);
         	}
         });  
 		clearAuto.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	leInterface.clearInvasion(LEInterfaceWindowed.INVASION_TYPE_AUTO, TabMap.this.mapId);
+            	TabMap.this.leInterface.clearInvasion(LEInterfaceWindowed.INVASION_TYPE_AUTO, TabMap.this.mapId);
             }
 		});  
 	    
@@ -154,6 +154,10 @@ public class TabMap extends JPanel implements MouseListener {
 	    bottomPanel.add(bottomRightPanel);
 	    
 	    this.add(bottomPanel);
+	}
+	
+	public void setLEIinterface(ILEInterface leInterface) {
+		this.leInterface = leInterface;
 	}
 	
 	public void addPoint(int x,int y, int color)

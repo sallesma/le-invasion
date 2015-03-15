@@ -90,6 +90,7 @@ public class TabTestLEInterfaceNet extends JPanel {
 	}
 
 	public void close() {
-		interfaceNet.close();
+		if (interfaceNet != null)
+			interfaceNet.close();
 	}
 }

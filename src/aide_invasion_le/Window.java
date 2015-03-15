@@ -10,7 +10,7 @@ public class Window  extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private LEInterfaceWindowed leInterface;
+	private ILEInterface leInterface;
 	private TabbedPaneClosable tabbedPane;
 	private TabTestLEInterfaceNet testInt;
 	private TabGame game;
@@ -24,8 +24,8 @@ public class Window  extends JFrame {
 	    
 	    addWindowListener(new WindowAdapter() {
 	        public void windowClosing(WindowEvent e) {
+	        	leInterface.close();
 	        	testInt.close();
-	        	System.out.println("Close");
 	            System.exit(0);
 	          }
 	        });
@@ -53,5 +53,12 @@ public class Window  extends JFrame {
 		TabMap mapTab = new TabMap(leInterface, mapPath, mapSize, mapId);
 		tabbedPane.addTab(mapPath.getFileName().toString(), mapTab);
 		tabbedPane.selectLast();
+	}
+	
+	public void updateLEInterface(ILEInterface leInterface) {
+		this.leInterface = leInterface;
+		for (TabMap tabMap : this.tabbedPane.getTabMaps()) {
+			tabMap.setLEIinterface(leInterface);
+		}
 	}
 }
