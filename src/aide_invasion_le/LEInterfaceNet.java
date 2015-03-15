@@ -105,10 +105,10 @@ public class LEInterfaceNet{
 	{
 		System.out.println("Message : " + channel + " : " + message);
 		
-		byte[] data = new byte[255];
+		byte[] data = new byte[Math.min(message.length()+1, 255)];
 		data[0] = (byte)channel;
 		
-		for (int i=0; i<message.length() && i < 254 ; i++)
+		for (int i=0; i<data.length-1 ; i++)
 		{
 			data[i+1] = (byte)message.charAt(i);
 		}
@@ -174,7 +174,7 @@ public class LEInterfaceNet{
 		else if (type==PING_REQUEST)
 		{
 			System.out.println("PING_REQUEST");
-			//send(data);
+			send(PING_REQUEST, data);
 		} else if (type == LOG_IN_OK)
 			System.out.println("LOGIN OK");
 		else if (type == LOG_IN_NOT_OK)
