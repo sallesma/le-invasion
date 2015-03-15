@@ -47,8 +47,8 @@ public class LEInterfaceNet implements ILEInterface {
 		try {
 			InetAddress ServeurAdresse= InetAddress.getByName(serverAdr);
 	        System.out.println("L'adresse du serveur est : "+ServeurAdresse+ " ; Port " + port);
-		    socket = new Socket(ServeurAdresse, port);	
-		    System.out.println("Demande de connexion");
+	        System.out.println("Demande de connexion");
+		    socket = new Socket(ServeurAdresse, port);
 	
 		    in = new DataInputStream (socket.getInputStream());
 		    out = new BufferedOutputStream(socket.getOutputStream());
@@ -57,6 +57,8 @@ public class LEInterfaceNet implements ILEInterface {
 		    thread.start();
 		    
 			this.startHeart_Beat();
+			
+			this.login(pseudo, password);
 		}catch (UnknownHostException e) {
 			e.printStackTrace();
 		}catch (IOException e) {
@@ -123,7 +125,7 @@ public class LEInterfaceNet implements ILEInterface {
 		res_check_order = new ArrayList<String[]>();
 	}
 	
-	public void login(String pseudo, String pwd)
+	private void login(String pseudo, String pwd)
 	{
 		String stringData = pseudo + " " + pwd;
 		System.out.println("Login : " + stringData);
