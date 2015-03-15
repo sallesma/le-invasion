@@ -14,8 +14,8 @@ public class LEInterfaceNetPanelTest  extends JPanel{
 
 	LEInterfaceNet interfaceNet = new LEInterfaceNet();
 	
-	private TextField serveradr = new TextField("game.eternal-lands.com",10);
-	private TextField port = new TextField("2000",10);
+	private TextField serveradr = new TextField("jeu.landes-eternelles.com",10);
+	private TextField port = new TextField("3001",10);
 	private JButton connect = new JButton("Connect");
 	
 	private TextField pseudo = new TextField("test_interf",10);
@@ -29,8 +29,6 @@ public class LEInterfaceNetPanelTest  extends JPanel{
 	private JButton close = new JButton("Close");
 	
 	public LEInterfaceNetPanelTest() {
-		// TODO Auto-generated constructor stub
-		
 		JPanel bloc = new JPanel();
 		bloc.setLayout(new GridLayout(8, 1));
 		

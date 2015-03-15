@@ -1,10 +1,9 @@
 package aide_invasion_le;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -15,9 +14,10 @@ public class LEInterfaceNet{
 
 	private Socket socket;
 	private BufferedReader in;
-	private PrintWriter out;
-	
+	private BufferedOutputStream out;
+
 	final static private int LOG_IN_TYPE = 140;
+	final static private int HEART_BEAT = 14;
 	final static private int PING = 13;
 	final static private int PONG = 11;
 	final static private int PING_REQUEST = 60;
@@ -33,7 +33,7 @@ public class LEInterfaceNet{
 		    System.out.println("Demande de connexion");
 	
 		    in = new BufferedReader (new InputStreamReader (socket.getInputStream()));
-		    out = new PrintWriter(socket.getOutputStream());
+		    out = new BufferedOutputStream(socket.getOutputStream());
 		    
 		    Thread t3 = new Thread(new Reception(in, this));
 			t3.start();
@@ -51,8 +51,8 @@ public class LEInterfaceNet{
 	{
 		System.out.println("Login : " + pseudo + " " + pwd);
 		
-		char[] dat = new char[255];
-		dat[0] = (char)LOG_IN_TYPE;
+		byte[] dat = new byte[255];
+		dat[0] = (byte)LOG_IN_TYPE;
 		dat[1] = 20;
 		dat[2] = 0;
 		dat[3] = 't';
@@ -79,7 +79,7 @@ public class LEInterfaceNet{
 	}
 	
 	public void ping() {
-		char[] dat = new char[7];
+		byte[] dat = new byte[7];
 		dat[0] = PING;
 		dat[1] = 4;
 		dat[2] = 0;
@@ -98,9 +98,10 @@ public class LEInterfaceNet{
 			@Override
 			public void run() 
 			{
-				char[] dat = new char[3];
-				 dat[0] = 14;
+				byte[] dat = new byte[3];
+				 dat[0] = HEART_BEAT;
 				 dat[1] = 1;
+				 dat[2] = 0;
 				send(dat);
 			}	
 		};
@@ -108,7 +109,6 @@ public class LEInterfaceNet{
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(task, 0, 25000);
 	}
-	
 	
 	public void sendMessage(String message)
 	{
@@ -122,20 +122,24 @@ public class LEInterfaceNet{
 			outByteMessage[3] = 1;// the channel number
 			System.arraycopy(msg, 0, outByteMessage, 4, msg.length);
 
-			send(outByteMessage);
+			//send(outByteMessage);
 	}
 	
-	public void send(char[] data)
+	public void send(byte[] data)
 	{
 		System.out.println("Sent : " + new String(data) + " (");
 		for(int i = 0; i<data.length;i++)
 		{
-			System.out.print(";" + (int)data[i]);
+			System.out.print(";" + data[i]);
 		}
 		System.out.println(")");
 		
-		out.write(new String(data), 0, data.length);
-	    out.flush();
+	    try {
+	    	out.write(data);
+			out.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void close()
@@ -166,7 +170,7 @@ public class LEInterfaceNet{
 		} else if (data[0]==PING_REQUEST)
 		{
 			System.out.println("PING_REQUEST");
-			send(data);
+			//send(data);
 		} else if (data[0]==LOG_IN_OK) {
 			System.out.println("Login OK");
 		} else if (data[0]==LOG_IN_NOT_OK) {
