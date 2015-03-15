@@ -1,15 +1,15 @@
 package aide_invasion_le;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.DataInputStream;
+import java.io.EOFException;
 
 
 public class Reception implements Runnable {
 
 	private LEInterfaceNet leInterf;
-	private BufferedReader in;
+	private DataInputStream in;
 	
-	public Reception(BufferedReader in, LEInterfaceNet leInterf){
+	public Reception(DataInputStream in, LEInterfaceNet leInterf){
 		
 		this.leInterf = leInterf;
 		this.in = in;
@@ -18,13 +18,25 @@ public class Reception implements Runnable {
 	public void run() {
 		while (true) {
 			try {
-				String message = in.readLine();
-				if (message != null)
-					leInterf.reception(message.toCharArray());
-			} catch (IOException e) {
-				if(e.getMessage().equals("Socket closed"))
-					break;
+				Byte type = 0;
+				while (true) {
+					try {
+						type = in.readByte();
+						if (type != null)
+							break;
+					} catch (EOFException e) {}
+				}
+				int length = in.readUnsignedByte() + in.readUnsignedByte() * 256;
+				int dataLength = length - 1;
+				byte[] data = new byte[dataLength];
+				for(int i = 0 ; i < dataLength ; i++){
+					data[i] = in.readByte();
+				}
+				leInterf.reception(type, data);
+			} catch (Exception e) {
 				e.printStackTrace();
+				if("Socket closed".equals(e.getMessage()))
+					break;
 			}
 		}
 	}

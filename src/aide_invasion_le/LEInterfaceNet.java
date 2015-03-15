@@ -1,9 +1,8 @@
 package aide_invasion_le;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -13,25 +12,25 @@ import java.util.TimerTask;
 public class LEInterfaceNet{
 
 	private Socket socket;
-	private BufferedReader in;
+	private DataInputStream in;
 	private BufferedOutputStream out;
-	private Timer timer;
+	private Timer heartBeatTimer;
 
-	final static private int LOG_IN_TYPE = 140;
-	final static private int HEART_BEAT = 14;
-	final static private int PING = 13;
-	final static private int PONG = 11;
-	final static private int PING_REQUEST = 60;
-	final static private int LOG_IN_OK = 250;
-	final static private int LOG_IN_NOT_OK = 251;
-	final static private int NEW_MINUTE = 5;
-	final static private int GET_ACTIVE_SPELL_LIST = 45;
-	final static private int SYNC_CLOCK = 4;
-	final static private int YOU_ARE = 3;
-	final static private int CHANGE_MAP = 7;
-	final static private int HERE_YOUR_INVENTORY = 19;
-	final static private int RAW_TEXT = 0;
-	final static private int HERE_YOUR_STATS = 18;
+	final static private byte LOG_IN_TYPE = (byte) 140;
+	final static private byte HEART_BEAT = 14;
+	final static private byte PING = 13;
+	final static private byte PONG = 11;
+	final static private byte PING_REQUEST = 60;
+	final static private byte LOG_IN_OK = (byte) 250;
+	final static private byte LOG_IN_NOT_OK = (byte) 251;
+	final static private byte NEW_MINUTE = 5;
+	final static private byte GET_ACTIVE_SPELL_LIST = 45;
+	final static private byte SYNC_CLOCK = 4;
+	final static private byte YOU_ARE = 3;
+	final static private byte CHANGE_MAP = 7;
+	final static private byte HERE_YOUR_INVENTORY = 19;
+	final static private byte RAW_TEXT = 0;
+	final static private byte HERE_YOUR_STATS = 18;
 	
 	public void connection(String serverAdr, int port)
 	{
@@ -41,7 +40,7 @@ public class LEInterfaceNet{
 		    socket = new Socket(ServeurAdresse,port);	
 		    System.out.println("Demande de connexion");
 	
-		    in = new BufferedReader (new InputStreamReader (socket.getInputStream()));
+		    in = new DataInputStream (socket.getInputStream());
 		    out = new BufferedOutputStream(socket.getOutputStream());
 		    
 		    Thread t3 = new Thread(new Reception(in, this));
@@ -58,42 +57,26 @@ public class LEInterfaceNet{
 	
 	public void login(String pseudo, String pwd)
 	{
-		System.out.println("Login : " + pseudo + " " + pwd);
+		String stringData = pseudo + " " + pwd;
+		System.out.println("Login : " + stringData);
 		
-		int lengt = pseudo.length() + pwd.length() + 3;
-		int i=3, j=0;
-		
-		byte[] dat = new byte[255];
-		dat[0] = (byte)LOG_IN_TYPE;
-		dat[1] = (byte)(lengt);
-		dat[2] = 0;
-		
-		for (j=0; j<pseudo.length() ; j++)
+		byte[] data = new byte[255];
+		for (int i=0; i<stringData.length() && i<254 ; i++)
 		{
-			dat[i+j] = (byte)pseudo.charAt(j);
+			data[i] = (byte)stringData.charAt(i);
 		}
-		i=i+j+1;
-		dat[i] = ' ';
-		for (j=0; j<pwd.length() ; j++)
-		{
-			dat[i+j] = (byte)pwd.charAt(j);
-		}
-		i=i+j+1;
-		dat[i] = 0;
+		data[stringData.length()] = 0;
 			
-		send(dat);
+		send(LOG_IN_TYPE, data);
 	}
 	
 	public void ping() {
-		byte[] dat = new byte[7];
-		dat[0] = PING;
-		dat[1] = 4;
-		dat[2] = 0;
+		byte[] dat = new byte[4];
+		dat[0] = 1;
+		dat[1] = 1;
+		dat[2] = 1;
 		dat[3] = 1;
-		dat[4] = 1;
-		dat[5] = 1;
-		dat[6] = 1;
-		send(dat);
+		send(PING, dat);
 	}
 	
 	public void startHeart_Beat()
@@ -104,56 +87,62 @@ public class LEInterfaceNet{
 			@Override
 			public void run() 
 			{
-				byte[] dat = new byte[3];
-				 dat[0] = HEART_BEAT;
-				 dat[1] = 1;
-				 dat[2] = 0;
-				send(dat);
+				send(HEART_BEAT, null);
 			}	
 		};
 		
-		timer = new Timer();
-		timer.scheduleAtFixedRate(task, 0, 25000);
+		heartBeatTimer = new Timer();
+		heartBeatTimer.scheduleAtFixedRate(task, 0, 25000);
 	}
 	
 	public void stopHeart_Beat()
 	{
 		System.out.println("Stop Heart Beat");
-		timer.cancel();
+		heartBeatTimer.cancel();
 	}
 	
 	public void sendMessage(int channel, String message)
 	{
 		System.out.println("Message : " + channel + " : " + message);
 		
-		int lengt = message.length() + 3;
-		int j=0;
+		byte[] data = new byte[255];
+		data[0] = (byte)channel;
 		
-		byte[] dat = new byte[255];
-		dat[0] = (byte)RAW_TEXT;
-		dat[1] = (byte)(lengt);
-		dat[2] = 0;
-		dat[3] = (byte)channel;
-		
-		for (j=0; j<message.length() ; j++)
+		for (int i=0; i<message.length() && i < 254 ; i++)
 		{
-			dat[j+4] = (byte)message.charAt(j);
+			data[i+1] = (byte)message.charAt(i);
 		}
 			
-		send(dat);
+		send(RAW_TEXT, data);
 	}
 	
-	public void send(byte[] data)
+	public void send(byte type, byte[] data)
 	{
-		System.out.println("Sent : " + new String(data) + " (");
-		for(int i = 0; i<data.length;i++)
-		{
-			System.out.print(";" + data[i]);
+		int dataLength = 0;
+		if (data != null)
+			dataLength = data.length;
+		byte[] message = new byte[dataLength+3];
+
+		message[0] = type;
+		message[1] = (byte) ((dataLength+1) % 256);
+		message[2] = (byte) ((dataLength+1) / 256);
+		
+		if(data != null) {
+			for (int i=0; i<data.length ; i++)
+			{
+				message[i+3] = data[i];
+			}
 		}
-		System.out.println(")");
+		
+		System.out.println("Sent : " + new String(message) + " (");
+		for(int i = 0; i<message.length;i++)
+		{
+			System.out.print(";" + message[i]);
+		}
+		System.out.println(")\n\n");
 		
 	    try {
-	    	out.write(data);
+	    	out.write(message);
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -175,52 +164,49 @@ public class LEInterfaceNet{
 		}
 	}
 	
-	
-	public void reception(char[] data)
+	public void reception(byte type, byte[] data)
 	{
+		System.out.println("RECEIVED");
+		System.out.println("Type: " + type);
 		
-		receptionParsed(data);
-	}
-	
-	
-	public void receptionParsed(char[] data)
-	{
-		System.out.println("Reçu : " + new String(data) + " (");
+		if (type==PONG)
+			System.out.println("PONG");
+		else if (type==PING_REQUEST)
+		{
+			System.out.println("PING_REQUEST");
+			//send(data);
+		} else if (type == LOG_IN_OK)
+			System.out.println("LOGIN OK");
+		else if (type == LOG_IN_NOT_OK)
+			System.out.println("LOGIN fail");
+		else if (type == NEW_MINUTE)
+			System.out.println("NEW_MINUTE");
+		else if (type == GET_ACTIVE_SPELL_LIST)
+			System.out.println("GET_ACTIVE_SPELL_LIST");
+		else if (type == SYNC_CLOCK)
+			System.out.println("SYNC_CLOCK");
+		else if (type == YOU_ARE)
+			System.out.println("YOU_ARE");
+		else if (type == CHANGE_MAP)
+			System.out.println("CHANGE_MAP");
+		else if (type == HERE_YOUR_INVENTORY)
+			System.out.println("HERE_YOUR_INVENTORY");
+		else if (type == RAW_TEXT)
+			System.out.println("RAW_TEXT");
+		else if (type == HERE_YOUR_STATS)
+			System.out.println("HERE_YOUR_STATS");
+		
+		System.out.print("ByteData: ");
 		for(int i = 0; i<data.length;i++)
 		{
 			System.out.print(";" + (int)data[i]);
 		}
-		System.out.println(")");
-		
-		if (data[0]==PONG)
+		System.out.println();
+		System.out.print("Textdata: ");
+		for(int i = 0; i<data.length;i++)
 		{
-			System.out.println("PONG");
-		} else if (data[0]==PING_REQUEST)
-		{
-			System.out.println("PING_REQUEST");
-			//send(data);
-		} else if (data[0]==LOG_IN_OK) {
-			System.out.println("Login OK");
-		} else if (data[0]==LOG_IN_NOT_OK) {
-			System.out.println("Login fail");
-		} else if (data[0]==NEW_MINUTE) {
-			System.out.println("NEW_MINUTE");
-		} else if (data[0]==GET_ACTIVE_SPELL_LIST) {
-			System.out.println("GET_ACTIVE_SPELL_LIST");
-		} else if (data[0]==SYNC_CLOCK) {
-			System.out.println("SYNC_CLOCK");
-		} else if (data[0]==YOU_ARE) {
-			System.out.println("YOU_ARE");
-		} else if (data[0]==CHANGE_MAP) {
-			System.out.println("CHANGE_MAP");
-		} else if (data[0]==HERE_YOUR_INVENTORY) {
-			System.out.println("HERE_YOUR_INVENTORY");
-		} else if (data[0]==RAW_TEXT) {
-			System.out.println("RAW_TEXT");
-		} else if (data[0]==HERE_YOUR_STATS) {
-			System.out.println("HERE_YOUR_STATS");
+			System.out.print((char)data[i]);
 		}
-		
 		System.out.println("\n\n");
 	}
 
