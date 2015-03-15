@@ -12,7 +12,9 @@ public interface ILEInterface {
 
 	public void clearInvasion(String invasionType, int mapId);
 	
-	public ArrayList<String[]> checkInvasion();
+	public void sendCheckInvasion();
+	
+	public ArrayList<String[]> retrieveCheckInvasion();
 
 	public void commandoAjouter(int xPos, int yPos, int mapId,
 			int commandoType, int commandoGroup);
@@ -23,8 +25,4 @@ public interface ILEInterface {
 	public void commandoFree(int mapId, int commandoType, int commandoGroup);
 
 	public void commandoStop(int mapId, int commandoType, int commandoGroup);
-	
-	public void sendMessage(String str, int order);
-	
-	public void clearResCheckOrder();
 }

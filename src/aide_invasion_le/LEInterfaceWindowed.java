@@ -41,7 +41,11 @@ public class LEInterfaceWindowed implements ILEInterface {
 		this.sendCommandToLE(command, windowName);
 	}
 
-	public ArrayList<String[]> checkInvasion() {
+	public void sendCheckInvasion() {
+		System.out.println("LEInterfaceNet sendCheckInvasion does nothing");
+	}
+
+	public ArrayList<String[]> retrieveCheckInvasion() {
 		return new ArrayList<String[]>();
 	}
 	
@@ -71,10 +75,6 @@ public class LEInterfaceWindowed implements ILEInterface {
 		String command = new String("&commando_stop " + mapId + " " + commandoType + " " + commandoGroup);
 		String windowName ="(" + pseudo + " sur " + server + ") Landes Eternelles";
 		this.sendCommandToLE(command, windowName);
-	}
-
-	public void sendMessage(String str, int order) {
-		System.out.println("LEInterfaceNet sendMsg does nothing");
 	}
 
 	public void clearResCheckOrder() {

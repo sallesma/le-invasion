@@ -33,9 +33,7 @@ public class LEInterfaceNet implements ILEInterface {
 	final static private byte RAW_TEXT = 0;
 	final static private byte HERE_YOUR_STATS = 18;
 	
-	final static private int CHECK_INVASION = 1;
-	final static private int NO_CHECK = 0;
-	private int check_order = NO_CHECK;
+	private boolean isInvasionChecking = false;
 	private ArrayList<String[]> res_check_order = new ArrayList<String[]>();
 	
 	public LEInterfaceNet(String pseudo, String password, String serverAdress, int serverPort) {
@@ -92,8 +90,13 @@ public class LEInterfaceNet implements ILEInterface {
 	public void clearInvasion(String invasionType, int mapId) {
 		System.out.println("LEInterfaceNet clearInvasion does nothing");
 	}
+
+	public void sendCheckInvasion() {
+		this.isInvasionChecking = true;
+		this.sendRawText("#check_invasion");
+	}
 	
-	public ArrayList<String[]> checkInvasion() {
+	public ArrayList<String[]> retrieveCheckInvasion() {
 		return res_check_order;
 	}
 
@@ -113,16 +116,6 @@ public class LEInterfaceNet implements ILEInterface {
 
 	public void commandoStop(int mapId, int commandoType, int commandoGroup) {
 		System.out.println("LEInterfaceNet commandoStop does nothing");
-	}
-	
-	public void sendMessage(String str, int order)
-	{
-		check_order=order;
-		sendRawText(str);
-	}
-	
-	public void clearResCheckOrder() {
-		res_check_order = new ArrayList<String[]>();
 	}
 	
 	private void login(String pseudo, String pwd)
@@ -236,8 +229,7 @@ public class LEInterfaceNet implements ILEInterface {
 		else if (type == RAW_TEXT)
 		{
 			System.out.println("RAW_TEXT");
-			
-			if (check_order==CHECK_INVASION)
+			if (isInvasionChecking)
 				parse_check_inva(data);
 		}
 		else if (type == HERE_YOUR_STATS)
@@ -258,6 +250,7 @@ public class LEInterfaceNet implements ILEInterface {
 	}
 
 	private void parse_check_inva(byte[] data) {
+		res_check_order = new ArrayList<String[]>();
 		String s = new String(data);
 		
 		Pattern pattern = Pattern.compile("encore un (.)+ (automatique|périssable|ponctuel|permanent) en : ([0-9])+, ([0-9])+, ([0-9])+.$");
@@ -273,7 +266,7 @@ public class LEInterfaceNet implements ILEInterface {
 			matcher = pattern.matcher(s);
 			if (matcher.find()) {
 				System.out.println(Integer.parseInt(matcher.group(1)));
-				check_order = NO_CHECK;
+				isInvasionChecking = false;
 			}
 		}
 	}
