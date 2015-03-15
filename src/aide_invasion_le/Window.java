@@ -30,11 +30,9 @@ public class Window  extends JFrame {
 	          }
 	        });
 	    
-	    leInterface = new LEInterfaceWindowed();
-	    
         tabbedPane = new TabbedPaneClosable();
         tabbedPane.setUI(new Tabbed());
-        TabMain mainTab = new TabMain(this, leInterface);
+        TabMain mainTab = new TabMain(this);
         tabbedPane.addTab("Main Tab", mainTab);
         tabbedPane.selectLast();
         
@@ -51,7 +49,7 @@ public class Window  extends JFrame {
         this.setVisible(true);
     }
 
-	public void openMapTab(Path mapPath, int mapId, int mapSize) {
+	public void openMapTab(ILEInterface leInterface, Path mapPath, int mapId, int mapSize) {
 		TabMap mapTab = new TabMap(leInterface, mapPath, mapSize, mapId);
 		tabbedPane.addTab(mapPath.getFileName().toString(), mapTab);
 		tabbedPane.selectLast();

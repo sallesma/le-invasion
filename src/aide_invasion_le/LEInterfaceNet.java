@@ -38,6 +38,10 @@ public class LEInterfaceNet implements ILEInterface {
 	final static private int NO_CHECK = 0;
 	private int check_order = NO_CHECK;
 	
+	public LEInterfaceNet(String pseudo, String password, String serverAdress, int serverPort) {
+		this.open(serverAdress, serverPort, pseudo, password);
+	}
+
 	public void open(String serverAdr, int port, String pseudo, String password)
 	{
 		try {

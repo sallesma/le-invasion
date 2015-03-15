@@ -11,6 +11,11 @@ public class LEInterfaceWindowed implements ILEInterface {
 	private String pseudo = "";
 	private String server = "";
 
+	public LEInterfaceWindowed(String pseudo, String server) {
+		this.pseudo = pseudo;
+		this.server = server;
+	}
+
 	public void addInvasion(String invasionType, int xPos, int yPos, int mapId, String monsterType, int monsterNumber)
 	{
 		String command = new String("&inv " + invasionType + " " + xPos + " " + yPos + " " + mapId + " " + monsterType + " " + monsterNumber);
@@ -64,16 +69,6 @@ public class LEInterfaceWindowed implements ILEInterface {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public void setPseudo(String pseudo)
-	{
-		this.pseudo = pseudo;
-	}
-	
-	public void setServer(String server)
-	{
-		this.server = server;
 	}
 
 	@Override

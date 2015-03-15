@@ -12,7 +12,7 @@ public class TabTestLEInterfaceNet extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	LEInterfaceNet interfaceNet = new LEInterfaceNet();
+	LEInterfaceNet interfaceNet;
 
 	private TextField serveradr = new TextField("jeu.landes-eternelles.com", 10);
 	private TextField port = new TextField("3001", 10);
@@ -35,9 +35,11 @@ public class TabTestLEInterfaceNet extends JPanel {
 		JPanel ligne1 = new JPanel();
 		connect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				interfaceNet.open(serveradr.getText(),
-						Integer.parseInt(port.getText()),
-						"", "");
+				interfaceNet  = new LEInterfaceNet(
+						"",
+						"",
+						serveradr.getText(),
+						Integer.parseInt(port.getText()));
 				interfaceNet.startHeart_Beat();
 			}
 		});

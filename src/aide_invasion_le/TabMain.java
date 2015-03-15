@@ -4,8 +4,6 @@ import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -63,9 +61,9 @@ public class TabMain extends JPanel {
 	private JComboBox<String> mapsComboBox = new JComboBox<String>();
 	private JButton openMapButton = new JButton("Ouvrir la carte");
 	
-	public TabMain(Window parentWindow, ILEInterface leInterface) {
+	public TabMain(Window parentWindow) {
 		this.parentWindow = parentWindow;
-		this.leInterface = leInterface;
+		this.leInterface = null;
 		this.mapsManager = new MapsManager();
 
 		this.readConfigFile();
@@ -116,11 +114,21 @@ public class TabMain extends JPanel {
 		interfaceValidateButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				updateConfigFile();
-				if(windowedButton.isSelected())
-					TabMain.this.leInterface = new LEInterfaceWindowed();
-				else if(netButton.isSelected())
-					TabMain.this.leInterface = new LEInterfaceNet();
+				if(windowedButton.isSelected() && isValidWindowedConfig()) {
+					TabMain.this.leInterface = new LEInterfaceWindowed(
+							zonePseudo.getText(),
+							zoneServer.getSelectedItem().toString());
+					updateConfigFile();
+				} else if(netButton.isSelected() && isValidNetConfig()) {
+					TabMain.this.leInterface = new LEInterfaceNet(
+							pseudoNet.getText(),
+							password.getText(),
+							serverAddress.getText(),
+							Integer.parseInt(serverPort.getText()));
+					updateConfigFile();
+				} else {
+					JOptionPane.showMessageDialog(TabMain.this, "The config is not valid", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 
@@ -133,14 +141,14 @@ public class TabMain extends JPanel {
 		openMapButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (isValidConfig()) {
+				if (TabMain.this.leInterface != null) {
 					String mapName = (String)mapsComboBox.getSelectedItem();
 					System.out.println("mapname : " + mapName);
 					if(mapName != null) {
 						Path mapFile = mapsManager.getMapFilePath(mapName);
 						int mapId = mapsManager.getMapId(mapName);
 						int mapSize = mapsManager.getMapSize(mapName);
-						TabMain.this.parentWindow.openMapTab(mapFile, mapId, mapSize);
+						TabMain.this.parentWindow.openMapTab(TabMain.this.leInterface, mapFile, mapId, mapSize);
 					}
 				} else {
 					JOptionPane.showMessageDialog(TabMain.this, "The config is not properly set", "Error", JOptionPane.ERROR_MESSAGE);
@@ -209,9 +217,23 @@ public class TabMain extends JPanel {
 		}
 	}
 	
-	private boolean isValidConfig() {
+	private boolean isValidWindowedConfig() {
 		if (zonePseudo.getText().equals(""))
 			return false;
+		return true;
+	}
+	
+	private boolean isValidNetConfig() {
+		if (pseudoNet.getText().equals("")
+				|| serverAddress.getText().equals("")
+				|| serverPort.getText().equals("")
+				|| password.getText().equals(""))
+			return false;
+		try {
+			Integer.parseInt(serverPort.getText());
+		} catch (NumberFormatException e) {
+			return false;
+		}
 		return true;
 	}
 }

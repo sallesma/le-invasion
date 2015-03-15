@@ -24,7 +24,7 @@ public class TabMap extends JPanel implements MouseListener {
 	private static final long serialVersionUID = 1L;
 
 	private JLabel image;
-	private LEInterfaceWindowed leInterface;
+	private ILEInterface leInterface;
 	private int mapId;
 	private int mapSize;
 	
@@ -48,7 +48,7 @@ public class TabMap extends JPanel implements MouseListener {
 	
 	private final static int DISPLAYED_MAP_SIZE = 400;
 	
-	public TabMap(final LEInterfaceWindowed leInterface, Path mapFile, int mapSize, int mapId)
+	public TabMap(final ILEInterface leInterface, Path mapFile, int mapSize, int mapId)
 	{
 		this.leInterface = leInterface;
 		this.mapId = mapId;
