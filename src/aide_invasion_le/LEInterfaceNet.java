@@ -67,6 +67,64 @@ public class LEInterfaceNet implements ILEInterface {
 		}
 	}
 	
+	public void close()
+	{
+		System.out.println("Close Socket");
+        try {
+        	if (socket != null && !socket.isClosed()) {
+        		in.close();
+        		out.close();
+        		socket.close();
+        		this.stopHeart_Beat();
+        	}
+        	else
+        		System.out.println("Unable to close socket");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void addInvasion(String invasionType, int xPos, int yPos, int mapId,
+			String monsterType, int monsterNumber) {
+		System.out.println("LEInterfaceNet addInvasion does nothing");
+	}
+
+	public void clearInvasion(String invasionType, int mapId) {
+		System.out.println("LEInterfaceNet clearInvasion does nothing");
+	}
+	
+	public ArrayList<String[]> checkInvasion() {
+		return res_check_order;
+	}
+
+	public void commandoAjouter(int xPos, int yPos, int mapId,
+			int commandoType, int commandoGroup) {
+		System.out.println("LEInterfaceNet commandoAjouter does nothing");
+	}
+
+	public void commandoGo(int xPos, int yPos, int mapId, int commandoType,
+			int commandoGroup) {
+		System.out.println("LEInterfaceNet commandoGo does nothing");
+	}
+
+	public void commandoFree(int mapId, int commandoType, int commandoGroup) {
+		System.out.println("LEInterfaceNet commandoFree does nothing");
+	}
+
+	public void commandoStop(int mapId, int commandoType, int commandoGroup) {
+		System.out.println("LEInterfaceNet commandoStop does nothing");
+	}
+	
+	public void sendMessage(String str, int order)
+	{
+		check_order=order;
+		sendRawText(str);
+	}
+	
+	public void clearResCheckOrder() {
+		res_check_order = new ArrayList<String[]>();
+	}
+	
 	public void login(String pseudo, String pwd)
 	{
 		String stringData = pseudo + " " + pwd;
@@ -113,12 +171,6 @@ public class LEInterfaceNet implements ILEInterface {
 		heartBeatTimer.cancel();
 	}
 	
-	public void sendMessage(String str, int order)
-	{
-		check_order=order;
-		sendRawText(str);
-	}
-	
 	public void sendRawText(String message)
 	{
 		System.out.println("Message : " + message);
@@ -160,23 +212,6 @@ public class LEInterfaceNet implements ILEInterface {
 	    try {
 	    	out.write(message);
 			out.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void close()
-	{
-		System.out.println("Close Socket");
-        try {
-        	if (socket != null && !socket.isClosed()) {
-        		in.close();
-        		out.close();
-        		socket.close();
-        		this.stopHeart_Beat();
-        	}
-        	else
-        		System.out.println("Unable to close socket");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -252,46 +287,5 @@ public class LEInterfaceNet implements ILEInterface {
 				check_order = NO_CHECK;
 			}
 		}
-	}
-	
-	public ArrayList<String[]> checkInvasion() {
-		return res_check_order;
-	}
-	
-	public void clearResCheckOrder() {
-		res_check_order = new ArrayList<String[]>();
-	}
-
-	@Override
-	public void addInvasion(String invasionType, int xPos, int yPos, int mapId,
-			String monsterType, int monsterNumber) {
-		System.out.println("LEInterfaceNet addInvasion does nothing");
-	}
-
-	@Override
-	public void clearInvasion(String invasionType, int mapId) {
-		System.out.println("LEInterfaceNet clearInvasion does nothing");
-	}
-
-	@Override
-	public void commandoAjouter(int xPos, int yPos, int mapId,
-			int commandoType, int commandoGroup) {
-		System.out.println("LEInterfaceNet commandoAjouter does nothing");
-	}
-
-	@Override
-	public void commandoGo(int xPos, int yPos, int mapId, int commandoType,
-			int commandoGroup) {
-		System.out.println("LEInterfaceNet commandoGo does nothing");
-	}
-
-	@Override
-	public void commandoFree(int mapId, int commandoType, int commandoGroup) {
-		System.out.println("LEInterfaceNet commandoFree does nothing");
-	}
-
-	@Override
-	public void commandoStop(int mapId, int commandoType, int commandoGroup) {
-		System.out.println("LEInterfaceNet commandoStop does nothing");
 	}
 }

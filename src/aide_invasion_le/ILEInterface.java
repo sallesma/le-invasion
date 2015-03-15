@@ -11,6 +11,8 @@ public interface ILEInterface {
 			String monsterType, int monsterNumber);
 
 	public void clearInvasion(String invasionType, int mapId);
+	
+	public ArrayList<String[]> checkInvasion();
 
 	public void commandoAjouter(int xPos, int yPos, int mapId,
 			int commandoType, int commandoGroup);
@@ -23,8 +25,6 @@ public interface ILEInterface {
 	public void commandoStop(int mapId, int commandoType, int commandoGroup);
 	
 	public void sendMessage(String str, int order);
-	
-	public ArrayList<String[]> checkInvasion();
 	
 	public void clearResCheckOrder();
 }

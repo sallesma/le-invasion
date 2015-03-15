@@ -17,6 +17,16 @@ public class LEInterfaceWindowed implements ILEInterface {
 		this.server = server;
 	}
 
+	@Override
+	public void open(String server, int port, String pseudo, String password) {
+		System.out.println("LEInterfaceNet open does nothing");
+	}
+
+	@Override
+	public void close() {
+		System.out.println("LEInterfaceNet close does nothing");
+	}
+
 	public void addInvasion(String invasionType, int xPos, int yPos, int mapId, String monsterType, int monsterNumber)
 	{
 		String command = new String("&inv " + invasionType + " " + xPos + " " + yPos + " " + mapId + " " + monsterType + " " + monsterNumber);
@@ -29,6 +39,10 @@ public class LEInterfaceWindowed implements ILEInterface {
 		String command = "&clear_inv " + invasionType +" " + mapId;
 		String windowName ="(" + pseudo + " sur " + server + ") Landes Eternelles";
 		this.sendCommandToLE(command, windowName);
+	}
+
+	public ArrayList<String[]> checkInvasion() {
+		return new ArrayList<String[]>();
 	}
 	
 	public void commandoAjouter(int xPos, int yPos, int mapId, int commandoType, int commandoGroup)
@@ -58,6 +72,14 @@ public class LEInterfaceWindowed implements ILEInterface {
 		String windowName ="(" + pseudo + " sur " + server + ") Landes Eternelles";
 		this.sendCommandToLE(command, windowName);
 	}
+
+	public void sendMessage(String str, int order) {
+		System.out.println("LEInterfaceNet sendMsg does nothing");
+	}
+
+	public void clearResCheckOrder() {
+		System.out.println("LEInterfaceNet clearResCheckOrder does nothing");
+	}
 	
 	private void sendCommandToLE(String command, String windowName)
 	{
@@ -70,31 +92,5 @@ public class LEInterfaceWindowed implements ILEInterface {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public void open(String server, int port, String pseudo, String password) {
-		System.out.println("LEInterfaceNet open does nothing");
-	}
-
-	@Override
-	public void close() {
-		System.out.println("LEInterfaceNet close does nothing");
-	}
-
-
-	@Override
-	public ArrayList<String[]> checkInvasion() {
-		return new ArrayList<String[]>();
-	}
-
-	@Override
-	public void clearResCheckOrder() {
-		System.out.println("LEInterfaceNet clearResCheckOrder does nothing");
-	}
-
-	@Override
-	public void sendMessage(String str, int order) {
-		System.out.println("LEInterfaceNet sendMsg does nothing");
 	}
 }
