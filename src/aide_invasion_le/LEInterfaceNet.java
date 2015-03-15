@@ -57,6 +57,8 @@ public class LEInterfaceNet implements ILEInterface {
 		    
 		    Thread thread = new Thread(new Reception(in, this));
 		    thread.start();
+		    
+			this.startHeart_Beat();
 		}catch (UnknownHostException e) {
 			e.printStackTrace();
 		}catch (IOException e) {
@@ -89,7 +91,7 @@ public class LEInterfaceNet implements ILEInterface {
 		send(PING, dat);
 	}
 	
-	public void startHeart_Beat()
+	private void startHeart_Beat()
 	{
 		System.out.println("Start Heart Beat");
 		TimerTask task = new TimerTask()
@@ -105,7 +107,7 @@ public class LEInterfaceNet implements ILEInterface {
 		heartBeatTimer.scheduleAtFixedRate(task, 0, 25000);
 	}
 	
-	public void stopHeart_Beat()
+	private void stopHeart_Beat()
 	{
 		System.out.println("Stop Heart Beat");
 		heartBeatTimer.cancel();
@@ -129,7 +131,7 @@ public class LEInterfaceNet implements ILEInterface {
 		send(RAW_TEXT, data);
 	}
 	
-	public void send(byte type, byte[] data)
+	private void send(byte type, byte[] data)
 	{
 		int dataLength = 0;
 		if (data != null)

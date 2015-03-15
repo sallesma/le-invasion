@@ -40,7 +40,6 @@ public class TabTestLEInterfaceNet extends JPanel {
 						"",
 						serveradr.getText(),
 						Integer.parseInt(port.getText()));
-				interfaceNet.startHeart_Beat();
 			}
 		});
 
