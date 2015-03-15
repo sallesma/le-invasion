@@ -1,11 +1,14 @@
 package aide_invasion_le;
 
 import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 public class FormClassic extends FormAbstract {
@@ -36,8 +39,20 @@ public class FormClassic extends FormAbstract {
 	private TextField tm9 = new TextField("squelette_boum",10); 
 	private TextField tm10 = new TextField("squelette_horreur",10); 
 	
+	//Mobs Ligne 3
+	private JButton boutonMonstre11 = new JButton("Créature11");
+	private JButton boutonMonstre12 = new JButton("Créature12");
+	private JButton boutonMonstre13 = new JButton("Créature13");
+	private JButton boutonMonstre14 = new JButton("Créature14");
+	private JButton boutonMonstre15 = new JButton("Créature15");
+	private TextField tm11 = new TextField("squelette",10);
+	private TextField tm12 = new TextField("squelette_faible",10); 
+	private TextField tm13 = new TextField("squelette_brille",10); 
+	private TextField tm14 = new TextField("squelette_boum",10); 
+	private TextField tm15 = new TextField("squelette_horreur",10); 
+	
 	//Nombres
-	private final static Dimension TAILLE_NB_BUTTON = new Dimension(60,26);
+	private final static Dimension TAILLE_NB_BUTTON = new Dimension(56,26);
 	private JButton nbMonstre1 = new JButton("1");
 	private JButton nbMonstre5 = new JButton("5");
 	private JButton nbMonstre10 = new JButton("10");
@@ -56,6 +71,14 @@ public class FormClassic extends FormAbstract {
 	private int monsterNumber = 1;
 
 	public FormClassic() {
+		//JPanel bloc = new JPanel();
+		
+		//LayoutManager test = new GridLayout(8, 1);
+		//bloc.setLayout(test);
+		
+		JLayeredPane bloc = new JLayeredPane();
+		bloc.setPreferredSize(new Dimension(500, 250));
+		
 		JPanel ligne1 = new JPanel();
 	    ligne1.add(tm1);
 	    ligne1.add(tm2);
@@ -115,6 +138,35 @@ public class FormClassic extends FormAbstract {
 	    ligne4.add(boutonMonstre10);
 	    
 	    JPanel ligne5 = new JPanel();
+	    ligne5.add(tm11);
+	    ligne5.add(tm12);
+	    ligne5.add(tm13);
+	    ligne5.add(tm14);
+	    ligne5.add(tm15);
+	    
+	    boutonMonstre11.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+           	setMonsterType(tm11.getText()); activeButtonMob(boutonMonstre11); }});
+	    boutonMonstre12.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+           	setMonsterType(tm12.getText()); activeButtonMob(boutonMonstre12); }});
+	    boutonMonstre13.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+           	setMonsterType(tm13.getText()); activeButtonMob(boutonMonstre13); }});
+	    boutonMonstre14.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+           	setMonsterType(tm14.getText()); activeButtonMob(boutonMonstre14); }});
+	    boutonMonstre15.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+           	setMonsterType(tm15.getText()); activeButtonMob(boutonMonstre15); }});
+	    JPanel ligne6 = new JPanel();
+	    ligne6.add(boutonMonstre11);
+	    ligne6.add(boutonMonstre12);
+	    ligne6.add(boutonMonstre13);
+	    ligne6.add(boutonMonstre14);
+	    ligne6.add(boutonMonstre15);
+	    
+	    JPanel ligne7 = new JPanel();
 		nbMonstre1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
            	setMonsterNumber(1); activeButtonNb(nbMonstre1); }});
@@ -147,16 +199,16 @@ public class FormClassic extends FormAbstract {
 		nbMonstre30.setPreferredSize(TAILLE_NB_BUTTON);
 		nbMonstre50.setPreferredSize(TAILLE_NB_BUTTON);
 		nbMonstre100.setPreferredSize(TAILLE_NB_BUTTON);
-		ligne5.add(nbMonstre1);
-		ligne5.add(nbMonstre5);
-		ligne5.add(nbMonstre10);
-		ligne5.add(nbMonstre15);
-		ligne5.add(nbMonstre20);
-		ligne5.add(nbMonstre30);
-		ligne5.add(nbMonstre50);
-		ligne5.add(nbMonstre100);
+		ligne7.add(nbMonstre1);
+		ligne7.add(nbMonstre5);
+		ligne7.add(nbMonstre10);
+		ligne7.add(nbMonstre15);
+		ligne7.add(nbMonstre20);
+		ligne7.add(nbMonstre30);
+		ligne7.add(nbMonstre50);
+		ligne7.add(nbMonstre100);
 		
-		JPanel ligne6 = new JPanel();
+		JPanel ligne8 = new JPanel();
 		ponctB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
             	setInvasionType(LEInterfaceWindowed.INVASION_TYPE_PONCT);
@@ -169,15 +221,36 @@ public class FormClassic extends FormAbstract {
             	activeButtonType(permB);
             }
         });
-		ligne6.add(ponctB);
-		ligne6.add(permB);
+		ligne8.add(ponctB);
+		ligne8.add(permB);
 		
-		this.add(ligne1);
-		this.add(ligne2);
-		this.add(ligne3);
-		this.add(ligne4);
-		this.add(ligne5);
-		this.add(ligne6);
+		
+		ligne1.setBounds(0, 0, 500, 30);
+		ligne1.setLocation(0, 0);
+		ligne2.setBounds(0, 0, 500, 30);
+		ligne2.setLocation(0, 30);
+		ligne3.setBounds(0, 0, 500, 30);
+		ligne3.setLocation(0, 60);
+		ligne4.setBounds(0, 0, 500, 30);
+		ligne4.setLocation(0, 90);
+		ligne5.setBounds(0, 0, 500, 30);
+		ligne5.setLocation(0, 120);
+		ligne6.setBounds(0, 0, 500, 30);
+		ligne6.setLocation(0, 150);
+		ligne7.setBounds(0, 0, 500, 30);
+		ligne7.setLocation(0, 180);
+		ligne8.setBounds(0, 0, 500, 30);
+		ligne8.setLocation(0, 210);
+		
+		bloc.add(ligne1);
+		bloc.add(ligne2);
+		bloc.add(ligne3);
+		bloc.add(ligne4);
+		bloc.add(ligne5);
+		bloc.add(ligne6);
+		bloc.add(ligne7);
+		bloc.add(ligne8);
+		this.add(bloc);
 		this.setPreferredSize (new Dimension(600, 250));
 	}
 	
