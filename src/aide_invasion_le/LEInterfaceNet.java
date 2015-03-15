@@ -24,6 +24,14 @@ public class LEInterfaceNet{
 	final static private int PING_REQUEST = 60;
 	final static private int LOG_IN_OK = 250;
 	final static private int LOG_IN_NOT_OK = 251;
+	final static private int NEW_MINUTE = 5;
+	final static private int GET_ACTIVE_SPELL_LIST = 45;
+	final static private int SYNC_CLOCK = 4;
+	final static private int YOU_ARE = 3;
+	final static private int CHANGE_MAP = 7;
+	final static private int HERE_YOUR_INVENTORY = 19;
+	final static private int RAW_TEXT = 0;
+	final static private int HERE_YOUR_STATS = 18;
 	
 	public void connection(String serverAdr, int port)
 	{
@@ -114,19 +122,25 @@ public class LEInterfaceNet{
 		timer.cancel();
 	}
 	
-	public void sendMessage(String message)
+	public void sendMessage(int channel, String message)
 	{
-		System.out.println("Message : " + message);
-
-			char[] msg = message.toCharArray();
-			char[] outByteMessage = new char[msg.length + 4];
-			int size = outByteMessage.length - 2;
-			outByteMessage[1] = (char)((size >> 8) & 0xFF);
-			outByteMessage[2] = (char)((size) & 0xFF);
-			outByteMessage[3] = 1;// the channel number
-			System.arraycopy(msg, 0, outByteMessage, 4, msg.length);
-
-			//send(outByteMessage);
+		System.out.println("Message : " + channel + " : " + message);
+		
+		int lengt = message.length() + 3;
+		int j=0;
+		
+		byte[] dat = new byte[255];
+		dat[0] = (byte)RAW_TEXT;
+		dat[1] = (byte)(lengt);
+		dat[2] = 0;
+		dat[3] = (byte)channel;
+		
+		for (j=0; j<message.length() ; j++)
+		{
+			dat[j+4] = (byte)message.charAt(j);
+		}
+			
+		send(dat);
 	}
 	
 	public void send(byte[] data)
@@ -161,7 +175,15 @@ public class LEInterfaceNet{
 		}
 	}
 	
+	
 	public void reception(char[] data)
+	{
+		
+		receptionParsed(data);
+	}
+	
+	
+	public void receptionParsed(char[] data)
 	{
 		System.out.println("Reçu : " + new String(data) + " (");
 		for(int i = 0; i<data.length;i++)
@@ -181,6 +203,22 @@ public class LEInterfaceNet{
 			System.out.println("Login OK");
 		} else if (data[0]==LOG_IN_NOT_OK) {
 			System.out.println("Login fail");
+		} else if (data[0]==NEW_MINUTE) {
+			System.out.println("NEW_MINUTE");
+		} else if (data[0]==GET_ACTIVE_SPELL_LIST) {
+			System.out.println("GET_ACTIVE_SPELL_LIST");
+		} else if (data[0]==SYNC_CLOCK) {
+			System.out.println("SYNC_CLOCK);
+		} else if (data[0]==YOU_ARE) {
+			System.out.println("YOU_ARE");
+		} else if (data[0]==CHANGE_MAP) {
+			System.out.println("CHANGE_MAP");
+		} else if (data[0]==HERE_YOUR_INVENTORY) {
+			System.out.println("HERE_YOUR_INVENTORY");
+		} else if (data[0]==RAW_TEXT) {
+			System.out.println("RAW_TEXT");
+		} else if (data[0]==HERE_YOUR_STATS) {
+			System.out.println("HERE_YOUR_STATS");
 		}
 		
 		System.out.println("\n\n");

@@ -98,7 +98,7 @@ public class LEInterfaceNetPanelTest  extends JPanel{
 	public void sendMessage()
 	{
 		if (message.getText().length()>0)
-			interfaceNet.sendMessage(message.getText());
+			interfaceNet.sendMessage(0, message.getText());
 	}
 
 }
