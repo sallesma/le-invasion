@@ -1,5 +1,7 @@
 package aide_invasion_le;
 
+import java.util.ArrayList;
+
 public interface ILEInterface {
 	public void open(String server, int port, String pseudo, String password);
 
@@ -19,4 +21,10 @@ public interface ILEInterface {
 	public void commandoFree(int mapId, int commandoType, int commandoGroup);
 
 	public void commandoStop(int mapId, int commandoType, int commandoGroup);
+	
+	public void sendRawText(String message);
+	
+	public ArrayList<String[]> checkInvasion();
+	
+	public void clear_res_check_order();
 }

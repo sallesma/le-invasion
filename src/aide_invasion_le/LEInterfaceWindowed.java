@@ -1,6 +1,7 @@
 package aide_invasion_le;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class LEInterfaceWindowed implements ILEInterface {
 	public static final String INVASION_TYPE_PONCT = "ponct";
@@ -77,5 +78,23 @@ public class LEInterfaceWindowed implements ILEInterface {
 
 	@Override
 	public void close() {
+	}
+
+	@Override
+	public void sendRawText(String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ArrayList<String[]> checkInvasion() {
+		// TODO Auto-generated method stub
+		return new ArrayList<String[]>();
+	}
+
+	@Override
+	public void clear_res_check_order() {
+		// TODO Auto-generated method stub
+		
 	}
 }

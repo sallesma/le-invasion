@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
@@ -37,6 +38,7 @@ public class LEInterfaceNet implements ILEInterface {
 	final static private int CHECK_INVASION = 1;
 	final static private int NO_CHECK = 0;
 	private int check_order = NO_CHECK;
+	private ArrayList<String[]> res_check_order = new ArrayList<String[]>();
 	
 	public LEInterfaceNet(String pseudo, String password, String serverAdress, int serverPort) {
 		this.open(serverAdress, serverPort, pseudo, password);
@@ -229,17 +231,27 @@ public class LEInterfaceNet implements ILEInterface {
 		Pattern pattern = Pattern.compile("encore un (.)+ (automatique|périssable|ponctuel|permanent) en : ([0-9])+, ([0-9])+, ([0-9])+.$");
 		Matcher matcher = pattern.matcher(s);
 		if (matcher.find()) {
-			System.out.println(matcher.group(1)+ Integer.parseInt(matcher.group(3))+  Integer.parseInt(matcher.group(4))+  Integer.parseInt(matcher.group(5)) );
+			System.out.println(matcher.group(1)+ matcher.group(3)+  matcher.group(4)+  matcher.group(5) );
+			String[]resStrTab = {matcher.group(1),matcher.group(2),matcher.group(3),matcher.group(4)};
+			res_check_order.add(resStrTab);
 		}
 		else 
 		{
-			pattern = Pattern.compile("encore un ([0-9])+ monstres d'invasion.$");
+			pattern = Pattern.compile("encore ([0-9])+ monstres d'invasion.$");
 			matcher = pattern.matcher(s);
 			if (matcher.find()) {
 				System.out.println(Integer.parseInt(matcher.group(1)));
 				check_order = NO_CHECK;
 			}
 		}
+	}
+	
+	public ArrayList<String[]> checkInvasion() {
+		return res_check_order;
+	}
+	
+	public void clear_res_check_order() {
+		res_check_order = new ArrayList<String[]>();
 	}
 
 	@Override

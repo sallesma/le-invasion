@@ -10,6 +10,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
@@ -55,6 +57,8 @@ public class TabMap extends JPanel implements MouseListener {
 	private final static int DISPLAYED_MAP_SIZE = 400;
 
 	private String croixPath = "images\\croixRed.png";
+	
+	private Timer checkInvaTimer;
 	
 	public TabMap(ILEInterface leInterface, Path mapFile, int mapSize, int mapId)
 	{
@@ -154,6 +158,26 @@ public class TabMap extends JPanel implements MouseListener {
 	
 	public void setLEIinterface(ILEInterface leInterface) {
 		this.leInterface = leInterface;
+	}
+	
+	public void startCheckInvaTimer() {
+		TimerTask task = new TimerTask()
+		{
+			@Override
+			public void run() 
+			{
+				leInterface.sendRawText("#check_invasion");
+			}	
+		};
+		
+		checkInvaTimer = new Timer();
+		checkInvaTimer.scheduleAtFixedRate(task, 0, 10000);
+	}
+	
+	public void stopCheckInvaTimer()
+	{
+		System.out.println("Stop Check Inva");
+		checkInvaTimer.cancel();
 	}
 	
 	public void addPoint(int x,int y, int color)
