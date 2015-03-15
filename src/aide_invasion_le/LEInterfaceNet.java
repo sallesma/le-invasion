@@ -76,7 +76,7 @@ public class LEInterfaceNet{
 		dat[i] = ' ';
 		for (j=0; j<pwd.length() ; j++)
 		{
-			dat[i] = (byte)pwd.charAt(j);
+			dat[i+j] = (byte)pwd.charAt(j);
 		}
 		i=i+j+1;
 		dat[i] = 0;
