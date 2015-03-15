@@ -74,28 +74,27 @@ public class LEInterfaceWindowed implements ILEInterface {
 
 	@Override
 	public void open(String server, int port, String pseudo, String password) {
+		System.out.println("LEInterfaceNet open does nothing");
 	}
 
 	@Override
 	public void close() {
+		System.out.println("LEInterfaceNet close does nothing");
 	}
 
 
 	@Override
 	public ArrayList<String[]> checkInvasion() {
-		// TODO Auto-generated method stub
 		return new ArrayList<String[]>();
 	}
 
 	@Override
-	public void clear_res_check_order() {
-		// TODO Auto-generated method stub
-		
+	public void clearResCheckOrder() {
+		System.out.println("LEInterfaceNet clearResCheckOrder does nothing");
 	}
 
 	@Override
-	public void sendMsg(String str, int order) {
-		// TODO Auto-generated method stub
-		
+	public void sendMessage(String str, int order) {
+		System.out.println("LEInterfaceNet sendMsg does nothing");
 	}
 }

@@ -113,7 +113,7 @@ public class LEInterfaceNet implements ILEInterface {
 		heartBeatTimer.cancel();
 	}
 	
-	public void sendMsg(String str, int order)
+	public void sendMessage(String str, int order)
 	{
 		check_order=order;
 		sendRawText(str);
@@ -258,34 +258,40 @@ public class LEInterfaceNet implements ILEInterface {
 		return res_check_order;
 	}
 	
-	public void clear_res_check_order() {
+	public void clearResCheckOrder() {
 		res_check_order = new ArrayList<String[]>();
 	}
 
 	@Override
 	public void addInvasion(String invasionType, int xPos, int yPos, int mapId,
 			String monsterType, int monsterNumber) {
+		System.out.println("LEInterfaceNet addInvasion does nothing");
 	}
 
 	@Override
 	public void clearInvasion(String invasionType, int mapId) {
+		System.out.println("LEInterfaceNet clearInvasion does nothing");
 	}
 
 	@Override
 	public void commandoAjouter(int xPos, int yPos, int mapId,
 			int commandoType, int commandoGroup) {
+		System.out.println("LEInterfaceNet commandoAjouter does nothing");
 	}
 
 	@Override
 	public void commandoGo(int xPos, int yPos, int mapId, int commandoType,
 			int commandoGroup) {
+		System.out.println("LEInterfaceNet commandoGo does nothing");
 	}
 
 	@Override
 	public void commandoFree(int mapId, int commandoType, int commandoGroup) {
+		System.out.println("LEInterfaceNet commandoFree does nothing");
 	}
 
 	@Override
 	public void commandoStop(int mapId, int commandoType, int commandoGroup) {
+		System.out.println("LEInterfaceNet commandoStop does nothing");
 	}
 }

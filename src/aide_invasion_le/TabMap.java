@@ -166,7 +166,7 @@ public class TabMap extends JPanel implements MouseListener {
 			@Override
 			public void run() 
 			{
-				leInterface.sendMsg("#check_invasion",1);
+				leInterface.sendMessage("#check_invasion",1);
 			}	
 		};
 		

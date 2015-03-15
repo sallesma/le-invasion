@@ -22,9 +22,9 @@ public interface ILEInterface {
 
 	public void commandoStop(int mapId, int commandoType, int commandoGroup);
 	
-	public void sendMsg(String str, int order);
+	public void sendMessage(String str, int order);
 	
 	public ArrayList<String[]> checkInvasion();
 	
-	public void clear_res_check_order();
+	public void clearResCheckOrder();
 }
