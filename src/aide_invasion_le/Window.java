@@ -10,10 +10,10 @@ public class Window  extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private LEInterface leInterface;
+	private LEInterfaceWindowed leInterface;
 	private TabbedPaneClosable tabbedPane;
-	private LEInterfaceNetPanelTest testInt;
-	private PanelJeu game;
+	private TabTestLEInterfaceNet testInt;
+	private TabGame game;
 	
     public Window() {
 		JFrame fenetre = new JFrame();
@@ -30,7 +30,7 @@ public class Window  extends JFrame {
 	          }
 	        });
 	    
-	    leInterface = new LEInterface();
+	    leInterface = new LEInterfaceWindowed();
 	    
         tabbedPane = new TabbedPaneClosable();
         tabbedPane.setUI(new Tabbed());
@@ -38,10 +38,10 @@ public class Window  extends JFrame {
         tabbedPane.addTab("Main Tab", mainTab);
         tabbedPane.selectLast();
         
-        testInt = new LEInterfaceNetPanelTest();
+        testInt = new TabTestLEInterfaceNet();
         tabbedPane.addTab("Interf Tab", testInt);
         
-        game = new PanelJeu(leInterface);
+        game = new TabGame(leInterface);
         tabbedPane.addTab("Game Tab", game);
         
         requestFocus();

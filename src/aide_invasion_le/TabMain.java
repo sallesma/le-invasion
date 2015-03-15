@@ -1,7 +1,5 @@
 package aide_invasion_le;
 
-import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,81 +16,113 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Properties;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 public class TabMain extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
 	private Window parentWindow;
-	private LEInterface leInterface;
+	private LEInterfaceWindowed leInterface;
 	private MapsManager mapsManager;
 	private String configFile = Paths.get("data", "config.properties").toString();
 	
-	private JLabel pseudo = new JLabel("Pseudo");
-	private TextField zonePseudo = new TextField("",10);
+	private JPanel ligneInterfaceSelect = new JPanel();
+	private JLabel interfaceRadioLabel = new JLabel("Interface vers LE :");
+	private JRadioButton windowedButton;
+	private JRadioButton netButton;
 	
+	JPanel interfacePanel = new JPanel();
+	
+	private JLabel pseudoWindowed = new JLabel("Pseudo");
+	private TextField zonePseudo = new TextField("",10);
 	private JLabel server = new JLabel("Serveur");
 	private JComboBox<String> zoneServer = new JComboBox<String>(new String[]{"main", "test"});
 
+	private TextField serverAdress = new TextField("", 10);
+	private TextField port = new TextField("", 10);
+	private TextField pseudoNet = new TextField("", 10);
+	private TextField password = new TextField("", 10);
+
+	JPanel mapOpenPanel = new JPanel();
 	private JLabel mapFolderLabel = new JLabel("Cartes");
 	private JComboBox<String> mapsComboBox = new JComboBox<String>();
 	private JButton openMapButton = new JButton("Ouvrir la carte");
 	
-	public TabMain(Window parentWindow, LEInterface leInterface) {
+	public TabMain(Window parentWindow, LEInterfaceWindowed leInterface) {
 		this.parentWindow = parentWindow;
 		this.leInterface = leInterface;
 	    this.mapsManager = new MapsManager();
 		
-	    JPanel panel = new JPanel();
-	    panel.setLayout(new GridLayout(15, 1));
+	    this.readConfigFile();
 	    
-	    if(new File(configFile).exists()) {
-	    	InputStream inputStream = null;
-	    	try {
-	    		inputStream = new FileInputStream(configFile);
-	            Properties properties = new Properties();
-	            properties.load(inputStream);
-	            zonePseudo.setText(properties.getProperty("pseudo"));
-	            zoneServer.setSelectedItem(properties.getProperty("server"));
-	        } catch(IOException e) {
-	            e.printStackTrace();
-	        } finally {
-	        	if (inputStream != null) {
-		        	try {
-						inputStream.close();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-	        	}
-	        }
-	    }
+	    windowedButton = new JRadioButton("Fenêtre de jeu");
+	    netButton = new JRadioButton("Commandes serveur");
+
+	    ButtonGroup group = new ButtonGroup();
+	    group.add(windowedButton);
+	    group.add(netButton);
 	    
-	    pseudo.setFont(new Font(pseudo.getName(), Font.PLAIN, 20));
-	    server.setFont(new Font(server.getName(), Font.PLAIN, 20));
-	    mapFolderLabel.setFont(new Font(mapFolderLabel.getName(), Font.PLAIN, 20));
-		zonePseudo.addKeyListener(new KeyListener() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				updateLEInterface();
-				updateConfigFile();
-			}
-			@Override
-			public void keyTyped(KeyEvent e) {}
-			@Override
-			public void keyPressed(KeyEvent e) {}
-		});
-		zoneServer.addActionListener(new ActionListener() {
+	    windowedButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				interfacePanel.removeAll();
+				interfacePanel.add(pseudoWindowed);
+				interfacePanel.add(zonePseudo);
+				interfacePanel.add(server);
+				interfacePanel.add(zoneServer);
+				interfacePanel.updateUI();
+			}
+		});
+	    netButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				interfacePanel.removeAll();
+				interfacePanel.add(pseudoNet);
+				interfacePanel.add(port);
+				interfacePanel.add(serverAdress);
+				interfacePanel.add(password);
+				interfacePanel.updateUI();
+			}
+		});
+	    windowedButton.doClick();
+	    ligneInterfaceSelect.add(interfaceRadioLabel);
+	    ligneInterfaceSelect.add(windowedButton);
+	    ligneInterfaceSelect.add(netButton);
+	    this.add(ligneInterfaceSelect);
+	    
+	    this.add(interfacePanel);
+	    
+	    KeyListener propertiesKeyListener = new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
 				updateLEInterface();
 				updateConfigFile();
 			}
-		});
+			@Override
+			public void keyReleased(KeyEvent e) {
+			}
+			@Override
+			public void keyPressed(KeyEvent e) {
+			}
+		};
+		ActionListener propertiesActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			}
+		};
+		zonePseudo.addKeyListener(propertiesKeyListener);
+		zoneServer.addActionListener(propertiesActionListener);
+		serverAdress.addKeyListener(propertiesKeyListener);
+		port.addKeyListener(propertiesKeyListener);
+		pseudoNet.addKeyListener(propertiesKeyListener);
+		password.addKeyListener(propertiesKeyListener);
 
 		String[] maps = this.mapsManager.getMapNames();
 		Arrays.sort(maps);
@@ -117,16 +147,12 @@ public class TabMain extends JPanel {
 				}
 			}
 		});
+		
+		mapOpenPanel.add(mapFolderLabel);
+		mapOpenPanel.add(mapsComboBox);
+		mapOpenPanel.add(openMapButton);
+		this.add(mapOpenPanel);
 
-		panel.add(pseudo);
-		panel.add(zonePseudo);
-		panel.add(server);
-		panel.add(zoneServer);
-		panel.add(mapFolderLabel);
-		panel.add(mapsComboBox);
-		panel.add(openMapButton);
-	    this.add(panel);
-	    
 		this.updateLEInterface();
 	}
 
@@ -144,6 +170,10 @@ public class TabMain extends JPanel {
 			outputStream = new FileOutputStream(configFile);
 			properties.setProperty("pseudo", zonePseudo.getText());
 			properties.setProperty("server", zoneServer.getSelectedItem().toString());
+			properties.setProperty("serverAdress", serverAdress.getText());
+			properties.setProperty("port", port.getText());
+			properties.setProperty("pseudoNet", pseudoNet.getText());
+			properties.setProperty("password", password.getText());
 			properties.store(outputStream, null);
 		} catch (IOException io) {
 			io.printStackTrace();
@@ -153,6 +183,33 @@ public class TabMain extends JPanel {
 					outputStream.close();
 				} catch (IOException e) {
 					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	private void readConfigFile() {
+		if (new File(configFile).exists()) {
+			InputStream inputStream = null;
+			try {
+				inputStream = new FileInputStream(configFile);
+				Properties properties = new Properties();
+				properties.load(inputStream);
+				zonePseudo.setText(properties.getProperty("pseudo"));
+				zoneServer.setSelectedItem(properties.getProperty("server"));
+				serverAdress.setText(properties.getProperty("serverAdress"));
+				port.setText(properties.getProperty("port"));
+				pseudoNet.setText(properties.getProperty("pseudoNet"));
+				password.setText(properties.getProperty("password"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (inputStream != null) {
+					try {
+						inputStream.close();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
 		}

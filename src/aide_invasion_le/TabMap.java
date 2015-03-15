@@ -24,7 +24,7 @@ public class TabMap extends JPanel implements MouseListener {
 	private static final long serialVersionUID = 1L;
 
 	private JLabel image;
-	private LEInterface leInterface;
+	private LEInterfaceWindowed leInterface;
 	private int mapId;
 	private int mapSize;
 	
@@ -48,7 +48,7 @@ public class TabMap extends JPanel implements MouseListener {
 	
 	private final static int DISPLAYED_MAP_SIZE = 400;
 	
-	public TabMap(final LEInterface leInterface, Path mapFile, int mapSize, int mapId)
+	public TabMap(final LEInterfaceWindowed leInterface, Path mapFile, int mapSize, int mapId)
 	{
 		this.leInterface = leInterface;
 		this.mapId = mapId;
@@ -102,22 +102,22 @@ public class TabMap extends JPanel implements MouseListener {
 		
 		clearPonct.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-        		leInterface.clearInvasion(LEInterface.INVASION_TYPE_PONCT, TabMap.this.mapId);
+        		leInterface.clearInvasion(LEInterfaceWindowed.INVASION_TYPE_PONCT, TabMap.this.mapId);
             }
 		});  
 		clearPerm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-        		leInterface.clearInvasion(LEInterface.INVASION_TYPE_PERM, TabMap.this.mapId);
+        		leInterface.clearInvasion(LEInterfaceWindowed.INVASION_TYPE_PERM, TabMap.this.mapId);
         	}
         });  
 		clearPeri.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	leInterface.clearInvasion(LEInterface.INVASION_TYPE_PERI, TabMap.this.mapId);
+            	leInterface.clearInvasion(LEInterfaceWindowed.INVASION_TYPE_PERI, TabMap.this.mapId);
         	}
         });  
 		clearAuto.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	leInterface.clearInvasion(LEInterface.INVASION_TYPE_AUTO, TabMap.this.mapId);
+            	leInterface.clearInvasion(LEInterfaceWindowed.INVASION_TYPE_AUTO, TabMap.this.mapId);
             }
 		});  
 	    

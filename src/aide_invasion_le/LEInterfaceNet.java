@@ -11,7 +11,7 @@ import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LEInterfaceNet{
+public class LEInterfaceNet implements ILEInterface {
 
 	private Socket socket;
 	private DataInputStream in;
@@ -37,12 +37,12 @@ public class LEInterfaceNet{
 	final static private int CHECK_INVASION = 1;
 	private int check_order = 0;
 	
-	public void connection(String serverAdr, int port)
+	public void open(String serverAdr, int port, String pseudo, String password)
 	{
 		try {
 			InetAddress ServeurAdresse= InetAddress.getByName(serverAdr);
 	        System.out.println("L'adresse du serveur est : "+ServeurAdresse+ " ; Port " + port);
-		    socket = new Socket(ServeurAdresse,port);	
+		    socket = new Socket(ServeurAdresse, port);	
 		    System.out.println("Demande de connexion");
 	
 		    in = new DataInputStream (socket.getInputStream());
@@ -239,4 +239,30 @@ public class LEInterfaceNet{
 		}
 	}
 
+	@Override
+	public void addInvasion(String invasionType, int xPos, int yPos, int mapId,
+			String monsterType, int monsterNumber) {
+	}
+
+	@Override
+	public void clearInvasion(String invasionType, int mapId) {
+	}
+
+	@Override
+	public void commandoAjouter(int xPos, int yPos, int mapId,
+			int commandoType, int commandoGroup) {
+	}
+
+	@Override
+	public void commandoGo(int xPos, int yPos, int mapId, int commandoType,
+			int commandoGroup) {
+	}
+
+	@Override
+	public void commandoFree(int mapId, int commandoType, int commandoGroup) {
+	}
+
+	@Override
+	public void commandoStop(int mapId, int commandoType, int commandoGroup) {
+	}
 }

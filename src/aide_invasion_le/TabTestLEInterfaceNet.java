@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class LEInterfaceNetPanelTest extends JPanel {
+public class TabTestLEInterfaceNet extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
@@ -28,15 +28,16 @@ public class LEInterfaceNetPanelTest extends JPanel {
 	private JButton ping = new JButton("Ping");
 	private JButton close = new JButton("Close");
 
-	public LEInterfaceNetPanelTest() {
+	public TabTestLEInterfaceNet() {
 		JPanel bloc = new JPanel();
 		bloc.setLayout(new GridLayout(8, 1));
 
 		JPanel ligne1 = new JPanel();
 		connect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				interfaceNet.connection(serveradr.getText(),
-						Integer.parseInt(port.getText()));
+				interfaceNet.open(serveradr.getText(),
+						Integer.parseInt(port.getText()),
+						"", "");
 				interfaceNet.startHeart_Beat();
 			}
 		});
