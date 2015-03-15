@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-public class PanelJeu extends JPanel implements MouseListener {
+public class TabGame extends JPanel implements MouseListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -40,7 +40,7 @@ public class PanelJeu extends JPanel implements MouseListener {
 	
 	private final static int DISPLAYED_MAP_SIZE = 400;
 	
-	public PanelJeu(final LEInterfaceWindowed leInterface)
+	public TabGame(final LEInterfaceWindowed leInterface)
 	{
 		this.leInterface = leInterface;
 		

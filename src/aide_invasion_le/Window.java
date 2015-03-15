@@ -13,7 +13,7 @@ public class Window  extends JFrame {
 	private LEInterfaceWindowed leInterface;
 	private TabbedPaneClosable tabbedPane;
 	private LEInterfaceNetPanelTest testInt;
-	private PanelJeu game;
+	private TabGame game;
 	
     public Window() {
 		JFrame fenetre = new JFrame();
@@ -41,7 +41,7 @@ public class Window  extends JFrame {
         testInt = new LEInterfaceNetPanelTest();
         tabbedPane.addTab("Interf Tab", testInt);
         
-        game = new PanelJeu(leInterface);
+        game = new TabGame(leInterface);
         tabbedPane.addTab("Game Tab", game);
         
         requestFocus();
