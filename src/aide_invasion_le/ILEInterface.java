@@ -6,6 +6,8 @@ public interface ILEInterface {
 	public void open(String server, int port, String pseudo, String password);
 
 	public void close();
+	
+	public void sendRawText(String message);
 
 	public void addInvasion(String invasionType, int xPos, int yPos, int mapId,
 			String monsterType, int monsterNumber);

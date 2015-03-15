@@ -81,7 +81,20 @@ public class LEInterfaceNet implements ILEInterface {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public void sendRawText(String message)
+	{
+		System.out.println("Message : " + message);
+		
+		byte[] data = new byte[Math.min(message.length(), 255)];
+		for (int i=0; i<data.length ; i++)
+		{
+			data[i] = (byte)message.charAt(i);
+		}
+		
+		send(RAW_TEXT, data);
+	}
+	
 	public void addInvasion(String invasionType, int xPos, int yPos, int mapId,
 			String monsterType, int monsterNumber) {
 		System.out.println("LEInterfaceNet addInvasion does nothing");
@@ -153,19 +166,6 @@ public class LEInterfaceNet implements ILEInterface {
 	{
 		System.out.println("Stop Heart Beat");
 		heartBeatTimer.cancel();
-	}
-	
-	public void sendRawText(String message)
-	{
-		System.out.println("Message : " + message);
-		
-		byte[] data = new byte[Math.min(message.length(), 255)];
-		for (int i=0; i<data.length ; i++)
-		{
-			data[i] = (byte)message.charAt(i);
-		}
-		
-		send(RAW_TEXT, data);
 	}
 	
 	private void send(byte type, byte[] data)

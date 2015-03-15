@@ -27,6 +27,13 @@ public class LEInterfaceWindowed implements ILEInterface {
 		System.out.println("LEInterfaceNet close does nothing");
 	}
 
+	public void sendRawText(String message)
+	{
+		System.out.println("Message : " + message);
+		String windowName ="(" + pseudo + " sur " + server + ") Landes Eternelles";
+		this.sendCommandToLE(message, windowName);
+	}
+
 	public void addInvasion(String invasionType, int xPos, int yPos, int mapId, String monsterType, int monsterNumber)
 	{
 		String command = new String("&inv " + invasionType + " " + xPos + " " + yPos + " " + mapId + " " + monsterType + " " + monsterNumber);
