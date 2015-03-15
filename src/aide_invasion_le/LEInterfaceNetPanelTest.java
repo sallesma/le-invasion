@@ -35,8 +35,9 @@ public class LEInterfaceNetPanelTest extends JPanel {
 		JPanel ligne1 = new JPanel();
 		connect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				interfaceNet.connection(serveradr.getText(),
-						Integer.parseInt(port.getText()));
+				interfaceNet.open(serveradr.getText(),
+						Integer.parseInt(port.getText()),
+						"", "");
 				interfaceNet.startHeart_Beat();
 			}
 		});

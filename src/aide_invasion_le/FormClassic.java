@@ -51,7 +51,7 @@ public class FormClassic extends FormAbstract {
 	private JButton ponctB = new JButton("Ponctuel");
 	private JButton permB = new JButton("Permanent");
 	
-	private String invasionType = LEInterface.INVASION_TYPE_PONCT;
+	private String invasionType = LEInterfaceWindowed.INVASION_TYPE_PONCT;
 	private String monsterType = "rat";
 	private int monsterNumber = 1;
 
@@ -159,13 +159,13 @@ public class FormClassic extends FormAbstract {
 		JPanel ligne6 = new JPanel();
 		ponctB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	setInvasionType(LEInterface.INVASION_TYPE_PONCT);
+            	setInvasionType(LEInterfaceWindowed.INVASION_TYPE_PONCT);
             	activeButtonType(ponctB);
             }
         });
 		permB.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	setInvasionType(LEInterface.INVASION_TYPE_PERM);
+            	setInvasionType(LEInterfaceWindowed.INVASION_TYPE_PERM);
             	activeButtonType(permB);
             }
         });

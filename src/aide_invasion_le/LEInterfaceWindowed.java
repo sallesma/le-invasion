@@ -2,7 +2,7 @@ package aide_invasion_le;
 
 import java.io.IOException;
 
-public class LEInterface {
+public class LEInterfaceWindowed implements ILEInterface {
 	public static final String INVASION_TYPE_PONCT = "ponct";
 	public static final String INVASION_TYPE_PERM = "perm";
 	public static final String INVASION_TYPE_PERI = "peri";
@@ -74,5 +74,13 @@ public class LEInterface {
 	public void setServer(String server)
 	{
 		this.server = server;
+	}
+
+	@Override
+	public void open(String server, int port, String pseudo, String password) {
+	}
+
+	@Override
+	public void close() {
 	}
 }

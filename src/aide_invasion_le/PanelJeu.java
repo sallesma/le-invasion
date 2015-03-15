@@ -24,7 +24,7 @@ public class PanelJeu extends JPanel implements MouseListener {
 
 	private JLabel image;
 	private JLabel croix;
-	private LEInterface leInterface;
+	private LEInterfaceWindowed leInterface;
 	private int mapId = 0;
 	private int mapSize = 192;
 	private int casesAffichees = 30;
@@ -40,7 +40,7 @@ public class PanelJeu extends JPanel implements MouseListener {
 	
 	private final static int DISPLAYED_MAP_SIZE = 400;
 	
-	public PanelJeu(final LEInterface leInterface)
+	public PanelJeu(final LEInterfaceWindowed leInterface)
 	{
 		this.leInterface = leInterface;
 		

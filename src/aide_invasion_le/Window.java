@@ -10,7 +10,7 @@ public class Window  extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private LEInterface leInterface;
+	private LEInterfaceWindowed leInterface;
 	private TabbedPaneClosable tabbedPane;
 	private LEInterfaceNetPanelTest testInt;
 	private PanelJeu game;
@@ -30,7 +30,7 @@ public class Window  extends JFrame {
 	          }
 	        });
 	    
-	    leInterface = new LEInterface();
+	    leInterface = new LEInterfaceWindowed();
 	    
         tabbedPane = new TabbedPaneClosable();
         tabbedPane.setUI(new Tabbed());

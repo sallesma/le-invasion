@@ -29,7 +29,7 @@ public class TabMain extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private Window parentWindow;
-	private LEInterface leInterface;
+	private LEInterfaceWindowed leInterface;
 	private MapsManager mapsManager;
 	private String configFile = Paths.get("data", "config.properties").toString();
 	
@@ -43,7 +43,7 @@ public class TabMain extends JPanel {
 	private JComboBox<String> mapsComboBox = new JComboBox<String>();
 	private JButton openMapButton = new JButton("Ouvrir la carte");
 	
-	public TabMain(Window parentWindow, LEInterface leInterface) {
+	public TabMain(Window parentWindow, LEInterfaceWindowed leInterface) {
 		this.parentWindow = parentWindow;
 		this.leInterface = leInterface;
 	    this.mapsManager = new MapsManager();
