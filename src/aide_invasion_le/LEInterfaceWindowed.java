@@ -29,23 +29,19 @@ public class LEInterfaceWindowed implements ILEInterface {
 
 	public void sendRawText(String message)
 	{
-		System.out.println("Message : " + message);
-		String windowName ="(" + pseudo + " sur " + server + ") Landes Eternelles";
-		this.sendCommandToLE(message, windowName);
+		this.sendCommandToLE(message);
 	}
 
 	public void addInvasion(String invasionType, int xPos, int yPos, int mapId, String monsterType, int monsterNumber)
 	{
 		String command = new String("&inv " + invasionType + " " + xPos + " " + yPos + " " + mapId + " " + monsterType + " " + monsterNumber);
-		String windowName ="(" + pseudo + " sur " + server + ") Landes Eternelles";
-		this.sendCommandToLE(command, windowName);
+		this.sendCommandToLE(command);
 	}
 
 	public void clearInvasion(String invasionType, int mapId)
 	{
 		String command = "&clear_inv " + invasionType +" " + mapId;
-		String windowName ="(" + pseudo + " sur " + server + ") Landes Eternelles";
-		this.sendCommandToLE(command, windowName);
+		this.sendCommandToLE(command);
 	}
 
 	public void sendCheckInvasion() {
@@ -59,37 +55,34 @@ public class LEInterfaceWindowed implements ILEInterface {
 	public void commandoAjouter(int xPos, int yPos, int mapId, int commandoType, int commandoGroup)
 	{
 		String command = new String("&comdo_script_ajouter " + mapId + " " + xPos + " " + yPos + " " + commandoType + " " + commandoGroup);
-		String windowName ="(" + pseudo + " sur " + server + ") Landes Eternelles";
-		this.sendCommandToLE(command, windowName);
+		this.sendCommandToLE(command);
 	}
 	
 	public void commandoGo(int xPos, int yPos, int mapId, int commandoType, int commandoGroup)
 	{
 		String command = new String("&comdo_script_go " + mapId + " " + xPos + " " + yPos + " " + commandoType + " " + commandoGroup);
-		String windowName ="(" + pseudo + " sur " + server + ") Landes Eternelles";
-		this.sendCommandToLE(command, windowName);
+		this.sendCommandToLE(command);
 	}
 	
 	public void commandoFree (int mapId, int commandoType, int commandoGroup)
 	{
 		String command = new String("&commando_free " + mapId + " " + commandoType + " " + commandoGroup);
-		String windowName ="(" + pseudo + " sur " + server + ") Landes Eternelles";
-		this.sendCommandToLE(command, windowName);
+		this.sendCommandToLE(command);
 	}
 	
 	public void commandoStop(int mapId, int commandoType, int commandoGroup)
 	{
 		String command = new String("&commando_stop " + mapId + " " + commandoType + " " + commandoGroup);
-		String windowName ="(" + pseudo + " sur " + server + ") Landes Eternelles";
-		this.sendCommandToLE(command, windowName);
+		this.sendCommandToLE(command);
 	}
 
 	public void clearResCheckOrder() {
 		System.out.println("LEInterfaceNet clearResCheckOrder does nothing");
 	}
 	
-	private void sendCommandToLE(String command, String windowName)
+	private void sendCommandToLE(String command)
 	{
+		String windowName ="(" + pseudo + " sur " + server + ") Landes Eternelles";
 		System.out.println(windowName + " - " + command);
 		try {
 			if (System.getProperty("os.name").startsWith("Windows"))
