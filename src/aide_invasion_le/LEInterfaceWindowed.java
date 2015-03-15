@@ -80,11 +80,6 @@ public class LEInterfaceWindowed implements ILEInterface {
 	public void close() {
 	}
 
-	@Override
-	public void sendRawText(String message) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public ArrayList<String[]> checkInvasion() {
@@ -96,5 +91,12 @@ public class LEInterfaceWindowed implements ILEInterface {
 	public void clear_res_check_order() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void sendMsg(String message) {
+		// TODO Auto-generated method stub
+		String windowName ="(" + pseudo + " sur " + server + ") Landes Eternelles";
+		this.sendCommandToLE(message, windowName);
 	}
 }

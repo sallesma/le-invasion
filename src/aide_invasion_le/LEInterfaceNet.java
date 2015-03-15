@@ -111,6 +111,11 @@ public class LEInterfaceNet implements ILEInterface {
 		heartBeatTimer.cancel();
 	}
 	
+	public void sendMsg(String str)
+	{
+		sendRawText(str);
+	}
+	
 	public void sendRawText(String message)
 	{
 		System.out.println("Message : " + message);
