@@ -24,7 +24,8 @@ public class Window  extends JFrame {
 	    
 	    addWindowListener(new WindowAdapter() {
 	        public void windowClosing(WindowEvent e) {
-	        	leInterface.close();
+	        	if(leInterface != null)
+	        		leInterface.close();
 	        	testInt.close();
 	            System.exit(0);
 	          }
