@@ -208,7 +208,7 @@ public class LEInterfaceNet{
 		} else if (data[0]==GET_ACTIVE_SPELL_LIST) {
 			System.out.println("GET_ACTIVE_SPELL_LIST");
 		} else if (data[0]==SYNC_CLOCK) {
-			System.out.println("SYNC_CLOCK);
+			System.out.println("SYNC_CLOCK");
 		} else if (data[0]==YOU_ARE) {
 			System.out.println("YOU_ARE");
 		} else if (data[0]==CHANGE_MAP) {
