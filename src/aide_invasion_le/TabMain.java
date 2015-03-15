@@ -45,10 +45,10 @@ public class TabMain extends JPanel {
 	private JLabel server = new JLabel("Serveur");
 	private JComboBox<String> zoneServer = new JComboBox<String>(new String[]{"main", "test"});
 
-	private TextField serverAdress = new TextField("jeu.landes-eternelles.com", 10);
-	private TextField port = new TextField("3001", 10);
-	private TextField pseudoNet = new TextField("test_interf", 10);
-	private TextField password = new TextField("azerty", 10);
+	private TextField serverAdress = new TextField("", 10);
+	private TextField port = new TextField("", 10);
+	private TextField pseudoNet = new TextField("", 10);
+	private TextField password = new TextField("", 10);
 
 	JPanel mapOpenPanel = new JPanel();
 	private JLabel mapFolderLabel = new JLabel("Cartes");
@@ -60,26 +60,7 @@ public class TabMain extends JPanel {
 		this.leInterface = leInterface;
 	    this.mapsManager = new MapsManager();
 		
-	    if(new File(configFile).exists()) {
-	    	InputStream inputStream = null;
-	    	try {
-	    		inputStream = new FileInputStream(configFile);
-	            Properties properties = new Properties();
-	            properties.load(inputStream);
-	            zonePseudo.setText(properties.getProperty("pseudo"));
-	            zoneServer.setSelectedItem(properties.getProperty("server"));
-	        } catch(IOException e) {
-	            e.printStackTrace();
-	        } finally {
-	        	if (inputStream != null) {
-		        	try {
-						inputStream.close();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-	        	}
-	        }
-	    }
+	    this.readConfigFile();
 	    
 	    windowedButton = new JRadioButton("Fenêtre de jeu");
 	    netButton = new JRadioButton("Commandes serveur");
@@ -118,24 +99,30 @@ public class TabMain extends JPanel {
 	    
 	    this.add(interfacePanel);
 	    
-		zonePseudo.addKeyListener(new KeyListener() {
+	    KeyListener propertiesKeyListener = new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				updateLEInterface();
+				updateConfigFile();
+			}
 			@Override
 			public void keyReleased(KeyEvent e) {
-				updateLEInterface();
-				updateConfigFile();
 			}
 			@Override
-			public void keyTyped(KeyEvent e) {}
-			@Override
-			public void keyPressed(KeyEvent e) {}
-		});
-		zoneServer.addActionListener(new ActionListener() {
+			public void keyPressed(KeyEvent e) {
+			}
+		};
+		ActionListener propertiesActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				updateLEInterface();
-				updateConfigFile();
 			}
-		});
+		};
+		zonePseudo.addKeyListener(propertiesKeyListener);
+		zoneServer.addActionListener(propertiesActionListener);
+		serverAdress.addKeyListener(propertiesKeyListener);
+		port.addKeyListener(propertiesKeyListener);
+		pseudoNet.addKeyListener(propertiesKeyListener);
+		password.addKeyListener(propertiesKeyListener);
 
 		String[] maps = this.mapsManager.getMapNames();
 		Arrays.sort(maps);
@@ -183,6 +170,10 @@ public class TabMain extends JPanel {
 			outputStream = new FileOutputStream(configFile);
 			properties.setProperty("pseudo", zonePseudo.getText());
 			properties.setProperty("server", zoneServer.getSelectedItem().toString());
+			properties.setProperty("serverAdress", serverAdress.getText());
+			properties.setProperty("port", port.getText());
+			properties.setProperty("pseudoNet", pseudoNet.getText());
+			properties.setProperty("password", password.getText());
 			properties.store(outputStream, null);
 		} catch (IOException io) {
 			io.printStackTrace();
@@ -192,6 +183,33 @@ public class TabMain extends JPanel {
 					outputStream.close();
 				} catch (IOException e) {
 					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	private void readConfigFile() {
+		if (new File(configFile).exists()) {
+			InputStream inputStream = null;
+			try {
+				inputStream = new FileInputStream(configFile);
+				Properties properties = new Properties();
+				properties.load(inputStream);
+				zonePseudo.setText(properties.getProperty("pseudo"));
+				zoneServer.setSelectedItem(properties.getProperty("server"));
+				serverAdress.setText(properties.getProperty("serverAdress"));
+				port.setText(properties.getProperty("port"));
+				pseudoNet.setText(properties.getProperty("pseudoNet"));
+				password.setText(properties.getProperty("password"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (inputStream != null) {
+					try {
+						inputStream.close();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
 		}
