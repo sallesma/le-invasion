@@ -20,7 +20,7 @@ public class Reception implements Runnable {
 				Byte type = 0;
 				while ((type = in.readByte()) == null);
 				int length = in.readUnsignedByte() + in.readUnsignedByte() * 256;
-				int dataLength = length - 2;
+				int dataLength = length - 1;
 				byte[] data = new byte[dataLength];
 				for(int i = 0 ; i < dataLength ; i++){
 					data[i] = in.readByte();
