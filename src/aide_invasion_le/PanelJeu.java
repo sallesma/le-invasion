@@ -104,7 +104,7 @@ public class PanelJeu extends JPanel implements MouseListener {
 		
 		int sizeCroix = croix.getSize().height/2;
 		
-		croix.setLocation((int)(e.getPoint().getX()-sizeCroix), (int)(e.getPoint().getY()-sizeCroix));
+		croix.setLocation((int)(e.getPoint().getX()-sizeCroix+image.getLocation().getX()), (int) (e.getPoint().getY()-sizeCroix+image.getLocation().getY()));
 	}
 
 	@Override
