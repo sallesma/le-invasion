@@ -37,8 +37,8 @@ public class PanelJeu extends JPanel implements MouseListener {
 	private int mapId = 0;
 	private int mapSize = 192;
 	private int casesAffichees = 30;
-	private int posX = 0;
-	private int posY = 0;
+	private int posX = 96;
+	private int posY = 96;
 	private int sizeBigMap = 0;
 	String mapFile = "images\\1_trepont.jpg";
 	String croixPath = "images\\croix.png";
@@ -89,7 +89,8 @@ public class PanelJeu extends JPanel implements MouseListener {
 	    Icon scaledMapIcon = new ImageIcon(scaledMapImage2);
 	    this.image = new JLabel(scaledMapIcon);
 	    this.image.addMouseListener(this);
-	    image.setBounds(0, 0, 400, 400);
+	    image.setBounds(0, 0, sizeBigMap, sizeBigMap);
+	    centerMapOnPlayer();
 		
 	    layeredPane.add(image);
 	    
@@ -98,6 +99,14 @@ public class PanelJeu extends JPanel implements MouseListener {
 	    botPanel.add(layeredPane);
 	    
 	    add(botPanel);
+	}
+	
+	public void centerMapOnPlayer()
+	{
+		//image.setLocation( (sizeBigMap/mapSize*posX) - ZONE_CARTE/2, (sizeBigMap/mapSize*posY) - ZONE_CARTE/2);
+		
+		image.setLocation(ZONE_CARTE/2 - (sizeBigMap/mapSize*posX),-sizeBigMap+ZONE_CARTE/2 + (sizeBigMap/mapSize*posY));
+	    
 	}
 	
 	@Override
