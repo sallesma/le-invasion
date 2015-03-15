@@ -21,8 +21,6 @@ public class LEInterfaceNet implements ILEInterface {
 
 	final static private byte LOG_IN_TYPE = (byte) 140;
 	final static private byte HEART_BEAT = 14;
-	final static private byte PING = 13;
-	final static private byte PONG = 11;
 	final static private byte PING_REQUEST = 60;
 	final static private byte LOG_IN_OK = (byte) 250;
 	final static private byte LOG_IN_NOT_OK = (byte) 251;
@@ -140,15 +138,6 @@ public class LEInterfaceNet implements ILEInterface {
 		send(LOG_IN_TYPE, data);
 	}
 	
-	public void ping() {
-		byte[] dat = new byte[4];
-		dat[0] = 1;
-		dat[1] = 1;
-		dat[2] = 1;
-		dat[3] = 1;
-		send(PING, dat);
-	}
-	
 	private void startHeart_Beat()
 	{
 		System.out.println("Start Heart Beat");
@@ -222,9 +211,7 @@ public class LEInterfaceNet implements ILEInterface {
 		System.out.println("RECEIVED");
 		System.out.println("Type: " + type);
 		
-		if (type==PONG)
-			System.out.println("PONG");
-		else if (type==PING_REQUEST)
+		if (type==PING_REQUEST)
 		{
 			System.out.println("PING_REQUEST");
 			send(PING_REQUEST, data);

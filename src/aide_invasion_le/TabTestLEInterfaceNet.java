@@ -25,7 +25,6 @@ public class TabTestLEInterfaceNet extends JPanel {
 	private TextField message = new TextField("", 30);
 	private JButton send = new JButton("Send");
 
-	private JButton ping = new JButton("Ping");
 	private JButton close = new JButton("Close");
 
 	public TabTestLEInterfaceNet() {
@@ -70,13 +69,6 @@ public class TabTestLEInterfaceNet extends JPanel {
 		ligne3.add(message);
 		ligne3.add(send);
 		bloc.add(ligne3);
-
-		ping.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				interfaceNet.ping();
-			}
-		});
-		bloc.add(ping);
 
 		close.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
