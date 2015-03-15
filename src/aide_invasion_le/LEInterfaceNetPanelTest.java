@@ -55,7 +55,7 @@ public class LEInterfaceNetPanelTest  extends JPanel{
 		JPanel ligne3 = new JPanel();
 		send.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	sendMessage(); }});
+            	sendRawtext(); }});
 		
 		ligne3.add(message);
 		ligne3.add(send);
@@ -95,9 +95,9 @@ public class LEInterfaceNetPanelTest  extends JPanel{
 		interfaceNet.close();
 	}
 	
-	public void sendMessage()
+	public void sendRawtext()
 	{
 		if (message.getText().length()>0)
-			interfaceNet.sendMessage(5, message.getText());
+			interfaceNet.sendRawText(message.getText());
 	}
 }

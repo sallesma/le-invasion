@@ -101,18 +101,16 @@ public class LEInterfaceNet{
 		heartBeatTimer.cancel();
 	}
 	
-	public void sendMessage(int channel, String message)
+	public void sendRawText(String message)
 	{
-		System.out.println("Message : " + channel + " : " + message);
+		System.out.println("Message : " + message);
 		
-		byte[] data = new byte[Math.min(message.length()+1, 255)];
-		data[0] = (byte)channel;
-		
-		for (int i=0; i<data.length-1 ; i++)
+		byte[] data = new byte[Math.min(message.length(), 255)];
+		for (int i=0; i<data.length ; i++)
 		{
-			data[i+1] = (byte)message.charAt(i);
+			data[i] = (byte)message.charAt(i);
 		}
-			
+		
 		send(RAW_TEXT, data);
 	}
 	
