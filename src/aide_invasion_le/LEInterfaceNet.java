@@ -2,10 +2,10 @@ package aide_invasion_le;
 
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -40,27 +40,52 @@ public class LEInterfaceNet implements ILEInterface {
 		this.open(serverAdress, serverPort, pseudo, password);
 	}
 
-	public void open(String serverAdr, int port, String pseudo, String password)
-	{
+	public void open(String serverAdr, int port, String pseudo, String password) {
 		try {
-			InetAddress ServeurAdresse= InetAddress.getByName(serverAdr);
-	        System.out.println("L'adresse du serveur est : "+ServeurAdresse+ " ; Port " + port);
-	        System.out.println("Demande de connexion");
-		    socket = new Socket(ServeurAdresse, port);
-	
-		    in = new DataInputStream (socket.getInputStream());
-		    out = new BufferedOutputStream(socket.getOutputStream());
-		    
-		    Thread thread = new Thread(new Reception(in, this));
-		    thread.start();
-		    
+			InetAddress ServeurAdresse = InetAddress.getByName(serverAdr);
+			System.out.println("L'adresse du serveur est : " + ServeurAdresse
+					+ " ; Port " + port);
+			System.out.println("Demande de connexion");
+			socket = new Socket(ServeurAdresse, port);
+
+			in = new DataInputStream(socket.getInputStream());
+			out = new BufferedOutputStream(socket.getOutputStream());
+
+			Thread thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					while (true) {
+						try {
+							Byte type = 0;
+							while (true) {
+								try {
+									type = in.readByte();
+									if (type != null)
+										break;
+								} catch (EOFException e) {
+								}
+							}
+							int length = in.readUnsignedByte()
+									+ in.readUnsignedByte() * 256;
+							int dataLength = length - 1;
+							byte[] data = new byte[dataLength];
+							for (int i = 0; i < dataLength; i++) {
+								data[i] = in.readByte();
+							}
+							reception(type, data);
+						} catch (Exception e) {
+							e.printStackTrace();
+							if ("Socket closed".equals(e.getMessage()))
+								break;
+						}
+					}
+				}
+			});
+			thread.start();
+
 			this.startHeart_Beat();
-			
 			this.login(pseudo, password);
-		}catch (UnknownHostException e) {
-			e.printStackTrace();
-		}catch (IOException e) {
-			
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -201,7 +226,7 @@ public class LEInterfaceNet implements ILEInterface {
 		}
 	}
 	
-	public void reception(byte type, byte[] data)
+	private void reception(byte type, byte[] data)
 	{
 		System.out.println("RECEIVED");
 		System.out.println("Type: " + type);
