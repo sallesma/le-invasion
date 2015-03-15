@@ -52,29 +52,26 @@ public class LEInterfaceNet{
 	{
 		System.out.println("Login : " + pseudo + " " + pwd);
 		
+		int lengt = pseudo.length() + pwd.length() + 3;
+		int i=3, j=0;
+		
 		byte[] dat = new byte[255];
 		dat[0] = (byte)LOG_IN_TYPE;
-		dat[1] = 20;
+		dat[1] = (byte)(lengt);
 		dat[2] = 0;
-		dat[3] = 't';
-		dat[4] = 'e';
-		dat[5] = 's';
-		dat[6] = 't';
-		dat[7] = '_';
-		dat[8] = 'i';
-		dat[9] = 'n';
-		dat[10] = 't';
-		dat[11] = 'e';
-		dat[12] = 'r';
-		dat[13] = 'f';
-		dat[14] = ' ';
-		dat[15] = 'a';
-		dat[16] = 'z';
-		dat[17] = 'e';
-		dat[18] = 'r';
-		dat[19] = 't';
-		dat[20] = 'y';
-		dat[21] = 0;
+		
+		for (j=0; j<pseudo.length() ; j++)
+		{
+			dat[i+j] = (byte)pseudo.charAt(j);
+		}
+		i=i+j+1;
+		dat[i] = ' ';
+		for (j=0; j<pwd.length() ; j++)
+		{
+			dat[i] = (byte)pwd.charAt(j);
+		}
+		i=i+j+1;
+		dat[i] = 0;
 			
 		send(dat);
 	}
