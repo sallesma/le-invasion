@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LEInterfaceNet implements ILEInterface {
 
@@ -31,6 +33,9 @@ public class LEInterfaceNet implements ILEInterface {
 	final static private byte HERE_YOUR_INVENTORY = 19;
 	final static private byte RAW_TEXT = 0;
 	final static private byte HERE_YOUR_STATS = 18;
+	
+	final static private int CHECK_INVASION = 1;
+	private int check_order = 0;
 	
 	public void open(String serverAdr, int port, String pseudo, String password)
 	{
@@ -190,7 +195,12 @@ public class LEInterfaceNet implements ILEInterface {
 		else if (type == HERE_YOUR_INVENTORY)
 			System.out.println("HERE_YOUR_INVENTORY");
 		else if (type == RAW_TEXT)
+		{
 			System.out.println("RAW_TEXT");
+			
+			if (check_order==CHECK_INVASION)
+				parse_check_inva(data);
+		}
 		else if (type == HERE_YOUR_STATS)
 			System.out.println("HERE_YOUR_STATS");
 		
@@ -206,6 +216,27 @@ public class LEInterfaceNet implements ILEInterface {
 			System.out.print((char)data[i]);
 		}
 		System.out.println("\n\n");
+	}
+
+	private void parse_check_inva(byte[] data) {
+		// TODO Auto-generated method stub
+		String s = new String(data);
+		
+		Pattern pattern = Pattern.compile("encore un (.)+ (automatique|périssable|ponctuel|permanent) en : ([0-9])+, ([0-9])+, ([0-9])+.$");
+		Matcher matcher = pattern.matcher(s);
+		if (matcher.find()) {
+		   System.out.println(matcher.group(1)+ Integer.parseInt(matcher.group(3))+  Integer.parseInt(matcher.group(4))+  Integer.parseInt(matcher.group(5)) );
+		}
+		else 
+		{
+		
+			pattern = Pattern.compile("encore un ([0-9])+ monstres d'invasion.$");
+			matcher = pattern.matcher(s);
+			if (matcher.find()) {
+			   System.out.println(Integer.parseInt(matcher.group(1)));
+			   check_order = 0;
+			}
+		}
 	}
 
 	@Override
