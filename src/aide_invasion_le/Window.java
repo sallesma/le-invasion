@@ -12,7 +12,7 @@ public class Window  extends JFrame {
 	
 	private LEInterfaceWindowed leInterface;
 	private TabbedPaneClosable tabbedPane;
-	private LEInterfaceNetPanelTest testInt;
+	private TabTestLEInterfaceNet testInt;
 	private TabGame game;
 	
     public Window() {
@@ -38,7 +38,7 @@ public class Window  extends JFrame {
         tabbedPane.addTab("Main Tab", mainTab);
         tabbedPane.selectLast();
         
-        testInt = new LEInterfaceNetPanelTest();
+        testInt = new TabTestLEInterfaceNet();
         tabbedPane.addTab("Interf Tab", testInt);
         
         game = new TabGame(leInterface);
