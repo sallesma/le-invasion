@@ -1,5 +1,6 @@
 package aide_invasion_le;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.TextField;
@@ -8,12 +9,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.nio.file.Path;
+import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
@@ -46,7 +49,12 @@ public class TabMap extends JPanel implements MouseListener {
 	private JButton clearPeri = new JButton("Périssable");
 	private JButton clearAuto = new JButton("Automatique");
 	
+	private JLayeredPane layeredPane = new JLayeredPane();
+	private ArrayList<JLabel> crossList = new ArrayList<JLabel>();
+	
 	private final static int DISPLAYED_MAP_SIZE = 400;
+
+	private String croixPath = "images\\croixRed.png";
 	
 	public TabMap(final ILEInterface leInterface, Path mapFile, int mapSize, int mapId)
 	{
@@ -121,18 +129,50 @@ public class TabMap extends JPanel implements MouseListener {
             }
 		});  
 	    
+		
+	    layeredPane.setPreferredSize(new Dimension(400, 400)); 
+	    
 	    JPanel bottomRightPanel = new JPanel();
 	    ImageIcon mapIcon = new ImageIcon( mapFile.toString() );
 	    Image scaledMapImage = Resize_image.scaleImage(mapIcon.getImage(), DISPLAYED_MAP_SIZE);//size in pixels
 	    Icon scaledMapIcon = new ImageIcon(scaledMapImage);
 	    this.image = new JLabel(scaledMapIcon);
 	    this.image.addMouseListener(this);
-	    bottomRightPanel.add(image);
+	    
+	    addPoint(0,0,0);
+	    addPoint(100,100,100);
+	    
+	    image.setBounds(0, 0, 400, 400);
+	    layeredPane.add(image);
+	    bottomRightPanel.add(layeredPane);
+	    
+	    addPoint(20,20,20);
+
+	    
 	    
 	    bottomPanel.add(bottomLeftPanel);
 	    bottomPanel.add(bottomRightPanel);
 	    
 	    this.add(bottomPanel);
+	}
+	
+	public void addPoint(int x,int y, int color)
+	{
+	    ImageIcon croixIcon = new ImageIcon( croixPath.toString() );
+	    JLabel croix;
+	    croix = new JLabel(croixIcon);
+	    croix.setBounds(0, 0, 15, 15);
+	    croix.setLocation((x*DISPLAYED_MAP_SIZE/mapSize)-7,(y*DISPLAYED_MAP_SIZE/mapSize)-7);
+	    crossList.add(croix);
+	    layeredPane.add(croix);
+	}
+	
+	public void removePoints()
+	{
+	    for(int i = 0; i < crossList.size(); i++)
+	    {
+	    	layeredPane.remove(crossList.get(i));
+	    } 
 	}
 	
 	@Override
