@@ -15,6 +15,7 @@ public class LEInterfaceNet{
 	private Socket socket;
 	private BufferedReader in;
 	private BufferedOutputStream out;
+	private Timer timer;
 
 	final static private int LOG_IN_TYPE = 140;
 	final static private int HEART_BEAT = 14;
@@ -92,7 +93,7 @@ public class LEInterfaceNet{
 	
 	public void startHeart_Beat()
 	{
-		System.out.println("Heart Beat");
+		System.out.println("Start Heart Beat");
 		TimerTask task = new TimerTask()
 		{
 			@Override
@@ -106,8 +107,14 @@ public class LEInterfaceNet{
 			}	
 		};
 		
-		Timer timer = new Timer();
+		timer = new Timer();
 		timer.scheduleAtFixedRate(task, 0, 25000);
+	}
+	
+	public void stopHeart_Beat()
+	{
+		System.out.println("Stop Heart Beat");
+		timer.cancel();
 	}
 	
 	public void sendMessage(String message)
@@ -146,8 +153,10 @@ public class LEInterfaceNet{
 	{
 		System.out.println("Close Socket");
         try {
-        	if (socket != null && !socket.isClosed())
+        	if (socket != null && !socket.isClosed()) {
         		socket.close();
+        		this.stopHeart_Beat();
+        	}
         	else
         		System.out.println("Unable to close socket");
 		} catch (IOException e) {
@@ -177,7 +186,7 @@ public class LEInterfaceNet{
 			System.out.println("Login fail");
 		}
 		
-		System.out.println("\n\n\n");
+		System.out.println("\n\n");
 	}
 
 }
