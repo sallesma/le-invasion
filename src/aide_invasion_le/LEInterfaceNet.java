@@ -35,7 +35,8 @@ public class LEInterfaceNet implements ILEInterface {
 	final static private byte HERE_YOUR_STATS = 18;
 	
 	final static private int CHECK_INVASION = 1;
-	private int check_order = 0;
+	final static private int NO_CHECK = 0;
+	private int check_order = NO_CHECK;
 	
 	public void open(String serverAdr, int port, String pseudo, String password)
 	{
@@ -234,7 +235,7 @@ public class LEInterfaceNet implements ILEInterface {
 			matcher = pattern.matcher(s);
 			if (matcher.find()) {
 			   System.out.println(Integer.parseInt(matcher.group(1)));
-			   check_order = 0;
+			   check_order = NO_CHECK;
 			}
 		}
 	}
