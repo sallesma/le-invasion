@@ -139,14 +139,10 @@ public class TabMap extends JPanel implements MouseListener {
 	    this.image = new JLabel(scaledMapIcon);
 	    this.image.addMouseListener(this);
 	    
-	    addPoint(0,0,0);
-	    addPoint(100,100,100);
 	    
 	    image.setBounds(0, 0, 400, 400);
 	    layeredPane.add(image);
 	    bottomRightPanel.add(layeredPane);
-	    
-	    addPoint(20,20,20);
 
 	    
 	    
@@ -169,6 +165,7 @@ public class TabMap extends JPanel implements MouseListener {
 	    croix.setLocation((x*DISPLAYED_MAP_SIZE/mapSize)-7,(y*DISPLAYED_MAP_SIZE/mapSize)-7);
 	    crossList.add(croix);
 	    layeredPane.add(croix);
+	    layeredPane.moveToFront(croix);
 	}
 	
 	public void removePoints()
