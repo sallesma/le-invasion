@@ -31,7 +31,7 @@ public class TabMain extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private Window parentWindow;
-	private LEInterfaceWindowed leInterface;
+	private ILEInterface leInterface;
 	private MapsManager mapsManager;
 	private String configFile = Paths.get("data", "config.properties").toString();
 	
@@ -55,13 +55,15 @@ public class TabMain extends JPanel {
 	private TextField pseudoNet = new TextField("", 10);
 	private JLabel passwordLabel = new JLabel("Password : ");
 	private TextField password = new TextField("", 10);
+	
+	private JButton interfaceValidateButton = new JButton("Valider l'interface");
 
 	JPanel mapOpenPanel = new JPanel();
 	private JLabel mapFolderLabel = new JLabel("Cartes");
 	private JComboBox<String> mapsComboBox = new JComboBox<String>();
 	private JButton openMapButton = new JButton("Ouvrir la carte");
 	
-	public TabMain(Window parentWindow, LEInterfaceWindowed leInterface) {
+	public TabMain(Window parentWindow, ILEInterface leInterface) {
 		this.parentWindow = parentWindow;
 		this.leInterface = leInterface;
 		this.mapsManager = new MapsManager();
@@ -108,33 +110,19 @@ public class TabMain extends JPanel {
 	    ligneInterfaceSelect.add(windowedButton);
 	    ligneInterfaceSelect.add(netButton);
 	    this.add(ligneInterfaceSelect);
-	    
 	    this.add(interfacePanel);
+	    this.add(interfaceValidateButton);
 	    
-	    KeyListener propertiesKeyListener = new KeyListener() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				updateLEInterface();
-				updateConfigFile();
-			}
-			@Override
-			public void keyReleased(KeyEvent e) {
-			}
-			@Override
-			public void keyPressed(KeyEvent e) {
-			}
-		};
-		ActionListener propertiesActionListener = new ActionListener() {
+		interfaceValidateButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				updateConfigFile();
+				if(windowedButton.isSelected())
+					TabMain.this.leInterface = new LEInterfaceWindowed();
+				else if(netButton.isSelected())
+					TabMain.this.leInterface = new LEInterfaceNet();
 			}
-		};
-		zonePseudo.addKeyListener(propertiesKeyListener);
-		zoneServer.addActionListener(propertiesActionListener);
-		serverAddress.addKeyListener(propertiesKeyListener);
-		serverPort.addKeyListener(propertiesKeyListener);
-		pseudoNet.addKeyListener(propertiesKeyListener);
-		password.addKeyListener(propertiesKeyListener);
+		});
 
 		String[] maps = this.mapsManager.getMapNames();
 		Arrays.sort(maps);
@@ -165,13 +153,6 @@ public class TabMain extends JPanel {
 		mapOpenPanel.add(openMapButton);
 	    this.add(new JSeparator());
 		this.add(mapOpenPanel);
-
-		this.updateLEInterface();
-	}
-
-	private void updateLEInterface() {
-		this.leInterface.setPseudo(zonePseudo.getText());
-		this.leInterface.setServer(zoneServer.getSelectedItem().toString());
 	}
 
 	private void updateConfigFile()
