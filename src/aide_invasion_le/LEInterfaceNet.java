@@ -122,11 +122,13 @@ public class LEInterfaceNet implements ILEInterface {
 	
 	public void addInvasion(String invasionType, int xPos, int yPos, int mapId,
 			String monsterType, int monsterNumber) {
-		System.out.println("LEInterfaceNet addInvasion does nothing");
+		String command = new String("#inv " + invasionType + " " + xPos + " " + yPos + " " + mapId + " " + monsterType + " " + monsterNumber);
+		this.sendRawText(command);
 	}
 
 	public void clearInvasion(String invasionType, int mapId) {
-		System.out.println("LEInterfaceNet clearInvasion does nothing");
+		String command = "#clear_inv " + invasionType +" " + mapId;
+		this.sendRawText(command);
 	}
 
 	public void sendCheckInvasion() {
