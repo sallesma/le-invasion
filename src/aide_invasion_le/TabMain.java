@@ -1,5 +1,7 @@
 package aide_invasion_le;
 
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,14 +42,18 @@ public class TabMain extends JPanel {
 	
 	JPanel interfacePanel = new JPanel();
 	
-	private JLabel pseudoWindowed = new JLabel("Pseudo");
+	private JLabel pseudoWindowedLabel = new JLabel("Pseudo :");
 	private TextField zonePseudo = new TextField("",10);
-	private JLabel server = new JLabel("Serveur");
+	private JLabel serverWindowedLabel = new JLabel("Serveur :");
 	private JComboBox<String> zoneServer = new JComboBox<String>(new String[]{"main", "test"});
 
-	private TextField serverAdress = new TextField("", 10);
-	private TextField port = new TextField("", 10);
+	private JLabel serverAddressLabel = new JLabel("Adresse serveur :");
+	private TextField serverAddress = new TextField("", 10);
+	private JLabel serverPortLabel = new JLabel("Port :");
+	private TextField serverPort = new TextField("", 10);
+	private JLabel pseudoNetLabel = new JLabel("Pseudo :");
 	private TextField pseudoNet = new TextField("", 10);
+	private JLabel passwordLabel = new JLabel("Password : ");
 	private TextField password = new TextField("", 10);
 
 	JPanel mapOpenPanel = new JPanel();
@@ -58,25 +64,26 @@ public class TabMain extends JPanel {
 	public TabMain(Window parentWindow, LEInterfaceWindowed leInterface) {
 		this.parentWindow = parentWindow;
 		this.leInterface = leInterface;
-	    this.mapsManager = new MapsManager();
-		
-	    this.readConfigFile();
-	    
-	    windowedButton = new JRadioButton("Fenêtre de jeu");
-	    netButton = new JRadioButton("Commandes serveur");
+		this.mapsManager = new MapsManager();
 
-	    ButtonGroup group = new ButtonGroup();
-	    group.add(windowedButton);
-	    group.add(netButton);
-	    
-	    windowedButton.addActionListener(new ActionListener() {
+		this.readConfigFile();
+		this.setLayout(new GridLayout(15, 1));
+
+		windowedButton = new JRadioButton("Fenêtre de jeu");
+		netButton = new JRadioButton("Interaction directe");
+		ButtonGroup group = new ButtonGroup();
+		group.add(windowedButton);
+		group.add(netButton);
+
+		windowedButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				interfacePanel.removeAll();
-				interfacePanel.add(pseudoWindowed);
+				interfacePanel.add(pseudoWindowedLabel);
 				interfacePanel.add(zonePseudo);
-				interfacePanel.add(server);
+				interfacePanel.add(serverWindowedLabel);
 				interfacePanel.add(zoneServer);
+				interfacePanel.setLayout(new GridLayout(1, 1));
 				interfacePanel.updateUI();
 			}
 		});
@@ -84,10 +91,15 @@ public class TabMain extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				interfacePanel.removeAll();
+				interfacePanel.add(pseudoNetLabel);
 				interfacePanel.add(pseudoNet);
-				interfacePanel.add(port);
-				interfacePanel.add(serverAdress);
+				interfacePanel.add(serverPortLabel);
+				interfacePanel.add(serverPort);
+				interfacePanel.add(serverAddressLabel);
+				interfacePanel.add(serverAddress);
+				interfacePanel.add(passwordLabel);
 				interfacePanel.add(password);
+				interfacePanel.setLayout(new GridLayout(2, 1));
 				interfacePanel.updateUI();
 			}
 		});
@@ -119,8 +131,8 @@ public class TabMain extends JPanel {
 		};
 		zonePseudo.addKeyListener(propertiesKeyListener);
 		zoneServer.addActionListener(propertiesActionListener);
-		serverAdress.addKeyListener(propertiesKeyListener);
-		port.addKeyListener(propertiesKeyListener);
+		serverAddress.addKeyListener(propertiesKeyListener);
+		serverPort.addKeyListener(propertiesKeyListener);
 		pseudoNet.addKeyListener(propertiesKeyListener);
 		password.addKeyListener(propertiesKeyListener);
 
@@ -170,8 +182,8 @@ public class TabMain extends JPanel {
 			outputStream = new FileOutputStream(configFile);
 			properties.setProperty("pseudo", zonePseudo.getText());
 			properties.setProperty("server", zoneServer.getSelectedItem().toString());
-			properties.setProperty("serverAdress", serverAdress.getText());
-			properties.setProperty("port", port.getText());
+			properties.setProperty("serverAdress", serverAddress.getText());
+			properties.setProperty("port", serverPort.getText());
 			properties.setProperty("pseudoNet", pseudoNet.getText());
 			properties.setProperty("password", password.getText());
 			properties.store(outputStream, null);
@@ -197,8 +209,8 @@ public class TabMain extends JPanel {
 				properties.load(inputStream);
 				zonePseudo.setText(properties.getProperty("pseudo"));
 				zoneServer.setSelectedItem(properties.getProperty("server"));
-				serverAdress.setText(properties.getProperty("serverAdress"));
-				port.setText(properties.getProperty("port"));
+				serverAddress.setText(properties.getProperty("serverAdress"));
+				serverPort.setText(properties.getProperty("port"));
 				pseudoNet.setText(properties.getProperty("pseudoNet"));
 				password.setText(properties.getProperty("password"));
 			} catch (IOException e) {
