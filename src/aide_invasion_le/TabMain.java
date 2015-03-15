@@ -1,6 +1,5 @@
 package aide_invasion_le;
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
@@ -25,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JSeparator;
 
 public class TabMain extends JPanel {
 
@@ -163,6 +163,7 @@ public class TabMain extends JPanel {
 		mapOpenPanel.add(mapFolderLabel);
 		mapOpenPanel.add(mapsComboBox);
 		mapOpenPanel.add(openMapButton);
+	    this.add(new JSeparator());
 		this.add(mapOpenPanel);
 
 		this.updateLEInterface();
