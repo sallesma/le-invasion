@@ -166,12 +166,27 @@ public class TabMap extends JPanel implements MouseListener {
 			@Override
 			public void run() 
 			{
-				leInterface.sendMsg("#check_invasion");
+				leInterface.sendMsg("#check_invasion",1);
 			}	
 		};
 		
 		checkInvaTimer = new Timer();
 		checkInvaTimer.scheduleAtFixedRate(task, 0, 10000);
+	}
+	
+	private void check_invasion_Delay()
+	{
+		TimerTask task = new TimerTask()
+		{
+			@Override
+			public void run() 
+			{
+				leInterface.sendMsg("#check_invasion");
+			}	
+		};
+		
+		checkInvaTimer = new Timer();
+		checkInvaTimer.schedule(task, 1000);
 	}
 	
 	public void stopCheckInvaTimer()

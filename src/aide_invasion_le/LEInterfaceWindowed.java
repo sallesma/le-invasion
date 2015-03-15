@@ -94,9 +94,8 @@ public class LEInterfaceWindowed implements ILEInterface {
 	}
 
 	@Override
-	public void sendMsg(String message) {
+	public void sendMsg(String str, int order) {
 		// TODO Auto-generated method stub
-		String windowName ="(" + pseudo + " sur " + server + ") Landes Eternelles";
-		this.sendCommandToLE(message, windowName);
+		
 	}
 }

@@ -22,7 +22,7 @@ public interface ILEInterface {
 
 	public void commandoStop(int mapId, int commandoType, int commandoGroup);
 	
-	public void sendMsg(String message);
+	public void sendMsg(String str, int order);
 	
 	public ArrayList<String[]> checkInvasion();
 	
