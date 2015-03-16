@@ -51,6 +51,8 @@ public class TabMap extends JPanel implements MouseListener {
 	private JButton clearPeri = new JButton("Périssable");
 	private JButton clearAuto = new JButton("Automatique");
 	
+	private JButton check = new JButton("Check");
+	
 	private JLayeredPane layeredPane = new JLayeredPane();
 	private ArrayList<JLabel> crossList = new ArrayList<JLabel>();
 	
@@ -111,6 +113,7 @@ public class TabMap extends JPanel implements MouseListener {
 		bottomLeftPanel.add(clearPerm);
 		bottomLeftPanel.add(clearPeri);
 		bottomLeftPanel.add(clearAuto);
+		bottomLeftPanel.add(check);
 		
 		clearPonct.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
@@ -130,6 +133,11 @@ public class TabMap extends JPanel implements MouseListener {
 		clearAuto.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
             	TabMap.this.leInterface.clearInvasion(LEInterfaceWindowed.INVASION_TYPE_AUTO, TabMap.this.mapId);
+            }
+		});  
+		check.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+            	startCheckInvaTimer();
             }
 		});  
 	    
@@ -153,8 +161,6 @@ public class TabMap extends JPanel implements MouseListener {
 	    bottomPanel.add(bottomRightPanel);
 	    
 	    this.add(bottomPanel);
-	    
-	    startCheckInvaTimer();
 	}
 	
 	public void setLEIinterface(ILEInterface leInterface) {
@@ -195,8 +201,8 @@ public class TabMap extends JPanel implements MouseListener {
 				    for(int i = 0; i < crossList.size(); i++)
 				    {
 				    	System.out.println(res.get(i));
-				    	if(Integer.parseInt(res.get(i)[3]) == mapId)
-				    		addPoint(Integer.parseInt(res.get(i)[1]),Integer.parseInt(res.get(i)[2]),1);
+				    	if(Integer.parseInt(res.get(i)[4]) == mapId)
+				    		addPoint(Integer.parseInt(res.get(i)[2]),Integer.parseInt(res.get(i)[3]),1);
 				    } 
 				}
 			}	

@@ -284,11 +284,11 @@ public class LEInterfaceNet implements ILEInterface {
 		res_check_order = new ArrayList<String[]>();
 		String s = new String(data);
 		
-		Pattern pattern = Pattern.compile("encore un (.)+ (automatique|périssable|ponctuel|permanent) en : ([0-9])+, ([0-9])+, ([0-9])+.$");
+		Pattern pattern = Pattern.compile("encore un (.)+ (.)+ en : ([0-9])+, ([0-9])+, ([0-9])+.$");
 		Matcher matcher = pattern.matcher(s);
 		if (matcher.find()) {
-			System.out.println(matcher.group(1)+ matcher.group(3)+  matcher.group(4)+  matcher.group(5) );
-			String[]resStrTab = {matcher.group(1),matcher.group(2),matcher.group(3),matcher.group(4)};
+			System.out.println(matcher.group(1)+ matcher.group(3)+ matcher.group(3)+  matcher.group(4)+  matcher.group(5) );
+			String[]resStrTab = {matcher.group(1),matcher.group(2),matcher.group(3),matcher.group(4),matcher.group(5)};
 			res_check_order.add(resStrTab);
 		}
 		else 
