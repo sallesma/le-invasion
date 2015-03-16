@@ -1,5 +1,6 @@
 package aide_invasion_le;
 
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
@@ -37,6 +38,7 @@ public class TabMain extends JPanel {
 	private JLabel interfaceRadioLabel = new JLabel("Interface vers LE :");
 	private JRadioButton windowedButton;
 	private JRadioButton netButton;
+	private JLabel interfaceDescription = new JLabel("");
 	
 	JPanel interfacePanel = new JPanel();
 	
@@ -46,9 +48,9 @@ public class TabMain extends JPanel {
 	private JComboBox<String> zoneServer = new JComboBox<String>(new String[]{"main", "test"});
 
 	private JLabel serverAddressLabel = new JLabel("Adresse serveur :");
-	private TextField serverAddress = new TextField("", 10);
+	private TextField serverAddress = new TextField("jeu.landes-eternelles.com", 10);
 	private JLabel serverPortLabel = new JLabel("Port :");
-	private TextField serverPort = new TextField("", 10);
+	private TextField serverPort = new TextField("3001", 10);
 	private JLabel pseudoNetLabel = new JLabel("Pseudo :");
 	private TextField pseudoNet = new TextField("", 10);
 	private JLabel passwordLabel = new JLabel("Password : ");
@@ -85,6 +87,7 @@ public class TabMain extends JPanel {
 				interfacePanel.add(zoneServer);
 				interfacePanel.setLayout(new GridLayout(1, 1));
 				interfacePanel.updateUI();
+				interfaceDescription.setText("Les commandes à envoyer seront copiées dans ta fenêtre du jeu et envoyées");
 			}
 		});
 	    netButton.addActionListener(new ActionListener() {
@@ -101,6 +104,7 @@ public class TabMain extends JPanel {
 				interfacePanel.add(password);
 				interfacePanel.setLayout(new GridLayout(2, 1));
 				interfacePanel.updateUI();
+				interfaceDescription.setText("Les commandes seront envoyées directement au serveur par le logiciel en utilisant le compte indiqué");
 			}
 		});
 	    windowedButton.doClick();
@@ -108,6 +112,10 @@ public class TabMain extends JPanel {
 	    ligneInterfaceSelect.add(windowedButton);
 	    ligneInterfaceSelect.add(netButton);
 	    this.add(ligneInterfaceSelect);
+		interfaceDescription.setFont(new Font(interfaceDescription.getFont()
+				.getName(), Font.ITALIC, interfaceDescription.getFont()
+				.getSize()));
+	    this.add(interfaceDescription);
 	    this.add(interfacePanel);
 	    this.add(interfaceValidateButton);
 	    

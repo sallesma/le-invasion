@@ -142,20 +142,24 @@ public class LEInterfaceNet implements ILEInterface {
 
 	public void commandoAjouter(int xPos, int yPos, int mapId,
 			int commandoType, int commandoGroup) {
-		System.out.println("LEInterfaceNet commandoAjouter does nothing");
+		String command = new String("#comdo_script_ajouter " + mapId + " " + xPos + " " + yPos + " " + commandoType + " " + commandoGroup);
+		this.sendRawText(command);
 	}
 
 	public void commandoGo(int xPos, int yPos, int mapId, int commandoType,
 			int commandoGroup) {
-		System.out.println("LEInterfaceNet commandoGo does nothing");
+		String command = new String("#comdo_script_go " + mapId + " " + xPos + " " + yPos + " " + commandoType + " " + commandoGroup);
+		this.sendRawText(command);
 	}
 
 	public void commandoFree(int mapId, int commandoType, int commandoGroup) {
-		System.out.println("LEInterfaceNet commandoFree does nothing");
+		String command = new String("#commando_free " + mapId + " " + commandoType + " " + commandoGroup);
+		this.sendRawText(command);
 	}
 
 	public void commandoStop(int mapId, int commandoType, int commandoGroup) {
-		System.out.println("LEInterfaceNet commandoStop does nothing");
+		String command = new String("#commando_stop " + mapId + " " + commandoType + " " + commandoGroup);
+		this.sendRawText(command);
 	}
 	
 	private void login(String pseudo, String pwd)
