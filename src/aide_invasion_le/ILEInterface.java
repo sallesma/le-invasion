@@ -17,6 +17,10 @@ public interface ILEInterface {
 	public void sendCheckInvasion(TabMap callBack);
 	
 	public ArrayList<String[]> retrieveCheckInvasion();
+	
+	public void sendCheckPlayers(TabMap callBack, int map);
+	
+	public ArrayList<String[]> retrieveCheckPlayers();
 
 	public void commandoAjouter(int xPos, int yPos, int mapId,
 			int commandoType, int commandoGroup);

@@ -52,6 +52,14 @@ public class LEInterfaceWindowed implements ILEInterface {
 		return new ArrayList<String[]>();
 	}
 	
+	public void sendCheckPlayers(TabMap callBack, int i) {
+		System.out.println("LEInterfaceNet sendCheckPlayers does nothing");
+	}
+
+	public ArrayList<String[]> retrieveCheckPlayers() {
+		return new ArrayList<String[]>();
+	}
+	
 	public void commandoAjouter(int xPos, int yPos, int mapId, int commandoType, int commandoGroup)
 	{
 		String command = new String("&comdo_script_ajouter " + mapId + " " + xPos + " " + yPos + " " + commandoType + " " + commandoGroup);

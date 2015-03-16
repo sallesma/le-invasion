@@ -1,6 +1,8 @@
 package aide_invasion_le;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.TextField;
@@ -21,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.SwingConstants;
 
 import aide_invasion_le.FormCommando.CommandoOrder;
 
@@ -50,6 +53,9 @@ public class TabMap extends JPanel implements MouseListener {
 	private JButton clearPerm = new JButton("Permanent");
 	private JButton clearPeri = new JButton("Périssable");
 	private JButton clearAuto = new JButton("Automatique");
+	
+	private JLabel nbMonster = new JLabel("0",SwingConstants.CENTER);
+	private JLabel nbPlayer = new JLabel("0",SwingConstants.CENTER);
 	
 	private JButton check = new JButton("Check");
 	private Boolean checkB = false;
@@ -142,11 +148,13 @@ public class TabMap extends JPanel implements MouseListener {
             	{
             		stopCheckInvaTimer();
 	            	checkB = false;
+	            	passiveButton(check);
             	}
             	else
             	{
 	            	startCheckInvaTimer();
 	            	checkB = true;
+	            	activeButton(check);
             	}
             }
 		});  
@@ -163,6 +171,27 @@ public class TabMap extends JPanel implements MouseListener {
 	    
 	    image.setBounds(0, 0, 400, 400);
 	    layeredPane.add(image);
+	    
+	    nbMonster.setBounds(0, 0, 50, 20);
+	    Font f = new Font("Serif", Font.PLAIN, 24); // par exemple 
+	    nbMonster.setForeground(new Color(255, 0 , 0));
+	    //nbMonster.setLocation(15, 10);
+	    nbMonster.setFont(f);
+	    nbMonster.setOpaque(true);
+	    nbMonster.setBackground(Color.BLACK);
+	    layeredPane.add(nbMonster);
+	    layeredPane.moveToFront(nbMonster);
+	    
+	    nbPlayer.setBounds(0, 0, 50, 20);
+	    Font f2 = new Font("Serif", Font.PLAIN, 24); // par exemple 
+	    nbPlayer.setForeground(new Color(0, 0 , 255));
+	    nbPlayer.setLocation(DISPLAYED_MAP_SIZE-40, 0);
+	    nbPlayer.setFont(f2);
+	    nbPlayer.setOpaque(true);
+	    nbPlayer.setBackground(Color.BLACK);
+	    layeredPane.add(nbPlayer);
+	    layeredPane.moveToFront(nbPlayer);
+	    
 	    bottomRightPanel.add(layeredPane);
 
 	    
@@ -199,46 +228,45 @@ public class TabMap extends JPanel implements MouseListener {
 		System.out.println("Call Back : " + res.size());
 		
 		removePoints();
+		int nbm = 0;
 		for(int i = 0; i < res.size(); i++)
 		{
 		  	System.out.println(res.get(i));
 		 	if(Integer.parseInt(res.get(i)[4]) == mapId)
+		 	{
 		  		addPoint(Integer.parseInt(res.get(i)[2]),Integer.parseInt(res.get(i)[3]),1);
-		} 
-	}
-
-	/*private void check_invasion_Delay()
-	{
-		TimerTask task = new TimerTask()
-		{
-			@Override
-			public void run() 
-			{
-				ArrayList<String[]> res = leInterface.retrieveCheckInvasion();
-				System.out.println("taille de l'arraylist : " + res.size());
-				if(res.size()==0)
-					check_invasion_Delay();
-				else
-				{
-					removePoints();
-				    for(int i = 0; i < crossList.size(); i++)
-				    {
-				    	System.out.println(res.get(i));
-				    	if(Integer.parseInt(res.get(i)[4]) == mapId)
-				    		addPoint(Integer.parseInt(res.get(i)[2]),Integer.parseInt(res.get(i)[3]),1);
-				    } 
-				}
-			}	
-		};
+		  		nbm++;
+		 	} 
+		}
+	 	nbMonster.setText(nbm + "");
+	 	
+	 	leInterface.sendCheckPlayers(this, mapId);
 		
-		checkInvaTimer = new Timer();
-		checkInvaTimer.schedule(task, 1000);
-	}*/
+		layeredPane.repaint();
+	}
+	
+	public void check_players_callback(ArrayList<String[]> res)
+	{
+		System.out.println("Call Back Players : " + res.size());
+		
+		removePoints();
+		int nbp = 0;
+		for(int i = 0; i < res.size(); i++)
+		{
+		  	nbp++;
+		}
+	 	nbPlayer.setText(nbp + "");
+	 	
+	 	leInterface.sendCheckInvasion(this);
+		
+		layeredPane.repaint();
+	}
 
 	public void stopCheckInvaTimer()
 	{
 		System.out.println("Stop Check Inva");
 		checkInvaTimer.cancel();
+		removePoints();
 	}
 	
 	public void addPoint(int x,int y, int color)
@@ -247,7 +275,7 @@ public class TabMap extends JPanel implements MouseListener {
 	    JLabel croix;
 	    croix = new JLabel(croixIcon);
 	    croix.setBounds(0, 0, 15, 15);
-	    croix.setLocation((x*DISPLAYED_MAP_SIZE/mapSize)-7,(y*DISPLAYED_MAP_SIZE/mapSize)-7);
+	    croix.setLocation((x*DISPLAYED_MAP_SIZE/mapSize)-7,DISPLAYED_MAP_SIZE-(y*DISPLAYED_MAP_SIZE/mapSize)+7);
 	    crossList.add(croix);
 	    layeredPane.add(croix);
 	    layeredPane.moveToFront(croix);
@@ -296,6 +324,17 @@ public class TabMap extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+	}
+	
+	protected void activeButton (JButton b)
+	{
+	    b.setBackground(Color.blue);
+	    b.setForeground(Color.white);
+	}
+	protected void passiveButton (JButton b)
+	{
+	    b.setBackground(null);
+	    b.setForeground(null);
 	}
 }
 

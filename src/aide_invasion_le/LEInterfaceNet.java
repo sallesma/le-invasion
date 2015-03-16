@@ -19,6 +19,7 @@ public class LEInterfaceNet implements ILEInterface {
 	private BufferedOutputStream out;
 	private Timer heartBeatTimer;
 	private TabMap callBackCheckInvasion;
+	private TabMap callBackCheckPlayers;
 
 	final static private byte LOG_IN_TYPE = (byte) 140;
 	final static private byte HEART_BEAT = 14;
@@ -36,6 +37,9 @@ public class LEInterfaceNet implements ILEInterface {
 	
 	private boolean isInvasionChecking = false;
 	private ArrayList<String[]> res_check_order = new ArrayList<String[]>();
+	
+	private boolean isPlayersChecking = false;
+	private ArrayList<String[]> res_check_players_order = new ArrayList<String[]>();
 	
 	public LEInterfaceNet(String pseudo, String password, String serverAdress, int serverPort) {
 		this.open(serverAdress, serverPort, pseudo, password);
@@ -140,6 +144,16 @@ public class LEInterfaceNet implements ILEInterface {
 	
 	public ArrayList<String[]> retrieveCheckInvasion() {
 		return res_check_order;
+	}
+	
+	public void sendCheckPlayers(TabMap callBack, int map) {
+		this.callBackCheckPlayers = callBack;
+		this.isPlayersChecking = true;
+		this.sendRawText("#rapport " + map + " attaque 0 300 0");
+	}
+	
+	public ArrayList<String[]> retrieveCheckPlayers() {
+		return res_check_players_order;
 	}
 
 	public void commandoAjouter(int xPos, int yPos, int mapId,
@@ -264,6 +278,8 @@ public class LEInterfaceNet implements ILEInterface {
 			System.out.println("RAW_TEXT");
 			if (isInvasionChecking)
 				parse_check_inva(data);
+			if (isPlayersChecking)
+				parse_check_play(data);
 		}
 		else if (type == HERE_YOUR_STATS)
 			System.out.println("HERE_YOUR_STATS");
@@ -294,13 +310,38 @@ public class LEInterfaceNet implements ILEInterface {
 		}
 		else 
 		{
-			pattern = Pattern.compile("encore ([0-9])+ monstre");
+			pattern = Pattern.compile("(encore [0-9]+ monstre)|(plus de monstre d'invasion)");
 			matcher = pattern.matcher(s);
 			if (matcher.find()) {
-				System.out.println("Fin Parse : " + Integer.parseInt(matcher.group(1)));
+				System.out.println("Fin Parse Inva");
 				isInvasionChecking = false;
 				callBackCheckInvasion.check_invasion_callback(res_check_order);
 				res_check_order = new ArrayList<String[]>();
+			}
+		}
+	}
+	
+	private void parse_check_play(byte[] data) {
+		String s = new String(data);
+		
+		System.out.println("TryParse play");
+		
+		Pattern pattern = Pattern.compile("^..([a-zA-Z_]+) *$");
+		Matcher matcher = pattern.matcher(s);
+		if (matcher.find()) {
+			System.out.println("Parse play : " + matcher.group(1) );
+			String[]resStrTab = {matcher.group(1)};
+			res_check_players_order.add(resStrTab);
+		}
+		else 
+		{
+			pattern = Pattern.compile("pour le .* attaque");
+			matcher = pattern.matcher(s);
+			if (matcher.find()) {
+				System.out.println("Fin Parse Players");
+				isPlayersChecking = false;
+				callBackCheckPlayers.check_players_callback(res_check_players_order);
+				res_check_players_order = new ArrayList<String[]>();
 			}
 		}
 	}
