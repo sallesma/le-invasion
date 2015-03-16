@@ -46,9 +46,9 @@ public class TabMain extends JPanel {
 	private JComboBox<String> zoneServer = new JComboBox<String>(new String[]{"main", "test"});
 
 	private JLabel serverAddressLabel = new JLabel("Adresse serveur :");
-	private TextField serverAddress = new TextField("", 10);
+	private TextField serverAddress = new TextField("jeu.landes-eternelles.com", 10);
 	private JLabel serverPortLabel = new JLabel("Port :");
-	private TextField serverPort = new TextField("", 10);
+	private TextField serverPort = new TextField("3001", 10);
 	private JLabel pseudoNetLabel = new JLabel("Pseudo :");
 	private TextField pseudoNet = new TextField("", 10);
 	private JLabel passwordLabel = new JLabel("Password : ");
