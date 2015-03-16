@@ -240,7 +240,7 @@ public class TabMap extends JPanel implements MouseListener {
 		}
 	 	nbMonster.setText(nbm + "");
 	 	
-	 	leInterface.sendCheckPlayers(this, mapId);
+	 	//leInterface.sendCheckPlayers(this, mapId);
 		
 		layeredPane.repaint();
 	}
