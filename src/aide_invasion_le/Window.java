@@ -12,7 +12,6 @@ public class Window  extends JFrame {
 	
 	private ILEInterface leInterface;
 	private TabbedPaneClosable tabbedPane;
-	private TabTestLEInterfaceNet testInt;
 	private TabGame game;
 	
     public Window() {
@@ -26,7 +25,6 @@ public class Window  extends JFrame {
 	        public void windowClosing(WindowEvent e) {
 	        	if(leInterface != null)
 	        		leInterface.close();
-	        	testInt.close();
 	            System.exit(0);
 	          }
 	        });
@@ -36,9 +34,6 @@ public class Window  extends JFrame {
         TabMain mainTab = new TabMain(this);
         tabbedPane.addTab("Main Tab", mainTab);
         tabbedPane.selectLast();
-        
-        testInt = new TabTestLEInterfaceNet();
-        tabbedPane.addTab("Interf Tab", testInt);
         
         game = new TabGame(leInterface);
         tabbedPane.addTab("Game Tab", game);
