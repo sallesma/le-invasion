@@ -61,6 +61,7 @@ public class TabGame extends JPanel implements MouseListener {
 					TabGame.this.leInterface.sendRawText(message);
 					tchat.append("\n" + message);
 				}
+				tchatInput.setText("");
 			}
 		});
 		topPanel.add(ligne2);
