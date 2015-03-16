@@ -3,6 +3,7 @@ package aide_invasion_le;
 import java.io.IOException;
 import java.util.ArrayList;
 
+//public class LEInterfaceWindowed implements ILEInterface {
 public class LEInterfaceWindowed implements ILEInterface {
 	public static final String INVASION_TYPE_PONCT = "ponct";
 	public static final String INVASION_TYPE_PERM = "perm";

@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.nio.file.Paths;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -29,12 +31,13 @@ public class TabGame extends JPanel implements MouseListener {
 	private ILEInterface leInterface;
 	private int mapId = 0;
 	private int mapSize = 192;
-	private int casesAffichees = 30;
 	private int posX = 96;
 	private int posY = 96;
 	private int sizeBigMap = 0;
 	String mapFile = Paths.get("images","1_trepont.jpg").toString();
 	String croixPath = Paths.get("images", "croix.png").toString();
+	
+	private MapsManager mapsMan = new MapsManager();
 	
 	private TextArea tchat = new TextArea(5, 30);
 	private TextField tchatInput = new TextField(30);
@@ -99,6 +102,30 @@ public class TabGame extends JPanel implements MouseListener {
 	public void centerMapOnPlayer()
 	{
 		image.setLocation(ZONE_CARTE/2 - (sizeBigMap/mapSize*posX),-sizeBigMap+ZONE_CARTE/2 + (sizeBigMap/mapSize*posY));
+	}
+	
+	public void changeMap(byte[] data)
+	{
+		Pattern pattern = Pattern.compile("maps/(.*).elm");
+		Matcher matcher = pattern.matcher(new String(data));
+		if (matcher.find()) {
+			String mapName = matcher.group(1) + ".jpg";
+			System.out.println("Parse : " + mapName);
+			
+			mapSize = mapsMan.getMapSize(mapName);
+			mapId = mapsMan.getMapId(mapName);
+			
+			
+			ImageIcon mapIcon = new ImageIcon( mapsMan.getMapFilePath(mapName).toString() );
+		    Image scaledMapImage = ResizeImage.scaleImage(mapIcon.getImage(), 400);//size in pixels
+		    sizeBigMap = ZONE_CARTE*mapSize/CASE_AFFICHEES;
+		    Image scaledMapImage2 = ResizeImage.scaleImage(scaledMapImage, sizeBigMap);//size in pixels
+		    Icon scaledMapIcon = new ImageIcon(scaledMapImage2);
+		    this.image = new JLabel(scaledMapIcon);
+		    this.image.addMouseListener(this);
+		    image.setBounds(0, 0, sizeBigMap, sizeBigMap);
+		    centerMapOnPlayer();
+		}
 	}
 	
 	@Override

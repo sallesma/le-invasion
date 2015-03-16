@@ -35,6 +35,8 @@ public class LEInterfaceNet implements ILEInterface {
 	final static private byte RAW_TEXT = 0;
 	final static private byte HERE_YOUR_STATS = 18;
 	
+	private TabGame gameTab;
+	
 	private boolean isInvasionChecking = false;
 	private ArrayList<String[]> res_check_order = new ArrayList<String[]>();
 	
@@ -110,6 +112,11 @@ public class LEInterfaceNet implements ILEInterface {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void gameAdd(TabGame gameTab)
+	{
+		this.gameTab = gameTab;
 	}
 	
 	public void sendRawText(String message)
@@ -270,7 +277,10 @@ public class LEInterfaceNet implements ILEInterface {
 		else if (type == YOU_ARE)
 			System.out.println("YOU_ARE");
 		else if (type == CHANGE_MAP)
+		{
 			System.out.println("CHANGE_MAP");
+			gameTab.changeMap(data);
+		}
 		else if (type == HERE_YOUR_INVENTORY)
 			System.out.println("HERE_YOUR_INVENTORY");
 		else if (type == RAW_TEXT)

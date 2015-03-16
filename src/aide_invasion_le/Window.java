@@ -34,9 +34,6 @@ public class Window  extends JFrame {
         tabbedPane.addTab("Main Tab", mainTab);
         tabbedPane.selectLast();
         
-        game = new TabGame(new LEInterfaceNet("test_interf", "azerty", "jeu.landes-eternelles.com", 3001));
-        tabbedPane.addTab("Game Tab", game);
-        
         requestFocus();
         
         this.add(tabbedPane);
@@ -44,9 +41,13 @@ public class Window  extends JFrame {
         this.setVisible(true);
     }
 
+	public void createGame(ILEInterface leInterface) {
+		//game = new TabGame(leInterface);
+	}
+    
 	public void openMapTab(ILEInterface leInterface, Path mapPath, int mapId, int mapSize) {
-		TabMap mapTab = new TabMap(leInterface, mapPath, mapSize, mapId);
-		tabbedPane.addTab(mapPath.getFileName().toString(), mapTab);
+		game = new TabGame(leInterface);
+        tabbedPane.addTab("Game Tab", game);
 		tabbedPane.selectLast();
 	}
 	
