@@ -14,7 +14,7 @@ public interface ILEInterface {
 
 	public void clearInvasion(String invasionType, int mapId);
 	
-	public void sendCheckInvasion();
+	public void sendCheckInvasion(TabMap callBack);
 	
 	public ArrayList<String[]> retrieveCheckInvasion();
 

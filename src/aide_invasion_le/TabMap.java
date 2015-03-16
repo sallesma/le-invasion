@@ -52,6 +52,7 @@ public class TabMap extends JPanel implements MouseListener {
 	private JButton clearAuto = new JButton("Automatique");
 	
 	private JButton check = new JButton("Check");
+	private Boolean checkB = false;
 	
 	private JLayeredPane layeredPane = new JLayeredPane();
 	private ArrayList<JLabel> crossList = new ArrayList<JLabel>();
@@ -137,7 +138,16 @@ public class TabMap extends JPanel implements MouseListener {
 		});  
 		check.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	startCheckInvaTimer();
+            	if(checkB)
+            	{
+            		stopCheckInvaTimer();
+	            	checkB = false;
+            	}
+            	else
+            	{
+	            	startCheckInvaTimer();
+	            	checkB = true;
+            	}
             }
 		});  
 	    
@@ -168,23 +178,36 @@ public class TabMap extends JPanel implements MouseListener {
 	}
 	
 	public void startCheckInvaTimer() {
+		final TabMap tab = this;
 		TimerTask task = new TimerTask()
 		{
 			@Override
 			public void run() 
 			{
 				System.out.println("startcheckinva");
-				leInterface.sendCheckInvasion();
-				check_invasion_Delay();
+				leInterface.sendCheckInvasion(tab);
+				//check_invasion_Delay();
 			}	
 		};
 		
 		checkInvaTimer = new Timer();
-		checkInvaTimer.scheduleAtFixedRate(task, 0, 10000);
+		checkInvaTimer.scheduleAtFixedRate(task, 0, 1000);
 	}
 	
+	public void check_invasion_callback(ArrayList<String[]> res)
+	{
+		System.out.println("Call Back : " + res.size());
+		
+		removePoints();
+		for(int i = 0; i < res.size(); i++)
+		{
+		  	System.out.println(res.get(i));
+		 	if(Integer.parseInt(res.get(i)[4]) == mapId)
+		  		addPoint(Integer.parseInt(res.get(i)[2]),Integer.parseInt(res.get(i)[3]),1);
+		} 
+	}
 
-	private void check_invasion_Delay()
+	/*private void check_invasion_Delay()
 	{
 		TimerTask task = new TimerTask()
 		{
@@ -210,7 +233,7 @@ public class TabMap extends JPanel implements MouseListener {
 		
 		checkInvaTimer = new Timer();
 		checkInvaTimer.schedule(task, 1000);
-	}
+	}*/
 
 	public void stopCheckInvaTimer()
 	{

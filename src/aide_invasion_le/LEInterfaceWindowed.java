@@ -44,7 +44,7 @@ public class LEInterfaceWindowed implements ILEInterface {
 		this.sendCommandToLE(command);
 	}
 
-	public void sendCheckInvasion() {
+	public void sendCheckInvasion(TabMap callBack) {
 		System.out.println("LEInterfaceNet sendCheckInvasion does nothing");
 	}
 

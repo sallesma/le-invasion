@@ -18,6 +18,7 @@ public class LEInterfaceNet implements ILEInterface {
 	private DataInputStream in;
 	private BufferedOutputStream out;
 	private Timer heartBeatTimer;
+	private TabMap callBackCheckInvasion;
 
 	final static private byte LOG_IN_TYPE = (byte) 140;
 	final static private byte HEART_BEAT = 14;
@@ -131,7 +132,8 @@ public class LEInterfaceNet implements ILEInterface {
 		this.sendRawText(command);
 	}
 
-	public void sendCheckInvasion() {
+	public void sendCheckInvasion(TabMap callBack) {
+		this.callBackCheckInvasion = callBack;
 		this.isInvasionChecking = true;
 		this.sendRawText("#check_invasion");
 	}
@@ -281,23 +283,24 @@ public class LEInterfaceNet implements ILEInterface {
 	}
 
 	private void parse_check_inva(byte[] data) {
-		res_check_order = new ArrayList<String[]>();
 		String s = new String(data);
 		
-		Pattern pattern = Pattern.compile("encore un (.)+ (.)+ en : ([0-9])+, ([0-9])+, ([0-9])+.$");
+		Pattern pattern = Pattern.compile("encore un (.+) (.+) en : ([0-9]+), ([0-9]+), ([0-9]+).$");
 		Matcher matcher = pattern.matcher(s);
 		if (matcher.find()) {
-			System.out.println(matcher.group(1)+ matcher.group(3)+ matcher.group(3)+  matcher.group(4)+  matcher.group(5) );
+			System.out.println("Parse : " + matcher.group(1)+ matcher.group(3)+ matcher.group(3)+  matcher.group(4)+  matcher.group(5) );
 			String[]resStrTab = {matcher.group(1),matcher.group(2),matcher.group(3),matcher.group(4),matcher.group(5)};
 			res_check_order.add(resStrTab);
 		}
 		else 
 		{
-			pattern = Pattern.compile("encore ([0-9])+ monstres d'invasion.$");
+			pattern = Pattern.compile("encore ([0-9])+ monstre");
 			matcher = pattern.matcher(s);
 			if (matcher.find()) {
-				System.out.println(Integer.parseInt(matcher.group(1)));
+				System.out.println("Fin Parse : " + Integer.parseInt(matcher.group(1)));
 				isInvasionChecking = false;
+				callBackCheckInvasion.check_invasion_callback(res_check_order);
+				res_check_order = new ArrayList<String[]>();
 			}
 		}
 	}
