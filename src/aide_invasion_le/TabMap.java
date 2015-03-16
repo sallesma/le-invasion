@@ -143,7 +143,6 @@ public class TabMap extends JPanel implements MouseListener {
 	    this.image = new JLabel(scaledMapIcon);
 	    this.image.addMouseListener(this);
 	    
-	    
 	    image.setBounds(0, 0, 400, 400);
 	    layeredPane.add(image);
 	    bottomRightPanel.add(layeredPane);
@@ -154,6 +153,8 @@ public class TabMap extends JPanel implements MouseListener {
 	    bottomPanel.add(bottomRightPanel);
 	    
 	    this.add(bottomPanel);
+	    
+	    startCheckInvaTimer();
 	}
 	
 	public void setLEIinterface(ILEInterface leInterface) {
@@ -167,6 +168,7 @@ public class TabMap extends JPanel implements MouseListener {
 			public void run() 
 			{
 				leInterface.sendMsg("#check_invasion",1);
+				check_invasion_Delay();
 			}	
 		};
 		
@@ -181,7 +183,19 @@ public class TabMap extends JPanel implements MouseListener {
 			@Override
 			public void run() 
 			{
-				//leInterface.sendMsg("#check_invasion");
+				ArrayList<String[]> res = leInterface.checkInvasion();
+				if(res.size()==0)
+					check_invasion_Delay();
+				else
+				{
+					leInterface.clear_res_check_order();
+					removePoints();
+				    for(int i = 0; i < crossList.size(); i++)
+				    {
+				    	if(Integer.parseInt(res.get(i)[3]) == mapId)
+				    		addPoint(Integer.parseInt(res.get(i)[1]),Integer.parseInt(res.get(i)[2]),1);
+				    } 
+				}
 			}	
 		};
 		
