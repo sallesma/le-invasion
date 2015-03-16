@@ -17,7 +17,6 @@ public class Window  extends JFrame {
     public Window() {
 		JFrame fenetre = new JFrame();
 	    fenetre.setTitle("Gestionnaire Invasion");
-	    fenetre.setSize(600, 800);
 	    fenetre.setLocationRelativeTo(null); // Center window
 	    //fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
@@ -41,7 +40,7 @@ public class Window  extends JFrame {
         requestFocus();
         
         this.add(tabbedPane);
-        this.setSize(600, 800);
+        this.setSize(700, 800);
         this.setVisible(true);
     }
 
