@@ -5,8 +5,11 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.TextArea;
 import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.nio.file.Paths;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -17,7 +20,6 @@ import javax.swing.JPanel;
 public class TabGame extends JPanel implements MouseListener {
 
 	private static final long serialVersionUID = 1L;
-
 	
 	private final static int CASE_AFFICHEES = 50;
 	private final static int ZONE_CARTE = 400;
@@ -31,12 +33,11 @@ public class TabGame extends JPanel implements MouseListener {
 	private int posX = 96;
 	private int posY = 96;
 	private int sizeBigMap = 0;
-	String mapFile = "images\\1_trepont.jpg";
-	String croixPath = "images\\croix.png";
+	String mapFile = Paths.get("images","1_trepont.jpg").toString();
+	String croixPath = Paths.get("images", "croix.png").toString();
 	
 	private TextArea tchat = new TextArea(5, 30);
 	private TextField tchatInput = new TextField(30);
-	
 	
 	private final static int DISPLAYED_MAP_SIZE = 400;
 	
@@ -47,13 +48,21 @@ public class TabGame extends JPanel implements MouseListener {
 		JPanel topPanel = new JPanel();
 		
 		JPanel ligne1 = new JPanel();
-		//topPanel.setSize(50, 10);
 		ligne1.add(tchat);
 		topPanel.add(ligne1);
 		
 		JPanel ligne2 = new JPanel();
-		//tchatInput.setSize(50, 10);
 		ligne2.add(tchatInput);
+		tchatInput.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String message = tchatInput.getText();
+				if(message != "") {
+					TabGame.this.leInterface.sendRawText(message);
+					tchat.append("\n" + message);
+				}
+			}
+		});
 		topPanel.add(ligne2);
 		
 	    add(topPanel);
@@ -61,7 +70,6 @@ public class TabGame extends JPanel implements MouseListener {
 		//========= Bot ==========
 	    
 		JPanel botPanel = new JPanel();
-		
 	    
 	    JLayeredPane layeredPane = new JLayeredPane();
 	    layeredPane.setPreferredSize(new Dimension(400, 400));
@@ -83,17 +91,12 @@ public class TabGame extends JPanel implements MouseListener {
 		
 	    layeredPane.add(image);
 	    
-	    //layeredPane.add(new Cross());
-	    
 	    botPanel.add(layeredPane);
-	    
 	    add(botPanel);
 	}
 	
 	public void centerMapOnPlayer()
 	{
-		//image.setLocation( (sizeBigMap/mapSize*posX) - ZONE_CARTE/2, (sizeBigMap/mapSize*posY) - ZONE_CARTE/2);
-		
 		image.setLocation(ZONE_CARTE/2 - (sizeBigMap/mapSize*posX),-sizeBigMap+ZONE_CARTE/2 + (sizeBigMap/mapSize*posY));
 	}
 	
