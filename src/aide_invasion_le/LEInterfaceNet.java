@@ -2,24 +2,27 @@ package aide_invasion_le;
 
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class LEInterfaceNet{
+public class LEInterfaceNet implements ILEInterface {
 
 	private Socket socket;
 	private DataInputStream in;
 	private BufferedOutputStream out;
 	private Timer heartBeatTimer;
+	private TabMap callBackCheckInvasion;
+	private TabMap callBackCheckPlayers;
 
 	final static private byte LOG_IN_TYPE = (byte) 140;
 	final static private byte HEART_BEAT = 14;
-	final static private byte PING = 13;
-	final static private byte PONG = 11;
 	final static private byte PING_REQUEST = 60;
 	final static private byte LOG_IN_OK = (byte) 250;
 	final static private byte LOG_IN_NOT_OK = (byte) 251;
@@ -32,30 +35,150 @@ public class LEInterfaceNet{
 	final static private byte RAW_TEXT = 0;
 	final static private byte HERE_YOUR_STATS = 18;
 	
-	public void connection(String serverAdr, int port)
-	{
-		try {
-			InetAddress ServeurAdresse= InetAddress.getByName(serverAdr);
-	        System.out.println("L'adresse du serveur est : "+ServeurAdresse+ " ; Port " + port);
-		    socket = new Socket(ServeurAdresse,port);	
-		    System.out.println("Demande de connexion");
+	private boolean isInvasionChecking = false;
+	private ArrayList<String[]> res_check_order = new ArrayList<String[]>();
 	
-		    in = new DataInputStream (socket.getInputStream());
-		    out = new BufferedOutputStream(socket.getOutputStream());
-		    
-		    Thread t3 = new Thread(new Reception(in, this));
-			t3.start();
-		    
-		}catch (UnknownHostException e) {
-			
-			e.printStackTrace();
-		}catch (IOException e) {
-			
+	private boolean isPlayersChecking = false;
+	private ArrayList<String[]> res_check_players_order = new ArrayList<String[]>();
+	
+	public LEInterfaceNet(String pseudo, String password, String serverAdress, int serverPort) {
+		this.open(serverAdress, serverPort, pseudo, password);
+	}
+
+	public void open(String serverAdr, int port, String pseudo, String password) {
+		try {
+			InetAddress ServeurAdresse = InetAddress.getByName(serverAdr);
+			System.out.println("L'adresse du serveur est : " + ServeurAdresse
+					+ " ; Port " + port);
+			System.out.println("Demande de connexion");
+			socket = new Socket(ServeurAdresse, port);
+
+			in = new DataInputStream(socket.getInputStream());
+			out = new BufferedOutputStream(socket.getOutputStream());
+
+			Thread thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					while (true) {
+						try {
+							Byte type = 0;
+							while (true) {
+								try {
+									type = in.readByte();
+									if (type != null)
+										break;
+								} catch (EOFException e) {
+								}
+							}
+							int length = in.readUnsignedByte()
+									+ in.readUnsignedByte() * 256;
+							int dataLength = length - 1;
+							byte[] data = new byte[dataLength];
+							for (int i = 0; i < dataLength; i++) {
+								data[i] = in.readByte();
+							}
+							reception(type, data);
+						} catch (Exception e) {
+							e.printStackTrace();
+							if ("Socket closed".equals(e.getMessage()))
+								break;
+						}
+					}
+				}
+			});
+			thread.start();
+
+			this.startHeart_Beat();
+			this.login(pseudo, password);
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void login(String pseudo, String pwd)
+	public void close()
+	{
+		System.out.println("Close Socket");
+        try {
+        	if (socket != null && !socket.isClosed()) {
+        		in.close();
+        		out.close();
+        		socket.close();
+        		this.stopHeart_Beat();
+        	}
+        	else
+        		System.out.println("Unable to close socket");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void sendRawText(String message)
+	{
+		System.out.println("Message : " + message);
+		
+		byte[] data = new byte[Math.min(message.length(), 255)];
+		for (int i=0; i<data.length ; i++)
+		{
+			data[i] = (byte)message.charAt(i);
+		}
+		
+		send(RAW_TEXT, data);
+	}
+	
+	public void addInvasion(String invasionType, int xPos, int yPos, int mapId,
+			String monsterType, int monsterNumber) {
+		String command = new String("#inv " + invasionType + " " + xPos + " " + yPos + " " + mapId + " " + monsterType + " " + monsterNumber);
+		this.sendRawText(command);
+	}
+
+	public void clearInvasion(String invasionType, int mapId) {
+		String command = "#clear_inv " + invasionType +" " + mapId;
+		this.sendRawText(command);
+	}
+
+	public void sendCheckInvasion(TabMap callBack) {
+		this.callBackCheckInvasion = callBack;
+		this.isInvasionChecking = true;
+		this.sendRawText("#check_invasion");
+	}
+	
+	public ArrayList<String[]> retrieveCheckInvasion() {
+		return res_check_order;
+	}
+	
+	public void sendCheckPlayers(TabMap callBack, int map) {
+		this.callBackCheckPlayers = callBack;
+		this.isPlayersChecking = true;
+		this.sendRawText("#rapport " + map + " attaque 0 300 0");
+	}
+	
+	public ArrayList<String[]> retrieveCheckPlayers() {
+		return res_check_players_order;
+	}
+
+	public void commandoAjouter(int xPos, int yPos, int mapId,
+			int commandoType, int commandoGroup) {
+		String command = new String("#comdo_script_ajouter " + mapId + " " + xPos + " " + yPos + " " + commandoType + " " + commandoGroup);
+		this.sendRawText(command);
+	}
+
+	public void commandoGo(int xPos, int yPos, int mapId, int commandoType,
+			int commandoGroup) {
+		String command = new String("#comdo_script_go " + mapId + " " + xPos + " " + yPos + " " + commandoType + " " + commandoGroup);
+		this.sendRawText(command);
+	}
+
+	public void commandoFree(int mapId, int commandoType, int commandoGroup) {
+		String command = new String("#commando_free " + mapId + " " + commandoType + " " + commandoGroup);
+		this.sendRawText(command);
+	}
+
+	public void commandoStop(int mapId, int commandoType, int commandoGroup) {
+		String command = new String("#commando_stop " + mapId + " " + commandoType + " " + commandoGroup);
+		this.sendRawText(command);
+	}
+	
+	private void login(String pseudo, String pwd)
 	{
 		String stringData = pseudo + " " + pwd;
 		System.out.println("Login : " + stringData);
@@ -70,16 +193,7 @@ public class LEInterfaceNet{
 		send(LOG_IN_TYPE, data);
 	}
 	
-	public void ping() {
-		byte[] dat = new byte[4];
-		dat[0] = 1;
-		dat[1] = 1;
-		dat[2] = 1;
-		dat[3] = 1;
-		send(PING, dat);
-	}
-	
-	public void startHeart_Beat()
+	private void startHeart_Beat()
 	{
 		System.out.println("Start Heart Beat");
 		TimerTask task = new TimerTask()
@@ -95,28 +209,13 @@ public class LEInterfaceNet{
 		heartBeatTimer.scheduleAtFixedRate(task, 0, 25000);
 	}
 	
-	public void stopHeart_Beat()
+	private void stopHeart_Beat()
 	{
 		System.out.println("Stop Heart Beat");
 		heartBeatTimer.cancel();
 	}
 	
-	public void sendMessage(int channel, String message)
-	{
-		System.out.println("Message : " + channel + " : " + message);
-		
-		byte[] data = new byte[255];
-		data[0] = (byte)channel;
-		
-		for (int i=0; i<message.length() && i < 254 ; i++)
-		{
-			data[i+1] = (byte)message.charAt(i);
-		}
-			
-		send(RAW_TEXT, data);
-	}
-	
-	public void send(byte type, byte[] data)
+	private void send(byte type, byte[] data)
 	{
 		int dataLength = 0;
 		if (data != null)
@@ -149,32 +248,15 @@ public class LEInterfaceNet{
 		}
 	}
 	
-	public void close()
-	{
-		System.out.println("Close Socket");
-        try {
-        	if (socket != null && !socket.isClosed()) {
-        		socket.close();
-        		this.stopHeart_Beat();
-        	}
-        	else
-        		System.out.println("Unable to close socket");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void reception(byte type, byte[] data)
+	private void reception(byte type, byte[] data)
 	{
 		System.out.println("RECEIVED");
 		System.out.println("Type: " + type);
 		
-		if (type==PONG)
-			System.out.println("PONG");
-		else if (type==PING_REQUEST)
+		if (type==PING_REQUEST)
 		{
 			System.out.println("PING_REQUEST");
-			//send(data);
+			send(PING_REQUEST, data);
 		} else if (type == LOG_IN_OK)
 			System.out.println("LOGIN OK");
 		else if (type == LOG_IN_NOT_OK)
@@ -192,7 +274,13 @@ public class LEInterfaceNet{
 		else if (type == HERE_YOUR_INVENTORY)
 			System.out.println("HERE_YOUR_INVENTORY");
 		else if (type == RAW_TEXT)
+		{
 			System.out.println("RAW_TEXT");
+			if (isInvasionChecking)
+				parse_check_inva(data);
+			if (isPlayersChecking)
+				parse_check_play(data);
+		}
 		else if (type == HERE_YOUR_STATS)
 			System.out.println("HERE_YOUR_STATS");
 		
@@ -210,4 +298,51 @@ public class LEInterfaceNet{
 		System.out.println("\n\n");
 	}
 
+	private void parse_check_inva(byte[] data) {
+		String s = new String(data);
+		
+		Pattern pattern = Pattern.compile("encore un (.+) (.+) en : ([0-9]+), ([0-9]+), ([0-9]+).$");
+		Matcher matcher = pattern.matcher(s);
+		if (matcher.find()) {
+			System.out.println("Parse : " + matcher.group(1)+ matcher.group(3)+ matcher.group(3)+  matcher.group(4)+  matcher.group(5) );
+			String[]resStrTab = {matcher.group(1),matcher.group(2),matcher.group(3),matcher.group(4),matcher.group(5)};
+			res_check_order.add(resStrTab);
+		}
+		else 
+		{
+			pattern = Pattern.compile("(encore [0-9]+ monstre)|(plus de monstre d'invasion)");
+			matcher = pattern.matcher(s);
+			if (matcher.find()) {
+				System.out.println("Fin Parse Inva");
+				isInvasionChecking = false;
+				callBackCheckInvasion.check_invasion_callback(res_check_order);
+				res_check_order = new ArrayList<String[]>();
+			}
+		}
+	}
+	
+	private void parse_check_play(byte[] data) {
+		String s = new String(data);
+		
+		System.out.println("TryParse play");
+		
+		Pattern pattern = Pattern.compile("^..([a-zA-Z_]+) *$");
+		Matcher matcher = pattern.matcher(s);
+		if (matcher.find()) {
+			System.out.println("Parse play : " + matcher.group(1) );
+			String[]resStrTab = {matcher.group(1)};
+			res_check_players_order.add(resStrTab);
+		}
+		else 
+		{
+			pattern = Pattern.compile("pour le .* attaque");
+			matcher = pattern.matcher(s);
+			if (matcher.find()) {
+				System.out.println("Fin Parse Players");
+				isPlayersChecking = false;
+				callBackCheckPlayers.check_players_callback(res_check_players_order);
+				res_check_players_order = new ArrayList<String[]>();
+			}
+		}
+	}
 }

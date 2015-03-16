@@ -19,7 +19,7 @@ public class FormCommando extends FormAbstract {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private LEInterface leInterface;
+	private ILEInterface leInterface;
 	private int mapId;
 
 	private JLabel choixCom = new JLabel("Commando");
@@ -57,8 +57,7 @@ public class FormCommando extends FormAbstract {
 	}
 	private CommandoOrder order = CommandoOrder.DoNothing;
 	
-	public FormCommando(final LEInterface leInterface, final int mapId) {
-		// TODO search in file
+	public FormCommando(final ILEInterface leInterface, final int mapId) {
 		this.leInterface = leInterface;
 		this.mapId = mapId;
 		

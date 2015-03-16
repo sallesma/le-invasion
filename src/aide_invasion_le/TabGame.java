@@ -1,30 +1,23 @@
 package aide_invasion_le;
 
+
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.TextArea;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.nio.file.Path;
+import java.nio.file.Paths;
 
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 
-import aide_invasion_le.FormCommando.CommandoOrder;
-
-public class PanelJeu extends JPanel implements MouseListener {
+public class TabGame extends JPanel implements MouseListener {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -33,38 +26,44 @@ public class PanelJeu extends JPanel implements MouseListener {
 
 	private JLabel image;
 	private JLabel croix;
-	private LEInterface leInterface;
+	private ILEInterface leInterface;
 	private int mapId = 0;
 	private int mapSize = 192;
 	private int casesAffichees = 30;
 	private int posX = 96;
 	private int posY = 96;
 	private int sizeBigMap = 0;
-	String mapFile = "images\\1_trepont.jpg";
-	String croixPath = "images\\croix.png";
+	String mapFile = Paths.get("images","1_trepont.jpg").toString();
+	String croixPath = Paths.get("images", "croix.png").toString();
 	
 	private TextArea tchat = new TextArea(5, 30);
 	private TextField tchatInput = new TextField(30);
 	
-	
 	private final static int DISPLAYED_MAP_SIZE = 400;
 	
-	public PanelJeu(final LEInterface leInterface)
+	public TabGame(ILEInterface leInterface)
 	{
 		this.leInterface = leInterface;
-	
-		
 		
 		JPanel topPanel = new JPanel();
 		
 		JPanel ligne1 = new JPanel();
-		//topPanel.setSize(50, 10);
 		ligne1.add(tchat);
 		topPanel.add(ligne1);
 		
 		JPanel ligne2 = new JPanel();
-		//tchatInput.setSize(50, 10);
 		ligne2.add(tchatInput);
+		tchatInput.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String message = tchatInput.getText();
+				if(message != "") {
+					TabGame.this.leInterface.sendRawText(message);
+					tchat.append("\n" + message);
+				}
+				tchatInput.setText("");
+			}
+		});
 		topPanel.add(ligne2);
 		
 	    add(topPanel);
@@ -72,7 +71,6 @@ public class PanelJeu extends JPanel implements MouseListener {
 		//========= Bot ==========
 	    
 		JPanel botPanel = new JPanel();
-		
 	    
 	    JLayeredPane layeredPane = new JLayeredPane();
 	    layeredPane.setPreferredSize(new Dimension(400, 400));
@@ -83,9 +81,9 @@ public class PanelJeu extends JPanel implements MouseListener {
 	    layeredPane.add(croix);
 	    
 	    ImageIcon mapIcon = new ImageIcon( mapFile.toString() );
-	    Image scaledMapImage = Resize_image.scaleImage(mapIcon.getImage(), 400);//size in pixels
+	    Image scaledMapImage = ResizeImage.scaleImage(mapIcon.getImage(), 400);//size in pixels
 	    sizeBigMap = ZONE_CARTE*mapSize/CASE_AFFICHEES;
-	    Image scaledMapImage2 = Resize_image.scaleImage(scaledMapImage, sizeBigMap);//size in pixels
+	    Image scaledMapImage2 = ResizeImage.scaleImage(scaledMapImage, sizeBigMap);//size in pixels
 	    Icon scaledMapIcon = new ImageIcon(scaledMapImage2);
 	    this.image = new JLabel(scaledMapIcon);
 	    this.image.addMouseListener(this);
@@ -94,19 +92,13 @@ public class PanelJeu extends JPanel implements MouseListener {
 		
 	    layeredPane.add(image);
 	    
-	    //layeredPane.add(new Cross());
-	    
 	    botPanel.add(layeredPane);
-	    
 	    add(botPanel);
 	}
 	
 	public void centerMapOnPlayer()
 	{
-		//image.setLocation( (sizeBigMap/mapSize*posX) - ZONE_CARTE/2, (sizeBigMap/mapSize*posY) - ZONE_CARTE/2);
-		
 		image.setLocation(ZONE_CARTE/2 - (sizeBigMap/mapSize*posX),-sizeBigMap+ZONE_CARTE/2 + (sizeBigMap/mapSize*posY));
-	    
 	}
 	
 	@Override
@@ -116,8 +108,7 @@ public class PanelJeu extends JPanel implements MouseListener {
 		
 		int sizeCroix = croix.getSize().height/2;
 		
-		croix.setLocation((int)(e.getPoint().getX()-sizeCroix), (int)(e.getPoint().getY()-sizeCroix));
-		
+		croix.setLocation((int)(e.getPoint().getX()-sizeCroix+image.getLocation().getX()), (int) (e.getPoint().getY()-sizeCroix+image.getLocation().getY()));
 	}
 
 	@Override

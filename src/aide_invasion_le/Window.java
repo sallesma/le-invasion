@@ -10,50 +10,50 @@ public class Window  extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private LEInterface leInterface;
+	private ILEInterface leInterface;
 	private TabbedPaneClosable tabbedPane;
-	private LEInterfaceNetPanelTest testInt;
-	private PanelJeu game;
+	private TabGame game;
 	
     public Window() {
 		JFrame fenetre = new JFrame();
 	    fenetre.setTitle("Gestionnaire Invasion");
-	    fenetre.setSize(600, 800);
 	    fenetre.setLocationRelativeTo(null); // Center window
 	    //fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
 	    addWindowListener(new WindowAdapter() {
 	        public void windowClosing(WindowEvent e) {
-	        	testInt.close();
-	        	System.out.println("Close");
+	        	if(leInterface != null)
+	        		leInterface.close();
 	            System.exit(0);
 	          }
 	        });
 	    
-	    leInterface = new LEInterface();
-	    
         tabbedPane = new TabbedPaneClosable();
         tabbedPane.setUI(new Tabbed());
-        TabMain mainTab = new TabMain(this, leInterface);
+        TabMain mainTab = new TabMain(this);
         tabbedPane.addTab("Main Tab", mainTab);
         tabbedPane.selectLast();
         
-        testInt = new LEInterfaceNetPanelTest();
-        tabbedPane.addTab("Interf Tab", testInt);
-        
-        game = new PanelJeu(leInterface);
+        game = new TabGame(new LEInterfaceNet("test_interf", "azerty", "jeu.landes-eternelles.com", 3001));
         tabbedPane.addTab("Game Tab", game);
         
         requestFocus();
         
         this.add(tabbedPane);
-        this.setSize(600, 800);
+        this.setSize(700, 800);
         this.setVisible(true);
     }
 
-	public void openMapTab(Path mapPath, int mapId, int mapSize) {
+	public void openMapTab(ILEInterface leInterface, Path mapPath, int mapId, int mapSize) {
 		TabMap mapTab = new TabMap(leInterface, mapPath, mapSize, mapId);
 		tabbedPane.addTab(mapPath.getFileName().toString(), mapTab);
 		tabbedPane.selectLast();
+	}
+	
+	public void updateLEInterface(ILEInterface leInterface) {
+		this.leInterface = leInterface;
+		for (TabMap tabMap : this.tabbedPane.getTabMaps()) {
+			tabMap.setLEIinterface(leInterface);
+		}
 	}
 }
