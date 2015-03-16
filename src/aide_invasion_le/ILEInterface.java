@@ -6,11 +6,17 @@ public interface ILEInterface {
 	public void open(String server, int port, String pseudo, String password);
 
 	public void close();
+	
+	public void sendRawText(String message);
 
 	public void addInvasion(String invasionType, int xPos, int yPos, int mapId,
 			String monsterType, int monsterNumber);
 
 	public void clearInvasion(String invasionType, int mapId);
+	
+	public void sendCheckInvasion();
+	
+	public ArrayList<String[]> retrieveCheckInvasion();
 
 	public void commandoAjouter(int xPos, int yPos, int mapId,
 			int commandoType, int commandoGroup);
@@ -21,10 +27,4 @@ public interface ILEInterface {
 	public void commandoFree(int mapId, int commandoType, int commandoGroup);
 
 	public void commandoStop(int mapId, int commandoType, int commandoGroup);
-	
-	public void sendMsg(String str, int order);
-	
-	public ArrayList<String[]> checkInvasion();
-	
-	public void clear_res_check_order();
 }

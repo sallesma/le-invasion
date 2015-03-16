@@ -167,7 +167,8 @@ public class TabMap extends JPanel implements MouseListener {
 			@Override
 			public void run() 
 			{
-				leInterface.sendMsg("#check_invasion",1);
+				System.out.println("startcheckinva");
+				leInterface.sendCheckInvasion();
 				check_invasion_Delay();
 			}	
 		};
@@ -176,6 +177,7 @@ public class TabMap extends JPanel implements MouseListener {
 		checkInvaTimer.scheduleAtFixedRate(task, 0, 10000);
 	}
 	
+
 	private void check_invasion_Delay()
 	{
 		TimerTask task = new TimerTask()
@@ -183,15 +185,16 @@ public class TabMap extends JPanel implements MouseListener {
 			@Override
 			public void run() 
 			{
-				ArrayList<String[]> res = leInterface.checkInvasion();
+				ArrayList<String[]> res = leInterface.retrieveCheckInvasion();
+				System.out.println("taille de l'arraylist : " + res.size());
 				if(res.size()==0)
 					check_invasion_Delay();
 				else
 				{
-					leInterface.clear_res_check_order();
 					removePoints();
 				    for(int i = 0; i < crossList.size(); i++)
 				    {
+				    	System.out.println(res.get(i));
 				    	if(Integer.parseInt(res.get(i)[3]) == mapId)
 				    		addPoint(Integer.parseInt(res.get(i)[1]),Integer.parseInt(res.get(i)[2]),1);
 				    } 
@@ -202,7 +205,7 @@ public class TabMap extends JPanel implements MouseListener {
 		checkInvaTimer = new Timer();
 		checkInvaTimer.schedule(task, 1000);
 	}
-	
+
 	public void stopCheckInvaTimer()
 	{
 		System.out.println("Stop Check Inva");
