@@ -36,8 +36,8 @@ public class TabMain extends JPanel {
 	
 	private JPanel ligneInterfaceSelect = new JPanel();
 	private JLabel interfaceRadioLabel = new JLabel("Interface vers LE :");
-	private JRadioButton windowedButton;
 	private JRadioButton netButton;
+	private JRadioButton windowedButton;
 	private JLabel interfaceDescription = new JLabel("");
 	
 	JPanel interfacePanel = new JPanel();
@@ -77,19 +77,6 @@ public class TabMain extends JPanel {
 		group.add(windowedButton);
 		group.add(netButton);
 
-		windowedButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				interfacePanel.removeAll();
-				interfacePanel.add(pseudoWindowedLabel);
-				interfacePanel.add(zonePseudo);
-				interfacePanel.add(serverWindowedLabel);
-				interfacePanel.add(zoneServer);
-				interfacePanel.setLayout(new GridLayout(1, 1));
-				interfacePanel.updateUI();
-				interfaceDescription.setText("Les commandes à envoyer seront copiées dans ta fenêtre du jeu et envoyées");
-			}
-		});
 	    netButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -107,10 +94,23 @@ public class TabMain extends JPanel {
 				interfaceDescription.setText("Les commandes seront envoyées directement au serveur par le logiciel en utilisant le compte indiqué");
 			}
 		});
-	    windowedButton.doClick();
+		windowedButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				interfacePanel.removeAll();
+				interfacePanel.add(pseudoWindowedLabel);
+				interfacePanel.add(zonePseudo);
+				interfacePanel.add(serverWindowedLabel);
+				interfacePanel.add(zoneServer);
+				interfacePanel.setLayout(new GridLayout(1, 1));
+				interfacePanel.updateUI();
+				interfaceDescription.setText("Les commandes à envoyer seront copiées dans ta fenêtre du jeu et envoyées");
+			}
+		});
+	    netButton.doClick();
 	    ligneInterfaceSelect.add(interfaceRadioLabel);
-	    ligneInterfaceSelect.add(windowedButton);
 	    ligneInterfaceSelect.add(netButton);
+	    ligneInterfaceSelect.add(windowedButton);
 	    this.add(ligneInterfaceSelect);
 		interfaceDescription.setFont(new Font(interfaceDescription.getFont()
 				.getName(), Font.ITALIC, interfaceDescription.getFont()
