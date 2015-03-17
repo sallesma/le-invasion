@@ -1,6 +1,5 @@
 package aide_invasion_le;
 
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.TextField;
@@ -99,15 +98,11 @@ public class TabMain extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				interfacePanel.removeAll();
-				interfacePanel.add(new JLabel());
 				interfacePanel.add(pseudoWindowedLabel);
 				interfacePanel.add(zonePseudo);
-				interfacePanel.add(new JLabel());
-				interfacePanel.add(new JLabel());
 				interfacePanel.add(serverWindowedLabel);
 				interfacePanel.add(zoneServer);
-				interfacePanel.add(new JLabel());
-				interfacePanel.setLayout(new GridLayout(2, 1));
+				interfacePanel.setLayout(new GridLayout(1, 1));
 				interfacePanel.updateUI();
 				interfaceDescription.setText("Les commandes à envoyer seront copiées dans ta fenêtre du jeu et envoyées");
 			}
