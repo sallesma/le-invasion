@@ -235,20 +235,7 @@ public class TabGame extends JPanel implements MouseListener {
 		int rot = (data[8]&0xFF)+(data[9]&0xFF)*255;
 		int type = data[10]&0xFF;
 		int frame = data[11]&0xFF;
-		/*int maxHealth = (data[12]&0xFF)+(data[13]&0xFF)*255;
-		int curHealth = (data[14]&0xFF)+(data[15]&0xFF)*255;
-		int kindOfActor = data[16]&0xFF;
-		String actorName = "";
-		int i=17;
-		for (i=17;i<data.length-1;i++)
-			actorName+=(char)data[i];
-		int ACTOR_SCALE_BASE = 1;
-		int scale = (data[i+1]&0xFF)+(data[i+2]&0xFF)*255;
-		int attachmentType = data[i+3]&0xFF;
-		
-		System.out.println("New Actor : id=" + actorId + " x=" + x + " y=" + y + " rot=" + rot + " type=" + type + " frame=" + frame + " maxHealth=" + maxHealth + " curHealth=" + curHealth + " kingOfActor=" + kindOfActor + " actorName=" + actorName + " scale=" + scale + " attachmentType" + attachmentType);
-		Object[] val = {actorId, x, y, rot, type, frame, maxHealth, curHealth, kindOfActor, actorName, scale, attachmentType};
-		*/
+
 		System.out.println("New Actor : id=" + actorId + " x=" + x + " y=" + y + " rot=" + rot + " type=" + type + " frame=" + frame);
 		
 	    ImageIcon actorIcon = new ImageIcon( avatarFile.toString() );
@@ -263,17 +250,97 @@ public class TabGame extends JPanel implements MouseListener {
 		actorList.add(act);
 	}
 	
+	public void actorCommand(byte[] data)
+	{
+		int actorId = (data[0]&0xFF)+(data[1]&0xFF)*255;
+		int command = data[2]&0xFF;
+		
+		Actor act=null;
+		if(actorId==avatar.getActorId())
+			act=avatar;
+		else
+		for(int i = 0; i < actorList.size(); i++)
+		      if(actorList.get(i).getActorId()==actorId)
+		    	  act = actorList.get(i);
+		
+		if(command >= 20 && command <= 27)
+			move(actorId, act, command);
+		else
+			System.out.println("actorCommand : id=" + actorId + " command=" + command);
+		
+	}
+	
+	public void move(int actorId, Actor act, int command)
+	{
+		int moveX = 0, moveY = 0;
+		switch (command)
+		{
+		  case 20:
+		    //move_n	20
+			  moveY++;
+		    break;  
+		  case 21:
+		    //move_ne	21
+			  moveX++;
+			  moveY++;
+		    break;  
+		  case 22:
+		    //move_e	22
+			  moveX++;
+		    break;  
+		  case 23:
+		    //move_se	23
+			  moveX++;
+			  moveY--;
+		    break;  
+		  case 24:
+		    //move_s	24
+			  moveY--;
+		    break;  
+		  case 25:
+		    //move_sw	25
+			  moveX--;
+			  moveY--;
+		    break;  
+		  case 26:
+		    //move_w	26
+			  moveX--;
+		    break;  
+		  case 27:
+		    //move_nw	27
+			  moveX--;
+			  moveY++;
+		    break;        
+		  default:
+			  /*Action*/;             
+		}
+		
+		act.setPosX(act.getPosX()+moveX);
+		act.setPosY(act.getPosY()+moveY);
+		
+		if(actorId==avatar.getActorId())
+			centerMapOnPlayer();
+		else
+		{
+			act.setLocation(act.getX()+moveX*UNIT_MAP, act.getY()-moveY*UNIT_MAP);
+		}
+		System.out.println("moveX=" + moveX + " moveY=" + moveY + " act=" + act.getLocation());
+		
+	}
+	
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		int xPos = (int)(e.getPoint().getX())*mapSize/DISPLAYED_MAP_SIZE;
-		int yPos = mapSize-((int)(e.getPoint().getY())*mapSize)/DISPLAYED_MAP_SIZE;
+		int xPos = (int)(e.getPoint().getX())/UNIT_MAP;
+		int yPos = (int)(sizeBigMap-e.getPoint().getY())/UNIT_MAP;
 		
 		int sizeCroix = croix.getSize().height/2;
 		
 		croix.setLocation((int)(e.getPoint().getX()-sizeCroix+image.getLocation().getX()), (int) (e.getPoint().getY()-sizeCroix+image.getLocation().getY()));
 
-		System.out.println("X=" + xPos + " Y=" + yPos + "XPer=" + avatar.getPosX() + " YPer=" + avatar.getPosY());
+		System.out.println("mouse X=" + xPos + " Y=" + yPos + "XPer=" + avatar.getPosX() + " YPer=" + avatar.getPosY());
+
+		leInterface.moveTo(xPos, yPos);
 	}
 
 	@Override

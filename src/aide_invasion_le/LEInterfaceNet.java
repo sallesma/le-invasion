@@ -21,6 +21,7 @@ public class LEInterfaceNet implements ILEInterface {
 	private TabMap callBackCheckInvasion;
 	private TabMap callBackCheckPlayers;
 
+	//Server => Client
 	final static private byte LOG_IN_TYPE = (byte) 140;
 	final static private byte HEART_BEAT = 14;
 	final static private byte PING_REQUEST = 60;
@@ -34,9 +35,13 @@ public class LEInterfaceNet implements ILEInterface {
 	final static private byte HERE_YOUR_INVENTORY = 19;
 	final static private byte RAW_TEXT = 0;
 	final static private byte ADD_NEW_ACTOR = 1;
+	final static private byte ADD_ACTOR_COMMAND = 2;
 	final static private byte REMOVE_ACTOR = 6;
 	final static private byte ADD_NEW_ENHANCED_ACTOR = 51;
 	final static private byte HERE_YOUR_STATS = 18;
+
+	//Client => Server
+	final static private byte MOVE_TO = 1;
 	
 	private TabGame gameTab;
 	
@@ -188,6 +193,16 @@ public class LEInterfaceNet implements ILEInterface {
 		this.sendRawText(command);
 	}
 	
+	public void moveTo(int x, int y) {
+		byte[] message = new byte[4];
+		message[0] = (byte) (x % 256);
+		message[1] = (byte) (x / 256);
+		message[2] = (byte) (y % 256);
+		message[3] = (byte) (y / 256);
+		
+		send(MOVE_TO, message);
+	}
+	
 	private void login(String pseudo, String pwd)
 	{
 		String stringData = pseudo + " " + pwd;
@@ -300,6 +315,10 @@ public class LEInterfaceNet implements ILEInterface {
 		{
 			System.out.println("ADD_NEW_ACTOR");
 			gameTab.newActor(data);
+		}else if (type == ADD_ACTOR_COMMAND)
+		{
+			System.out.println("ADD_ACTOR_COMMAND");
+			gameTab.actorCommand(data);
 		}
 		else if (type == REMOVE_ACTOR)
 		{
