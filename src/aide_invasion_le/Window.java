@@ -15,7 +15,6 @@ public class Window  extends JFrame {
 	
     public Window() {
 	    this.setTitle("Gestionnaire Invasion");
-	    this.setLocationRelativeTo(null); // Center window
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
 		addWindowListener(new WindowAdapter() {
