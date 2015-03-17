@@ -130,7 +130,7 @@ public class TabMap extends JPanel implements MouseListener {
 		helpButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				WindowHelp helpFrame = new WindowHelp();
+				new WindowHelp();
 			}
 		});
 		checkInvaButton.addItemListener(new ItemListener() {
