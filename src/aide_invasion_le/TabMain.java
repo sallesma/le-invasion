@@ -2,7 +2,6 @@ package aide_invasion_le;
 
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -22,8 +21,10 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
 
 public class TabMain extends JPanel {
 
@@ -43,18 +44,18 @@ public class TabMain extends JPanel {
 	JPanel interfacePanel = new JPanel();
 	
 	private JLabel pseudoWindowedLabel = new JLabel("Pseudo :");
-	private TextField zonePseudo = new TextField("",10);
+	private JTextField zonePseudo = new JTextField("", 8);
 	private JLabel serverWindowedLabel = new JLabel("Serveur :");
 	private JComboBox<String> zoneServer = new JComboBox<String>(new String[]{"main", "test"});
 
 	private JLabel serverAddressLabel = new JLabel("Serveur :");
-	private TextField serverAddress = new TextField("jeu.landes-eternelles.com", 10);
+	private JTextField serverAddress = new JTextField("jeu.landes-eternelles.com", 14);
 	private JLabel serverPortLabel = new JLabel("Port :");
-	private TextField serverPort = new TextField("3001", 10);
+	private JTextField serverPort = new JTextField("3001", 4);
 	private JLabel pseudoNetLabel = new JLabel("Pseudo :");
-	private TextField pseudoNet = new TextField("", 10);
+	private JTextField pseudoNet = new JTextField("", 7);
 	private JLabel passwordLabel = new JLabel("Password : ");
-	private TextField password = new TextField("", 10);
+	private JPasswordField password = new JPasswordField(7);
 	
 	private JButton interfaceValidateButton = new JButton("Valider l'interface");
 
@@ -140,7 +141,7 @@ public class TabMain extends JPanel {
 						TabMain.this.leInterface.close();
 					TabMain.this.leInterface = new LEInterfaceNet(
 							pseudoNet.getText(),
-							password.getText(),
+							password.getPassword().toString(),
 							serverAddress.getText(),
 							Integer.parseInt(serverPort.getText()));
 					updateConfigFile();
@@ -194,7 +195,7 @@ public class TabMain extends JPanel {
 			properties.setProperty("serverAdress", serverAddress.getText());
 			properties.setProperty("port", serverPort.getText());
 			properties.setProperty("pseudoNet", pseudoNet.getText());
-			properties.setProperty("password", password.getText());
+			properties.setProperty("password", password.getPassword().toString());
 			properties.store(outputStream, null);
 		} catch (IOException io) {
 			io.printStackTrace();
@@ -246,7 +247,7 @@ public class TabMain extends JPanel {
 		if (pseudoNet.getText().equals("")
 				|| serverAddress.getText().equals("")
 				|| serverPort.getText().equals("")
-				|| password.getText().equals(""))
+				|| password.getPassword().toString().equals(""))
 			return false;
 		try {
 			Integer.parseInt(serverPort.getText());
