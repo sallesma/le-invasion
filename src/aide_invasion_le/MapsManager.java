@@ -13,7 +13,7 @@ import java.util.Map;
 public class MapsManager {
 	
 	private String mapsListPath = Paths.get("data", "maps.map").toString();
-	private File mapImagesFolder = new File("images/");
+	private File mapImagesFolder = new File(Paths.get("images", "maps").toString());
 	private Map<String, int[]> maps;
 
 	public MapsManager() {
