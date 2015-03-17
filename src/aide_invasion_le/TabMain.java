@@ -143,7 +143,7 @@ public class TabMain extends JPanel {
 						serverAddress.getText(),
 						serverPort.getText(),
 						pseudoNet.getText(),
-						password.getPassword().toString());
+						new String(password.getPassword()));
 				if(connected){
 					TabMain.this.parentWindow.updateLEInterface(leInterface);
 					updateConfigFile();
@@ -197,7 +197,7 @@ public class TabMain extends JPanel {
 			properties.setProperty("serverAdress", serverAddress.getText());
 			properties.setProperty("port", serverPort.getText());
 			properties.setProperty("pseudoNet", pseudoNet.getText());
-			properties.setProperty("password", password.getPassword().toString());
+			properties.setProperty("password", new String(password.getPassword()));
 			properties.store(outputStream, null);
 		} catch (IOException io) {
 			io.printStackTrace();
