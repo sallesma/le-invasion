@@ -12,7 +12,7 @@ public class FormAbstract extends JPanel {
 
 	public FormAbstract() {
 		super();
-		this.setPreferredSize (new Dimension(600, 250));
+		this.setPreferredSize(new Dimension(600, 300));
 	}
 
 	protected void activeButton (JButton b)

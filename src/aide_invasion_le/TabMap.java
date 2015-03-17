@@ -182,7 +182,6 @@ public class TabMap extends JPanel implements MouseListener {
 	    nbMonster.setBounds(0, 0, 50, 20);
 	    Font f = new Font("Serif", Font.PLAIN, 24); // par exemple 
 	    nbMonster.setForeground(new Color(255, 0 , 0));
-	    //nbMonster.setLocation(15, 10);
 	    nbMonster.setFont(f);
 	    nbMonster.setOpaque(true);
 	    nbMonster.setBackground(Color.BLACK);
@@ -203,7 +202,7 @@ public class TabMap extends JPanel implements MouseListener {
 
 	    bottomPanel.add(bottomLeftPanel);
 	    bottomPanel.add(bottomRightPanel);
-	    
+
 	    this.add(bottomPanel);
 	}
 	

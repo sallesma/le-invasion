@@ -33,7 +33,7 @@ public class Window  extends JFrame {
         requestFocus();
         
         this.add(tabbedPane);
-        this.setSize(700, 800);
+        this.setSize(700, 900);
         this.setVisible(true);
     }
 

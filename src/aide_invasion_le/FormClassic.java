@@ -1,14 +1,12 @@
 package aide_invasion_le;
 
 import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.LayoutManager;
+import java.awt.FlowLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 public class FormClassic extends FormAbstract {
@@ -52,7 +50,7 @@ public class FormClassic extends FormAbstract {
 	private TextField tm15 = new TextField("squelette_horreur",10); 
 	
 	//Nombres
-	private final static Dimension TAILLE_NB_BUTTON = new Dimension(56,26);
+	private final static Dimension TAILLE_NB_BUTTON = new Dimension(60,26);
 	private JButton nbMonstre1 = new JButton("1");
 	private JButton nbMonstre5 = new JButton("5");
 	private JButton nbMonstre10 = new JButton("10");
@@ -71,13 +69,7 @@ public class FormClassic extends FormAbstract {
 	private int monsterNumber = 1;
 
 	public FormClassic() {
-		//JPanel bloc = new JPanel();
-		
-		//LayoutManager test = new GridLayout(8, 1);
-		//bloc.setLayout(test);
-		
-		JLayeredPane bloc = new JLayeredPane();
-		bloc.setPreferredSize(new Dimension(500, 250));
+		this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		
 		JPanel ligne1 = new JPanel();
 	    ligne1.add(tm1);
@@ -242,16 +234,14 @@ public class FormClassic extends FormAbstract {
 		ligne8.setBounds(0, 0, 500, 30);
 		ligne8.setLocation(0, 210);
 		
-		bloc.add(ligne1);
-		bloc.add(ligne2);
-		bloc.add(ligne3);
-		bloc.add(ligne4);
-		bloc.add(ligne5);
-		bloc.add(ligne6);
-		bloc.add(ligne7);
-		bloc.add(ligne8);
-		this.add(bloc);
-		this.setPreferredSize (new Dimension(600, 250));
+		this.add(ligne1);
+		this.add(ligne2);
+		this.add(ligne3);
+		this.add(ligne4);
+		this.add(ligne5);
+		this.add(ligne6);
+		this.add(ligne7);
+		this.add(ligne8);
 	}
 	
 	private void activeButtonMob (JButton b)

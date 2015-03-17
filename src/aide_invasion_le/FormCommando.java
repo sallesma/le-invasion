@@ -1,6 +1,5 @@
 package aide_invasion_le;
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +22,7 @@ public class FormCommando extends FormAbstract {
 	private ILEInterface leInterface;
 	private int mapId;
 
-	private JLabel typeLabel = new JLabel("Commando");
+	private JLabel typeLabel = new JLabel("Type de commando");
 	private String commandoFilePath = Paths.get("data", "commando.list").toString();
 	
 	private static JButton[] commandoTypeButtons;
@@ -206,7 +205,6 @@ public class FormCommando extends FormAbstract {
 		panel.add(ligne5);
 		panel.add(ligne6);
 		this.add(panel);
-		this.setPreferredSize (new Dimension(600, 250));
 	}
 
 	private List<String> getCommandosFromFile() {
