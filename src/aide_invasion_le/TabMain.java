@@ -128,30 +128,28 @@ public class TabMain extends JPanel {
 		interfaceValidateButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(windowedButton.isSelected() && isValidWindowedConfig()) {
-					if (leInterface != null)
-						TabMain.this.leInterface.close();
+				if (leInterface != null)
+					TabMain.this.leInterface.close();
+				
+				if(windowedButton.isSelected()) {
 					TabMain.this.leInterface = new LEInterfaceWindowed(
 							zonePseudo.getText(),
 							zoneServer.getSelectedItem().toString());
-					updateConfigFile();
-					TabMain.this.parentWindow.updateLEInterface(leInterface);
-				} else if(netButton.isSelected() && isValidNetConfig()) {
-					if (leInterface != null)
-						TabMain.this.leInterface.close();
+				} else if(netButton.isSelected()) {
 					TabMain.this.leInterface = new LEInterfaceNet();
-					if(TabMain.this.leInterface.open(
-							serverAddress.getText(),
-							Integer.parseInt(serverPort.getText()),
-							pseudoNet.getText(),
-							password.getPassword().toString())) {
-						TabMain.this.parentWindow.updateLEInterface(leInterface);
-						updateConfigFile();
-					} else {
-						JOptionPane.showMessageDialog(TabMain.this, "The interface could not connect", "Error", JOptionPane.ERROR_MESSAGE);
-					}
+				}
+				
+				boolean connected = TabMain.this.leInterface.open(
+						serverAddress.getText(),
+						serverPort.getText(),
+						pseudoNet.getText(),
+						password.getPassword().toString());
+				if(connected){
+					TabMain.this.parentWindow.updateLEInterface(leInterface);
+					updateConfigFile();
 				} else {
-					JOptionPane.showMessageDialog(TabMain.this, "The config is not valid", "Error", JOptionPane.ERROR_MESSAGE);
+					TabMain.this.leInterface = null;
+					JOptionPane.showMessageDialog(TabMain.this, "The interface could not connect", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -239,25 +237,5 @@ public class TabMain extends JPanel {
 				}
 			}
 		}
-	}
-	
-	private boolean isValidWindowedConfig() {
-		if (zonePseudo.getText().equals(""))
-			return false;
-		return true;
-	}
-	
-	private boolean isValidNetConfig() {
-		if (pseudoNet.getText().equals("")
-				|| serverAddress.getText().equals("")
-				|| serverPort.getText().equals("")
-				|| password.getPassword().toString().equals(""))
-			return false;
-		try {
-			Integer.parseInt(serverPort.getText());
-		} catch (NumberFormatException e) {
-			return false;
-		}
-		return true;
 	}
 }

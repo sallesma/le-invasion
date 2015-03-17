@@ -41,9 +41,10 @@ public class LEInterfaceNet implements ILEInterface {
 	private boolean isPlayersChecking = false;
 	private ArrayList<String[]> res_check_players_order = new ArrayList<String[]>();
 	
-	public boolean open(String serverAdr, int port, String pseudo, String password) {
+	public boolean open(String serverAdr, String serverPort, String pseudo, String password) {
 		try {
 			InetAddress ServeurAdresse = InetAddress.getByName(serverAdr);
+			int port = Integer.parseInt(serverPort);
 			System.out.println("L'adresse du serveur est : " + ServeurAdresse
 					+ " ; Port " + port);
 			System.out.println("Demande de connexion");

@@ -17,7 +17,7 @@ public class LEInterfaceWindowed implements ILEInterface {
 	}
 
 	@Override
-	public boolean open(String server, int port, String pseudo, String password) {
+	public boolean open(String server, String port, String pseudo, String password) {
 		System.out.println("LEInterfaceNet open does nothing");
 		//Maybe we could check that window exists
 		return true;
