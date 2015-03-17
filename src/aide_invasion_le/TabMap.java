@@ -8,6 +8,8 @@ import java.awt.Image;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.nio.file.Path;
@@ -20,6 +22,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -58,8 +61,7 @@ public class TabMap extends JPanel implements MouseListener {
 	private JLabel nbMonster = new JLabel("0",SwingConstants.CENTER);
 	private JLabel nbPlayer = new JLabel("0",SwingConstants.CENTER);
 	
-	private JButton check = new JButton("Check");
-	private Boolean checkB = false;
+	JCheckBox checkButton = new JCheckBox("Check invas");
 	
 	private JLayeredPane layeredPane = new JLayeredPane();
 	private ArrayList<JLabel> crossList = new ArrayList<JLabel>();
@@ -121,7 +123,7 @@ public class TabMap extends JPanel implements MouseListener {
 		bottomLeftPanel.add(clearPerm);
 		bottomLeftPanel.add(clearPeri);
 		bottomLeftPanel.add(clearAuto);
-		bottomLeftPanel.add(check);
+		bottomLeftPanel.add(checkButton);
 		
 		clearPonct.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
@@ -143,23 +145,15 @@ public class TabMap extends JPanel implements MouseListener {
             	TabMap.this.leInterface.clearInvasion(LEInterfaceWindowed.INVASION_TYPE_AUTO, TabMap.this.mapId);
             }
 		});  
-		check.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-            	if(checkB)
-            	{
-            		stopCheckInvaTimer();
-	            	checkB = false;
-	            	passiveButton(check);
-            	}
-            	else
-            	{
-	            	startCheckInvaTimer();
-	            	checkB = true;
-	            	activeButton(check);
-            	}
-            }
-		});  
-	    
+		checkButton.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.DESELECTED) {
+					stopCheckInvaTimer();
+				} else if (e.getStateChange() == ItemEvent.SELECTED) {
+					startCheckInvaTimer();
+				}
+			}
+		});
 		
 	    layeredPane.setPreferredSize(new Dimension(400, 400)); 
 	    
@@ -323,17 +317,6 @@ public class TabMap extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-	}
-	
-	protected void activeButton (JButton b)
-	{
-	    b.setBackground(Color.blue);
-	    b.setForeground(Color.white);
-	}
-	protected void passiveButton (JButton b)
-	{
-	    b.setBackground(null);
-	    b.setForeground(null);
 	}
 }
 
