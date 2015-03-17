@@ -315,7 +315,7 @@ public class LEInterfaceNet implements ILEInterface {
 			if (matcher.find()) {
 				System.out.println("Fin Parse Inva");
 				isInvasionChecking = false;
-				callBackCheckInvasion.check_invasion_callback(res_check_order);
+				callBackCheckInvasion.checkInvasionCallback(res_check_order);
 				res_check_order = new ArrayList<String[]>();
 			}
 		}
@@ -340,7 +340,7 @@ public class LEInterfaceNet implements ILEInterface {
 			if (matcher.find()) {
 				System.out.println("Fin Parse Players");
 				isPlayersChecking = false;
-				callBackCheckPlayers.check_players_callback(res_check_players_order);
+				callBackCheckPlayers.checkPlayersCallback(res_check_players_order);
 				res_check_players_order = new ArrayList<String[]>();
 			}
 		}

@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -65,7 +66,7 @@ public class TabMap extends JPanel implements MouseListener {
 	
 	private final static int DISPLAYED_MAP_SIZE = 400;
 
-	private String croixPath = "images\\croixRed.png";
+	private String croixPath = Paths.get("images", "croixRed.png").toString();
 	
 	private Timer checkInvaTimer;
 	
@@ -194,8 +195,6 @@ public class TabMap extends JPanel implements MouseListener {
 	    
 	    bottomRightPanel.add(layeredPane);
 
-	    
-	    
 	    bottomPanel.add(bottomLeftPanel);
 	    bottomPanel.add(bottomRightPanel);
 	    
@@ -223,18 +222,18 @@ public class TabMap extends JPanel implements MouseListener {
 		checkInvaTimer.scheduleAtFixedRate(task, 0, 1000);
 	}
 	
-	public void check_invasion_callback(ArrayList<String[]> res)
+	public void checkInvasionCallback(ArrayList<String[]> invasions)
 	{
-		System.out.println("Call Back : " + res.size());
+		System.out.println("Call Back : " + invasions.size());
 		
 		removePoints();
 		int nbm = 0;
-		for(int i = 0; i < res.size(); i++)
+		for(int i = 0; i < invasions.size(); i++)
 		{
-		  	System.out.println(res.get(i));
-		 	if(Integer.parseInt(res.get(i)[4]) == mapId)
+		  	System.out.println(invasions.get(i));
+		 	if(Integer.parseInt(invasions.get(i)[4]) == mapId)
 		 	{
-		  		addPoint(Integer.parseInt(res.get(i)[2]),Integer.parseInt(res.get(i)[3]),1);
+		  		addPoint(Integer.parseInt(invasions.get(i)[2]),Integer.parseInt(invasions.get(i)[3]),1);
 		  		nbm++;
 		 	} 
 		}
@@ -245,13 +244,13 @@ public class TabMap extends JPanel implements MouseListener {
 		layeredPane.repaint();
 	}
 	
-	public void check_players_callback(ArrayList<String[]> res)
+	public void checkPlayersCallback(ArrayList<String[]> players)
 	{
-		System.out.println("Call Back Players : " + res.size());
+		System.out.println("Call Back Players : " + players.size());
 		
 		removePoints();
 		int nbp = 0;
-		for(int i = 0; i < res.size(); i++)
+		for(int i = 0; i < players.size(); i++)
 		{
 		  	nbp++;
 		}
