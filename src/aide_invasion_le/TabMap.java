@@ -55,7 +55,6 @@ public class TabMap extends JPanel implements MouseListener {
 	private JLabel clearLabel = new JLabel("Clear invasions");
 	private JButton clearPonct = new JButton("Ponctuel");
 	private JButton clearPerm = new JButton("Permanent");
-	private JButton clearPeri = new JButton("Périssable");
 	private JButton clearAuto = new JButton("Automatique");
 	
 	private JLabel nbMonster = new JLabel("0",SwingConstants.CENTER);
@@ -121,7 +120,6 @@ public class TabMap extends JPanel implements MouseListener {
 		bottomLeftPanel.add(clearLabel);
 		bottomLeftPanel.add(clearPonct);
 		bottomLeftPanel.add(clearPerm);
-		bottomLeftPanel.add(clearPeri);
 		bottomLeftPanel.add(clearAuto);
 		bottomLeftPanel.add(checkButton);
 		
@@ -133,11 +131,6 @@ public class TabMap extends JPanel implements MouseListener {
 		clearPerm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
             	TabMap.this.leInterface.clearInvasion(LEInterfaceWindowed.INVASION_TYPE_PERM, TabMap.this.mapId);
-        	}
-        });  
-		clearPeri.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
-            	TabMap.this.leInterface.clearInvasion(LEInterfaceWindowed.INVASION_TYPE_PERI, TabMap.this.mapId);
         	}
         });  
 		clearAuto.addActionListener(new ActionListener() {
