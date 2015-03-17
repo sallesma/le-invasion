@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.TextArea;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
@@ -361,6 +362,20 @@ public class TabGame extends JPanel implements MouseListener {
 
 		System.out.println("mouse X=" + xPos + " Y=" + yPos + "XPer=" + avatar.getPosX() + " YPer=" + avatar.getPosY());
 
+		//marche pas prov
+		Point p = new Point(xPos,yPos);
+		for(int i = 0; i < actorList.size(); i++)
+		{
+			if(e.getPoint().getX()>=actorList.get(i).getX() &&
+				e.getPoint().getY()>=actorList.get(i).getY() &&
+				e.getPoint().getX()<=actorList.get(i).getX()+actorList.get(i).getSize().getHeight() &&
+				e.getPoint().getY()<=actorList.get(i).getY()+actorList.get(i).getSize().getWidth())
+			{
+				leInterface.attackActor(actorList.get(i).getActorId());
+				System.out.println("Attack : " + actorList.get(i).getActorId());
+			}
+			System.out.println("mouse X=" + xPos + " Y=" + yPos + "XAct=" + actorList.get(i).getPosX() + " YAct=" + actorList.get(i).getPosY());
+		}
 		leInterface.moveTo(xPos, yPos);
 	}
 

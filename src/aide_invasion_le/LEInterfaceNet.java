@@ -42,6 +42,7 @@ public class LEInterfaceNet implements ILEInterface {
 
 	//Client => Server
 	final static private byte MOVE_TO = 1;
+	final static private byte ATTACK_SOMEONE = 40;
 	
 	private TabGame gameTab;
 	
@@ -201,6 +202,15 @@ public class LEInterfaceNet implements ILEInterface {
 		message[3] = (byte) (y / 256);
 		
 		send(MOVE_TO, message);
+	}
+	
+	public void attackActor(int actorId) {
+		// TODO Auto-generated method stub
+		byte[] message = new byte[2];
+		message[0] = (byte) (actorId % 256);
+		message[1] = (byte) (actorId / 256);
+		
+		send(ATTACK_SOMEONE, message);
 	}
 	
 	private void login(String pseudo, String pwd)
@@ -394,4 +404,5 @@ public class LEInterfaceNet implements ILEInterface {
 			}
 		}
 	}
+
 }

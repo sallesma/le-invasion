@@ -35,4 +35,6 @@ public interface ILEInterface {
 	public void commandoStop(int mapId, int commandoType, int commandoGroup);
 	
 	public void moveTo(int x, int y);
+
+	public void attackActor(int actorId);
 }

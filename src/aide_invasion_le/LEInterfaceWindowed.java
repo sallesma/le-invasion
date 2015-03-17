@@ -114,4 +114,10 @@ public class LEInterfaceWindowed implements ILEInterface {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void attackActor(int actorId) {
+		// TODO Auto-generated method stub
+		
+	}
 }
