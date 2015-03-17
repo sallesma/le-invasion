@@ -12,7 +12,6 @@ public class Window  extends JFrame {
 	
 	private ILEInterface leInterface;
 	private TabbedPaneClosable tabbedPane;
-	private TabGame game;
 	
     public Window() {
 		JFrame fenetre = new JFrame();
@@ -33,9 +32,6 @@ public class Window  extends JFrame {
         TabMain mainTab = new TabMain(this);
         tabbedPane.addTab("Main Tab", mainTab);
         tabbedPane.selectLast();
-        
-        game = new TabGame(new LEInterfaceNet("test_interf", "azerty", "jeu.landes-eternelles.com", 3001));
-        tabbedPane.addTab("Game Tab", game);
         
         requestFocus();
         
