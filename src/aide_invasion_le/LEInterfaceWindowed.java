@@ -1,7 +1,6 @@
 package aide_invasion_le;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class LEInterfaceWindowed implements ILEInterface {
 	public static final String INVASION_TYPE_PONCT = "ponct";
@@ -47,17 +46,9 @@ public class LEInterfaceWindowed implements ILEInterface {
 	public void sendCheckInvasion(TabMap callBack) {
 		System.out.println("LEInterfaceNet sendCheckInvasion does nothing");
 	}
-
-	public ArrayList<String[]> retrieveCheckInvasion() {
-		return new ArrayList<String[]>();
-	}
 	
 	public void sendCheckPlayers(TabMap callBack, int i) {
 		System.out.println("LEInterfaceNet sendCheckPlayers does nothing");
-	}
-
-	public ArrayList<String[]> retrieveCheckPlayers() {
-		return new ArrayList<String[]>();
 	}
 	
 	public void commandoAjouter(int xPos, int yPos, int mapId, int commandoType, int commandoGroup)

@@ -142,20 +142,12 @@ public class LEInterfaceNet implements ILEInterface {
 		this.sendRawText("#check_invasion");
 	}
 	
-	public ArrayList<String[]> retrieveCheckInvasion() {
-		return res_check_order;
-	}
-	
 	public void sendCheckPlayers(TabMap callBack, int map) {
 		this.callBackCheckPlayers = callBack;
 		this.isPlayersChecking = true;
 		this.sendRawText("#rapport " + map + " attaque 0 300 0");
 	}
 	
-	public ArrayList<String[]> retrieveCheckPlayers() {
-		return res_check_players_order;
-	}
-
 	public void commandoAjouter(int xPos, int yPos, int mapId,
 			int commandoType, int commandoGroup) {
 		String command = new String("#comdo_script_ajouter " + mapId + " " + xPos + " " + yPos + " " + commandoType + " " + commandoGroup);
