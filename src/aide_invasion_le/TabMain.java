@@ -139,13 +139,17 @@ public class TabMain extends JPanel {
 				} else if(netButton.isSelected() && isValidNetConfig()) {
 					if (leInterface != null)
 						TabMain.this.leInterface.close();
-					TabMain.this.leInterface = new LEInterfaceNet(
-							pseudoNet.getText(),
-							password.getPassword().toString(),
+					TabMain.this.leInterface = new LEInterfaceNet();
+					if(TabMain.this.leInterface.open(
 							serverAddress.getText(),
-							Integer.parseInt(serverPort.getText()));
-					updateConfigFile();
-					TabMain.this.parentWindow.updateLEInterface(leInterface);
+							Integer.parseInt(serverPort.getText()),
+							pseudoNet.getText(),
+							password.getPassword().toString())) {
+						TabMain.this.parentWindow.updateLEInterface(leInterface);
+						updateConfigFile();
+					} else {
+						JOptionPane.showMessageDialog(TabMain.this, "The interface could not connect", "Error", JOptionPane.ERROR_MESSAGE);
+					}
 				} else {
 					JOptionPane.showMessageDialog(TabMain.this, "The config is not valid", "Error", JOptionPane.ERROR_MESSAGE);
 				}

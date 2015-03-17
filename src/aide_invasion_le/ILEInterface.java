@@ -1,7 +1,7 @@
 package aide_invasion_le;
 
 public interface ILEInterface {
-	public void open(String server, int port, String pseudo, String password);
+	public boolean open(String server, int port, String pseudo, String password);
 
 	public void close();
 	
