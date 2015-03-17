@@ -47,7 +47,7 @@ public class TabMain extends JPanel {
 	private JLabel serverWindowedLabel = new JLabel("Serveur :");
 	private JComboBox<String> zoneServer = new JComboBox<String>(new String[]{"main", "test"});
 
-	private JLabel serverAddressLabel = new JLabel("Adresse serveur :");
+	private JLabel serverAddressLabel = new JLabel("Serveur :");
 	private TextField serverAddress = new TextField("jeu.landes-eternelles.com", 10);
 	private JLabel serverPortLabel = new JLabel("Port :");
 	private TextField serverPort = new TextField("3001", 10);
@@ -83,13 +83,12 @@ public class TabMain extends JPanel {
 				interfacePanel.removeAll();
 				interfacePanel.add(pseudoNetLabel);
 				interfacePanel.add(pseudoNet);
+				interfacePanel.add(passwordLabel);
+				interfacePanel.add(password);
 				interfacePanel.add(serverPortLabel);
 				interfacePanel.add(serverPort);
 				interfacePanel.add(serverAddressLabel);
 				interfacePanel.add(serverAddress);
-				interfacePanel.add(passwordLabel);
-				interfacePanel.add(password);
-				interfacePanel.setLayout(new GridLayout(2, 1));
 				interfacePanel.updateUI();
 				interfaceDescription.setText("Les commandes seront envoyées directement au serveur par le logiciel en utilisant le compte indiqué");
 			}
@@ -102,7 +101,6 @@ public class TabMain extends JPanel {
 				interfacePanel.add(zonePseudo);
 				interfacePanel.add(serverWindowedLabel);
 				interfacePanel.add(zoneServer);
-				interfacePanel.setLayout(new GridLayout(1, 1));
 				interfacePanel.updateUI();
 				interfaceDescription.setText("Les commandes à envoyer seront copiées dans ta fenêtre du jeu et envoyées");
 			}
