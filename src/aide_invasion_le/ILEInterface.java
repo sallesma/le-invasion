@@ -7,6 +7,8 @@ public interface ILEInterface {
 
 	public void close();
 	
+	public void gameAdd(TabGame gameTab);
+	
 	public void sendRawText(String message);
 
 	public void addInvasion(String invasionType, int xPos, int yPos, int mapId,

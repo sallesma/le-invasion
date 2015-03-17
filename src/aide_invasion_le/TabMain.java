@@ -138,6 +138,11 @@ public class TabMain extends JPanel {
 							password.getText(),
 							serverAddress.getText(),
 							Integer.parseInt(serverPort.getText()));
+					TabMain.this.parentWindow.createGame(leInterface);
+					leInterface.open(serverAddress.getText(),
+							Integer.parseInt(serverPort.getText()),
+							pseudoNet.getText(),
+							password.getText());
 					updateConfigFile();
 					TabMain.this.parentWindow.updateLEInterface(leInterface);
 				} else {

@@ -102,4 +102,10 @@ public class LEInterfaceWindowed implements ILEInterface {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void gameAdd(TabGame gameTab) {
+		// TODO Auto-generated method stub
+		
+	}
 }

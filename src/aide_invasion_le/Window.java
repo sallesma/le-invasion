@@ -42,13 +42,15 @@ public class Window  extends JFrame {
     }
 
 	public void createGame(ILEInterface leInterface) {
-		//game = new TabGame(leInterface);
-	}
-    
-	public void openMapTab(ILEInterface leInterface, Path mapPath, int mapId, int mapSize) {
 		game = new TabGame(leInterface);
         tabbedPane.addTab("Game Tab", game);
 		tabbedPane.selectLast();
+	}
+    
+	public void openMapTab(ILEInterface leInterface, Path mapPath, int mapId, int mapSize) {
+		//game = new TabGame(leInterface);
+        //tabbedPane.addTab("Game Tab", game);
+		//tabbedPane.selectLast();
 	}
 	
 	public void updateLEInterface(ILEInterface leInterface) {

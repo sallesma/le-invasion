@@ -33,6 +33,9 @@ public class LEInterfaceNet implements ILEInterface {
 	final static private byte CHANGE_MAP = 7;
 	final static private byte HERE_YOUR_INVENTORY = 19;
 	final static private byte RAW_TEXT = 0;
+	final static private byte ADD_NEW_ACTOR = 1;
+	final static private byte REMOVE_ACTOR = 6;
+	final static private byte ADD_NEW_ENHANCED_ACTOR = 51;
 	final static private byte HERE_YOUR_STATS = 18;
 	
 	private TabGame gameTab;
@@ -44,7 +47,7 @@ public class LEInterfaceNet implements ILEInterface {
 	private ArrayList<String[]> res_check_players_order = new ArrayList<String[]>();
 	
 	public LEInterfaceNet(String pseudo, String password, String serverAdress, int serverPort) {
-		this.open(serverAdress, serverPort, pseudo, password);
+		//this.open(serverAdress, serverPort, pseudo, password);
 	}
 
 	public void open(String serverAdr, int port, String pseudo, String password) {
@@ -275,11 +278,14 @@ public class LEInterfaceNet implements ILEInterface {
 		else if (type == SYNC_CLOCK)
 			System.out.println("SYNC_CLOCK");
 		else if (type == YOU_ARE)
+		{
 			System.out.println("YOU_ARE");
+			gameTab.myId((data[0]&0xFF)+(data[1]&0xFF)*255);
+		}
 		else if (type == CHANGE_MAP)
 		{
 			System.out.println("CHANGE_MAP");
-			gameTab.changeMap(data);
+			gameTab.changeMap(new String(data));
 		}
 		else if (type == HERE_YOUR_INVENTORY)
 			System.out.println("HERE_YOUR_INVENTORY");
@@ -290,6 +296,20 @@ public class LEInterfaceNet implements ILEInterface {
 				parse_check_inva(data);
 			if (isPlayersChecking)
 				parse_check_play(data);
+		}else if (type == ADD_NEW_ACTOR)
+		{
+			System.out.println("ADD_NEW_ACTOR");
+			gameTab.newActor(data);
+		}
+		else if (type == REMOVE_ACTOR)
+		{
+			System.out.println("REMOVE_ACTOR");
+			gameTab.removeActor(data);
+		}
+		else if (type == ADD_NEW_ENHANCED_ACTOR)
+		{
+			System.out.println("ADD_NEW_ENHANCED_ACTOR");
+			gameTab.newEnhancedActor(data);
 		}
 		else if (type == HERE_YOUR_STATS)
 			System.out.println("HERE_YOUR_STATS");
