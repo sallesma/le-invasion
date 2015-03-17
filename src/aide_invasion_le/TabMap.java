@@ -260,6 +260,7 @@ public class TabMap extends JPanel implements MouseListener {
 		System.out.println("Stop Check Inva");
 		checkInvaTimer.cancel();
 		removePoints();
+		nbMonster.setText("0");
 	}
 	
 	public void addPoint(int x,int y, int color)
@@ -274,12 +275,11 @@ public class TabMap extends JPanel implements MouseListener {
 	    layeredPane.moveToFront(croix);
 	}
 	
-	public void removePoints()
-	{
-	    for(int i = 0; i < crossList.size(); i++)
-	    {
-	    	layeredPane.remove(crossList.get(i));
-	    } 
+	public void removePoints() {
+		for (int i = 0; i < crossList.size(); i++) {
+			layeredPane.remove(crossList.get(i));
+		}
+		layeredPane.repaint();
 	}
 	
 	@Override
