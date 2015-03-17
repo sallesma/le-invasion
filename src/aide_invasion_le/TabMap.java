@@ -52,6 +52,7 @@ public class TabMap extends JPanel implements MouseListener {
 	private JPanel bottomPanel = new JPanel();
 	private JLabel mapIdLabel = new JLabel("Numéro Carte :");
 	private TextField mapIdValue = new TextField("1",10);
+	private JButton helpButton = new JButton("Help");
 	private JCheckBox checkInvaButton = new JCheckBox("Check invas");
 	private JCheckBox checkPlayerButton = new JCheckBox("Check players");
 	private JLabel clearLabel = new JLabel("Clear invasions :");
@@ -118,6 +119,7 @@ public class TabMap extends JPanel implements MouseListener {
 	    bottomLeftPanel.setLayout(new GridLayout(15, 1));
 		bottomLeftPanel.add(mapIdLabel);
 		bottomLeftPanel.add(mapIdValue);
+		bottomLeftPanel.add(helpButton);
 		bottomLeftPanel.add(checkInvaButton);
 		bottomLeftPanel.add(checkPlayerButton);
 		bottomLeftPanel.add(clearLabel);
@@ -125,6 +127,12 @@ public class TabMap extends JPanel implements MouseListener {
 		bottomLeftPanel.add(clearPerm);
 		bottomLeftPanel.add(clearAuto);
 
+		helpButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				WindowHelp helpFrame = new WindowHelp();
+			}
+		});
 		checkInvaButton.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.DESELECTED) {
