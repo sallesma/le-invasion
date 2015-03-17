@@ -52,15 +52,15 @@ public class TabMap extends JPanel implements MouseListener {
 	private JPanel bottomPanel = new JPanel();
 	private JLabel mapIdLabel = new JLabel("Numéro Carte :");
 	private TextField mapIdValue = new TextField("1",10);
-	private JLabel clearLabel = new JLabel("Clear invasions");
+	private JCheckBox checkInvaButton = new JCheckBox("Check invas");
+	private JCheckBox checkPlayerButton = new JCheckBox("Check players");
+	private JLabel clearLabel = new JLabel("Clear invasions :");
 	private JButton clearPonct = new JButton("Ponctuel");
 	private JButton clearPerm = new JButton("Permanent");
 	private JButton clearAuto = new JButton("Automatique");
 	
 	private JLabel nbMonster = new JLabel("0",SwingConstants.CENTER);
 	private JLabel nbPlayer = new JLabel("0",SwingConstants.CENTER);
-	
-	JCheckBox checkButton = new JCheckBox("Check invas");
 	
 	private JLayeredPane layeredPane = new JLayeredPane();
 	private ArrayList<JLabel> crossList = new ArrayList<JLabel>();
@@ -70,6 +70,7 @@ public class TabMap extends JPanel implements MouseListener {
 	private String croixPath = Paths.get("images", "croixRed.png").toString();
 	
 	private Timer checkInvaTimer;
+	private Timer checkPlayerTimer;
 	
 	public TabMap(ILEInterface leInterface, Path mapFile, int mapSize, int mapId)
 	{
@@ -117,12 +118,31 @@ public class TabMap extends JPanel implements MouseListener {
 	    bottomLeftPanel.setLayout(new GridLayout(15, 1));
 		bottomLeftPanel.add(mapIdLabel);
 		bottomLeftPanel.add(mapIdValue);
+		bottomLeftPanel.add(checkInvaButton);
+		bottomLeftPanel.add(checkPlayerButton);
 		bottomLeftPanel.add(clearLabel);
 		bottomLeftPanel.add(clearPonct);
 		bottomLeftPanel.add(clearPerm);
 		bottomLeftPanel.add(clearAuto);
-		bottomLeftPanel.add(checkButton);
-		
+
+		checkInvaButton.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.DESELECTED) {
+					stopCheckInvaTimer();
+				} else if (e.getStateChange() == ItemEvent.SELECTED) {
+					startCheckInvaTimer();
+				}
+			}
+		});
+		checkPlayerButton.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.DESELECTED) {
+					stopCheckPlayerTimer();
+				} else if (e.getStateChange() == ItemEvent.SELECTED) {
+					startCheckPlayerTimer();
+				}
+			}
+		});
 		clearPonct.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
         		TabMap.this.leInterface.clearInvasion(LEInterfaceWindowed.INVASION_TYPE_PONCT, TabMap.this.mapId);
@@ -137,15 +157,6 @@ public class TabMap extends JPanel implements MouseListener {
             public void actionPerformed(ActionEvent e){
             	TabMap.this.leInterface.clearInvasion(LEInterfaceWindowed.INVASION_TYPE_AUTO, TabMap.this.mapId);
             }
-		});  
-		checkButton.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				if (e.getStateChange() == ItemEvent.DESELECTED) {
-					stopCheckInvaTimer();
-				} else if (e.getStateChange() == ItemEvent.SELECTED) {
-					startCheckInvaTimer();
-				}
-			}
 		});
 		
 	    layeredPane.setPreferredSize(new Dimension(400, 400)); 
@@ -199,12 +210,9 @@ public class TabMap extends JPanel implements MouseListener {
 			@Override
 			public void run() 
 			{
-				System.out.println("startcheckinva");
 				leInterface.sendCheckInvasion(tab);
-				//check_invasion_Delay();
 			}	
 		};
-		
 		checkInvaTimer = new Timer();
 		checkInvaTimer.scheduleAtFixedRate(task, 0, 1000);
 	}
@@ -225,10 +233,21 @@ public class TabMap extends JPanel implements MouseListener {
 		 	} 
 		}
 	 	nbMonster.setText(nbm + "");
-	 	
-	 	//leInterface.sendCheckPlayers(this, mapId);
-		
 		layeredPane.repaint();
+	}
+
+	public void startCheckPlayerTimer() {
+		final TabMap tab = this;
+		TimerTask task = new TimerTask()
+		{
+			@Override
+			public void run() 
+			{
+				leInterface.sendCheckPlayers(tab, mapId);
+			}	
+		};
+		checkPlayerTimer = new Timer();
+		checkPlayerTimer.scheduleAtFixedRate(task, 0, 1000);
 	}
 	
 	public void checkPlayersCallback(ArrayList<String[]> players)
@@ -242,9 +261,6 @@ public class TabMap extends JPanel implements MouseListener {
 		  	nbp++;
 		}
 	 	nbPlayer.setText(nbp + "");
-	 	
-	 	leInterface.sendCheckInvasion(this);
-		
 		layeredPane.repaint();
 	}
 
@@ -254,6 +270,13 @@ public class TabMap extends JPanel implements MouseListener {
 		checkInvaTimer.cancel();
 		removePoints();
 		nbMonster.setText("0");
+	}
+
+	public void stopCheckPlayerTimer()
+	{
+		System.out.println("Stop Check Player");
+		checkPlayerTimer.cancel();
+		nbPlayer.setText("0");
 	}
 	
 	public void addPoint(int x,int y, int color)
