@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -22,14 +23,12 @@ public class FormCommando extends FormAbstract {
 	private ILEInterface leInterface;
 	private int mapId;
 
-	private JLabel choixCom = new JLabel("Commando");
-	String commandoFilePath = Paths.get("data", "commando.list").toString();
+	private JLabel typeLabel = new JLabel("Commando");
+	private String commandoFilePath = Paths.get("data", "commando.list").toString();
 	
-	private static JButton[] tablButtonCommando = new JButton[50];
-	ArrayList<String> valButtonCommando = new ArrayList<String>();
+	private static JButton[] commandoTypeButtons;
 	
-	private JLabel choixGroupe = new JLabel("Groupe");
-	//Nombres
+	private JLabel groupLabel = new JLabel("Groupe");
 	private JButton groupe1 = new JButton("1");
 	private JButton groupe2 = new JButton("2");
 	private JButton groupe3 = new JButton("3");
@@ -41,7 +40,7 @@ public class FormCommando extends FormAbstract {
 	private JButton groupe9 = new JButton("9");
 	private JButton groupe10 = new JButton("10");
 	
-	private JLabel choixOrdre = new JLabel("Ordre");
+	private JLabel ordreLabel = new JLabel("Ordre");
 	private JButton ordreAjouter = new JButton("Déploiement !");
 	private JButton ordreGo = new JButton("Chargez !");
 	private JButton ordreFree = new JButton("Dispersion !");
@@ -61,36 +60,39 @@ public class FormCommando extends FormAbstract {
 		this.leInterface = leInterface;
 		this.mapId = mapId;
 		
-		this.recupCommandos();
-		
-		JPanel bloc = new JPanel();
-		bloc.setLayout(new GridLayout(8, 1));
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(8, 1));
 		
 		JPanel ligne1 = new JPanel();
-		ligne1.add(choixCom);
+		ligne1.add(typeLabel);
+		panel.add(ligne1);
 		
-		bloc.add(ligne1);
-		
-		JPanel prov = new JPanel();
-		for (int i=0; i<valButtonCommando.size(); i++) {
-			
-			if ( (i % 5) == 0 && i>0)
-			{
-				bloc.add(prov);
-				prov = new JPanel();
-				
+		List<String> commandos = this.getCommandosFromFile();
+		commandoTypeButtons = new JButton[commandos.size()];
+		JPanel typeLine = new JPanel();
+		int i = 0;
+		for (String commando : commandos) {
+			if ( (i % 5) == 4) {
+				panel.add(typeLine);
 			}
-			final JButton jb = new JButton(valButtonCommando.get(i));
-			jb.addActionListener(new ActionListener() {
-	            public void actionPerformed(ActionEvent e){
-	                setCommandoType(Integer.parseInt(jb.getText())); activeButtonCommando(jb); }});
-			tablButtonCommando[i] = jb;
-			prov.add(tablButtonCommando[i]);
+			if ( (i % 5) == 0) {
+				typeLine = new JPanel();
+			}
+			final JButton button = new JButton(commando);
+			button.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					setCommandoType(Integer.parseInt(button.getText()));
+					activeButtonCommando(button);
+				}
+			});
+			commandoTypeButtons[i] = button;
+			typeLine.add(commandoTypeButtons[i]);
+			i++;
 		}
-		bloc.add(prov);
+		panel.add(typeLine);
 		
 		JPanel ligne3 = new JPanel();
-		ligne3.add(choixGroupe);
+		ligne3.add(groupLabel);
 		
 		JPanel ligne4 = new JPanel();
 		groupe1.addActionListener(new ActionListener() {
@@ -165,7 +167,7 @@ public class FormCommando extends FormAbstract {
 		ligne4.add(groupe10);
 		
 		JPanel ligne5 = new JPanel();
-		ligne5.add(choixOrdre);
+		ligne5.add(ordreLabel);
 		
 		JPanel ligne6 = new JPanel();
 		ordreAjouter.addActionListener(new ActionListener() {
@@ -198,16 +200,17 @@ public class FormCommando extends FormAbstract {
 		ligne6.add(ordreGo);
 		ligne6.add(ordreFree);
 		ligne6.add(ordreStop);
-		
-		bloc.add(ligne3);
-		bloc.add(ligne4);
-		bloc.add(ligne5);
-		bloc.add(ligne6);
-		this.add(bloc);
+
+		panel.add(ligne3);
+		panel.add(ligne4);
+		panel.add(ligne5);
+		panel.add(ligne6);
+		this.add(panel);
 		this.setPreferredSize (new Dimension(600, 250));
 	}
 
-	private void recupCommandos() {
+	private List<String> getCommandosFromFile() {
+		List<String> result = new ArrayList<String>();
 		try{
 			InputStream ips=new FileInputStream(commandoFilePath); 
 			InputStreamReader ipsr=new InputStreamReader(ips);
@@ -216,19 +219,20 @@ public class FormCommando extends FormAbstract {
 			String str[]= new String[4];
 			while ((ligne=br.readLine())!=null){
 				str=ligne.split(";");
-				valButtonCommando.add(str[0]);
+				result.add(str[0]);
 			}
 			br.close(); 
 		}
 		catch (Exception e){
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
+		return result;
 	}
 	
 	private void activeButtonCommando(JButton b)
 	{
-		for (int i=0; i<valButtonCommando.size(); i++) {
-			passiveButton(tablButtonCommando[i]);
+		for (int i=0; i<commandoTypeButtons.length; i++) {
+			passiveButton(commandoTypeButtons[i]);
 		}
 		activeButton(b);
 	}
