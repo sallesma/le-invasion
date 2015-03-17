@@ -128,6 +128,27 @@ public class TabGame extends JPanel implements MouseListener {
 		for(int i = 0; i < actorList.size(); i++)
 			actorList.get(i).setLocation(actorList.get(i).getX()+moveX, actorList.get(i).getY()+moveY);
 		
+		croix.setLocation(croix.getX()+moveX, croix.getY()+moveY);
+		
+		
+		layeredPane.repaint();
+	}
+	
+	public void centerMapOnPlayerPlayerMove()
+	{
+		int moveX = image.getX();
+		int moveY = image.getY();
+		image.setLocation(ZONE_CARTE/2 - (getRelativeSquarre(avatar.getPosX())),-sizeBigMap+ZONE_CARTE/2 + (getRelativeSquarre((int) avatar.getPosY())));
+	
+		moveX-=image.getX();
+		moveY-=image.getY();
+		
+		for(int i = 0; i < actorList.size(); i++)
+			actorList.get(i).setLocation(actorList.get(i).getX()-moveX, actorList.get(i).getY()-moveY);
+		
+		croix.setLocation(croix.getX()-moveX, croix.getY()-moveY);
+		
+		
 		layeredPane.repaint();
 	}
 	
@@ -319,7 +340,7 @@ public class TabGame extends JPanel implements MouseListener {
 		act.setPosY(act.getPosY()+moveY);
 		
 		if(actorId==avatar.getActorId())
-			centerMapOnPlayer();
+			centerMapOnPlayerPlayerMove();
 		else
 		{
 			act.setLocation(act.getX()+moveX*UNIT_MAP, act.getY()-moveY*UNIT_MAP);
