@@ -14,18 +14,16 @@ public class Window  extends JFrame {
 	private TabbedPaneClosable tabbedPane;
 	
     public Window() {
-		JFrame fenetre = new JFrame();
-	    fenetre.setTitle("Gestionnaire Invasion");
-	    fenetre.setLocationRelativeTo(null); // Center window
-	    //fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    this.setTitle("Gestionnaire Invasion");
+	    this.setLocationRelativeTo(null); // Center window
+	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
-	    addWindowListener(new WindowAdapter() {
-	        public void windowClosing(WindowEvent e) {
-	        	if(leInterface != null)
-	        		leInterface.close();
-	            System.exit(0);
-	          }
-	        });
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				if (leInterface != null)
+					leInterface.close();
+			}
+		});
 	    
         tabbedPane = new TabbedPaneClosable();
         tabbedPane.setUI(new Tabbed());
