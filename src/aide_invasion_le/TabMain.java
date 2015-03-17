@@ -112,13 +112,20 @@ public class TabMain extends JPanel {
 	    ligneInterfaceSelect.add(netButton);
 	    ligneInterfaceSelect.add(windowedButton);
 	    this.add(ligneInterfaceSelect);
+	    
+	    JPanel interfaceDescriptionLine = new JPanel();
 		interfaceDescription.setFont(new Font(interfaceDescription.getFont()
 				.getName(), Font.ITALIC, interfaceDescription.getFont()
 				.getSize()));
-	    this.add(interfaceDescription);
-	    this.add(interfacePanel);
-	    this.add(interfaceValidateButton);
-	    
+		interfaceDescriptionLine.add(interfaceDescription);
+		this.add(interfaceDescriptionLine);
+		
+		this.add(interfacePanel);
+		
+		JPanel interfaceValidationLine = new JPanel();
+		interfaceValidationLine.add(interfaceValidateButton);
+		this.add(interfaceValidationLine);
+
 		interfaceValidateButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
