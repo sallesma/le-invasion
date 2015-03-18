@@ -12,8 +12,6 @@ import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.JOptionPane;
-
 public class LEInterfaceNet implements ILEInterface {
 
 	private Socket socket;
@@ -249,27 +247,21 @@ public class LEInterfaceNet implements ILEInterface {
 		System.out.println("RECEIVED");
 		System.out.println("Type: " + type);
 		
-		if (type==PING_REQUEST)
-		{
+		if (type==PING_REQUEST) {
 			System.out.println("PING_REQUEST");
 			send(PING_REQUEST, data);
 		}
-		else if (type == YOU_DONT_EXIST)
-		{
+		else if (type == YOU_DONT_EXIST) {
 			System.out.println("LOGIN not exist");
 			login_verif=false;
-			JOptionPane.showMessageDialog(null, "Login Fail : You don't exist", "InfoBox: Login Error", JOptionPane.INFORMATION_MESSAGE);
 		}
-		else if (type == LOG_IN_OK)
-		{
+		else if (type == LOG_IN_OK) {
 			System.out.println("LOGIN OK");
 			login_verif=true;
 		}
-		else if (type == LOG_IN_NOT_OK)
-		{
+		else if (type == LOG_IN_NOT_OK) {
 			System.out.println("LOGIN fail");
 			login_verif=false;
-			JOptionPane.showMessageDialog(null, "Login Fail : Bad Password", "InfoBox: Login Error", JOptionPane.INFORMATION_MESSAGE);
 		}
 		else if (type == NEW_MINUTE)
 			System.out.println("NEW_MINUTE");

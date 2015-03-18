@@ -163,7 +163,11 @@ public class TabMain extends JPanel {
 		openMapButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (TabMain.this.leInterface != null && TabMain.this.leInterface.isLogin_verif()) {
+				if (TabMain.this.leInterface == null)
+					JOptionPane.showMessageDialog(TabMain.this, "The config is not properly set", "Error", JOptionPane.ERROR_MESSAGE);
+				else if (!TabMain.this.leInterface.isLogin_verif())
+					JOptionPane.showMessageDialog(null, "Login Failed : Bad pseudo or password", "Error", JOptionPane.ERROR_MESSAGE);
+				else {
 					String mapName = (String)mapsComboBox.getSelectedItem();
 					System.out.println("mapname : " + mapName);
 					if(mapName != null) {
@@ -172,8 +176,6 @@ public class TabMain extends JPanel {
 						int mapSize = mapsManager.getMapSize(mapName);
 						TabMain.this.parentWindow.openMapTab(TabMain.this.leInterface, mapFile, mapId, mapSize);
 					}
-				} else {
-					JOptionPane.showMessageDialog(TabMain.this, "The config is not properly set", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
