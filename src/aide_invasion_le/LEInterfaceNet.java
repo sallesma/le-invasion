@@ -12,6 +12,8 @@ import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.JOptionPane;
+
 public class LEInterfaceNet implements ILEInterface {
 
 	private Socket socket;
@@ -24,6 +26,7 @@ public class LEInterfaceNet implements ILEInterface {
 	final static private byte LOG_IN_TYPE = (byte) 140;
 	final static private byte HEART_BEAT = 14;
 	final static private byte PING_REQUEST = 60;
+	final static private byte YOU_DONT_EXIST  = (byte) 249;
 	final static private byte LOG_IN_OK = (byte) 250;
 	final static private byte LOG_IN_NOT_OK = (byte) 251;
 	final static private byte NEW_MINUTE = 5;
@@ -34,6 +37,8 @@ public class LEInterfaceNet implements ILEInterface {
 	final static private byte HERE_YOUR_INVENTORY = 19;
 	final static private byte RAW_TEXT = 0;
 	final static private byte HERE_YOUR_STATS = 18;
+	
+	private boolean login_verif = false;
 	
 	private boolean isInvasionChecking = false;
 	private ArrayList<String[]> res_check_order = new ArrayList<String[]>();
@@ -248,10 +253,24 @@ public class LEInterfaceNet implements ILEInterface {
 		{
 			System.out.println("PING_REQUEST");
 			send(PING_REQUEST, data);
-		} else if (type == LOG_IN_OK)
+		}
+		else if (type == YOU_DONT_EXIST)
+		{
+			System.out.println("LOGIN not exist");
+			login_verif=false;
+			JOptionPane.showMessageDialog(null, "Login Fail : You don't exist", "InfoBox: Login Error", JOptionPane.INFORMATION_MESSAGE);
+		}
+		else if (type == LOG_IN_OK)
+		{
 			System.out.println("LOGIN OK");
+			login_verif=true;
+		}
 		else if (type == LOG_IN_NOT_OK)
+		{
 			System.out.println("LOGIN fail");
+			login_verif=false;
+			JOptionPane.showMessageDialog(null, "Login Fail : Bad Password", "InfoBox: Login Error", JOptionPane.INFORMATION_MESSAGE);
+		}
 		else if (type == NEW_MINUTE)
 			System.out.println("NEW_MINUTE");
 		else if (type == GET_ACTIVE_SPELL_LIST)
@@ -335,5 +354,9 @@ public class LEInterfaceNet implements ILEInterface {
 				res_check_players_order = new ArrayList<String[]>();
 			}
 		}
+	}
+
+	public boolean isLogin_verif() {
+		return login_verif;
 	}
 }
