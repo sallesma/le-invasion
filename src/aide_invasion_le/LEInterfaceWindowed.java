@@ -59,21 +59,21 @@ public class LEInterfaceWindowed implements ILEInterface {
 		this.sendCommandToLE(command);
 	}
 	
-	public void commandoGo(int xPos, int yPos, int mapId, int commandoType, int commandoGroup)
+	public void commandoGo(int xPos, int yPos, int mapId, int commandoGroup)
 	{
-		String command = new String("&comdo_script_go " + mapId + " " + xPos + " " + yPos + " " + commandoType + " " + commandoGroup);
+		String command = new String("&comdo_script_go " + mapId + " " + xPos + " " + yPos + " -1 " + commandoGroup);
 		this.sendCommandToLE(command);
 	}
 	
-	public void commandoFree (int mapId, int commandoType, int commandoGroup)
+	public void commandoFree (int mapId, int commandoGroup)
 	{
-		String command = new String("&commando_free " + mapId + " " + commandoType + " " + commandoGroup);
+		String command = new String("&commando_free " + mapId + " -1 " + commandoGroup);
 		this.sendCommandToLE(command);
 	}
 	
-	public void commandoStop(int mapId, int commandoType, int commandoGroup)
+	public void commandoStop(int mapId, int commandoGroup)
 	{
-		String command = new String("&commando_stop " + mapId + " " + commandoType + " " + commandoGroup);
+		String command = new String("&commando_stop " + mapId + " -1 " + commandoGroup);
 		this.sendCommandToLE(command);
 	}
 

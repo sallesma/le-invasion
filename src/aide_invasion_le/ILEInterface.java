@@ -19,10 +19,9 @@ public interface ILEInterface {
 	public void commandoAjouter(int xPos, int yPos, int mapId,
 			int commandoType, int commandoGroup);
 
-	public void commandoGo(int xPos, int yPos, int mapId, int commandoType,
-			int commandoGroup);
+	public void commandoGo(int xPos, int yPos, int mapId, int commandoGroup);
 
-	public void commandoFree(int mapId, int commandoType, int commandoGroup);
+	public void commandoFree(int mapId, int commandoGroup);
 
-	public void commandoStop(int mapId, int commandoType, int commandoGroup);
+	public void commandoStop(int mapId, int commandoGroup);
 }

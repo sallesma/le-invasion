@@ -314,13 +314,9 @@ public class TabMap extends JPanel implements MouseListener {
 		if(commandoButton.isSelected())
 		{
 			if (formCommando.getOrder() == CommandoOrder.Add)
-			{
 				leInterface.commandoAjouter(xPos, yPos, mapId, formCommando.getCommandoType(), formCommando.getGroupId());
-			}
 			else if (formCommando.getOrder() == CommandoOrder.Go)
-			{
-				leInterface.commandoGo(xPos, yPos, mapId, -1, formCommando.getGroupId());
-			}
+				leInterface.commandoGo(xPos, yPos, mapId, formCommando.getGroupId());
 		}
 		else
 			leInterface.addInvasion(formClassic.getInvasionType(), xPos, yPos, mapId, formClassic.getMonsterType(), formClassic.getMonsterNumber());

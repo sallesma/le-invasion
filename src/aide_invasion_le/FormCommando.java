@@ -185,14 +185,14 @@ public class FormCommando extends FormAbstract {
             public void actionPerformed(ActionEvent e){
             	setOrder(CommandoOrder.DoNothing);
             	activeButtonOrder(ordreFree);
-            	FormCommando.this.leInterface.commandoFree(FormCommando.this.mapId, -1, getGroupId());
+            	FormCommando.this.leInterface.commandoFree(FormCommando.this.mapId, getGroupId());
             }
         });
 		ordreStop.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
             	setOrder(CommandoOrder.DoNothing);
             	activeButtonOrder(ordreStop);
-            	FormCommando.this.leInterface.commandoStop(FormCommando.this.mapId, -1, getGroupId());
+            	FormCommando.this.leInterface.commandoStop(FormCommando.this.mapId, getGroupId());
             }
         });
 		ligne6.add(ordreAjouter);
