@@ -46,7 +46,7 @@ public class TabGame extends JPanel implements MouseListener {
 	private MapsManager mapsMan = new MapsManager();
 	private JLayeredPane layeredPane = new JLayeredPane();
 	
-	private TextArea tchat = new TextArea(5, 30);
+	private JLabel tchat = new JLabel("test1\ntest2");
 	private TextField tchatInput = new TextField(30);
 	
 	private LinkedList<Actor> actorList = new LinkedList<Actor>();
@@ -366,6 +366,7 @@ public class TabGame extends JPanel implements MouseListener {
 		Point p = new Point(xPos,yPos);
 		for(int i = 0; i < actorList.size(); i++)
 		{
+			System.out.println("mouse X=" + e.getPoint().getX() + " Y=" + e.getPoint().getY() + "XAct=" + actorList.get(i).getX() + " YAct=" + actorList.get(i).getY() + " YAct=" + actorList.get(i).getSize().getHeight());
 			if(e.getPoint().getX()>=actorList.get(i).getX() &&
 				e.getPoint().getY()>=actorList.get(i).getY() &&
 				e.getPoint().getX()<=actorList.get(i).getX()+actorList.get(i).getSize().getHeight() &&
@@ -373,8 +374,8 @@ public class TabGame extends JPanel implements MouseListener {
 			{
 				leInterface.attackActor(actorList.get(i).getActorId());
 				System.out.println("Attack : " + actorList.get(i).getActorId());
+				return;
 			}
-			System.out.println("mouse X=" + xPos + " Y=" + yPos + "XAct=" + actorList.get(i).getPosX() + " YAct=" + actorList.get(i).getPosY());
 		}
 		leInterface.moveTo(xPos, yPos);
 	}
