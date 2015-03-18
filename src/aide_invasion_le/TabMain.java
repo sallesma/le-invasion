@@ -163,7 +163,7 @@ public class TabMain extends JPanel {
 		openMapButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (TabMain.this.leInterface != null) {
+				if (TabMain.this.leInterface != null && TabMain.this.leInterface.isLogin_verif()) {
 					String mapName = (String)mapsComboBox.getSelectedItem();
 					System.out.println("mapname : " + mapName);
 					if(mapName != null) {

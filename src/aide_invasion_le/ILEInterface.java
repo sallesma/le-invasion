@@ -25,4 +25,6 @@ public interface ILEInterface {
 	public void commandoFree(int mapId, int commandoType, int commandoGroup);
 
 	public void commandoStop(int mapId, int commandoType, int commandoGroup);
+	
+	public boolean isLogin_verif();
 }

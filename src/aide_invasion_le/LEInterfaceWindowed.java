@@ -94,4 +94,10 @@ public class LEInterfaceWindowed implements ILEInterface {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public boolean isLogin_verif() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
