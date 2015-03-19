@@ -40,6 +40,13 @@ public class TabGame extends JPanel implements MouseListener {
 	private int sizeBigMap = 0;
 	String avatarFile = Paths.get("images","actors","guy.png").toString();
 	String rabbitFile = Paths.get("images","actors","white_rabbit.png").toString();
+	String impFile = Paths.get("images","actors","imp.png").toString();
+	String deerFile = Paths.get("images","actors","deer.png").toString();
+	String beaverFile = Paths.get("images","actors","beaver.png").toString();
+	String falconFile = Paths.get("images","actors","falcon.png").toString();
+	String brownieFile = Paths.get("images","actors","brownie.png").toString();
+	String ratFile = Paths.get("images","actors","rat.png").toString();
+	String otherFile = Paths.get("images","actors","other.png").toString();
 	String mapFile = Paths.get("images","1_trepont.jpg").toString();
 	String croixPath = Paths.get("images", "croix.png").toString();
 	
@@ -72,7 +79,7 @@ public class TabGame extends JPanel implements MouseListener {
 				String message = tchatInput.getText();
 				if(message != "") {
 					TabGame.this.leInterface.sendRawText(message);
-					tchat.append("\n" + message);
+					//tchat.append("\n" + message);
 				}
 				tchatInput.setText("");
 			}
@@ -176,9 +183,9 @@ public class TabGame extends JPanel implements MouseListener {
 			
 			layeredPane.remove(image);
 			ImageIcon mapIcon = new ImageIcon( mapFile.toString() );
-		    Image scaledMapImage = ResizeImage.scaleImage(mapIcon.getImage(), 400);//size in pixels
+		    //Image scaledMapImage = ResizeImage.scaleImage(mapIcon.getImage(), ZONE_CARTE);//size in pixels
 		    sizeBigMap = ZONE_CARTE*mapSize/CASE_AFFICHEES;
-		    Image scaledMapImage2 = ResizeImage.scaleImage(scaledMapImage, sizeBigMap);//size in pixels
+		    Image scaledMapImage2 = ResizeImage.scaleImage(mapIcon.getImage(), sizeBigMap);//size in pixels
 		    Icon scaledMapIcon = new ImageIcon(scaledMapImage2);
 		    this.image = new JLabel(scaledMapIcon);
 		    this.image.addMouseListener(this);
@@ -226,7 +233,23 @@ public class TabGame extends JPanel implements MouseListener {
 		}
 		else
 		{
-		    ImageIcon actorIcon = new ImageIcon( rabbitFile.toString() );
+			ImageIcon actorIcon;
+			if(type == 62)
+				actorIcon = new ImageIcon( brownieFile.toString() );
+			else if(type == 61)
+				actorIcon = new ImageIcon( impFile.toString() );
+			else if(type == 83)
+				actorIcon = new ImageIcon( falconFile.toString() );
+			else if(type == 19)
+				actorIcon = new ImageIcon( rabbitFile.toString() );
+			else if(type == 8)
+				actorIcon = new ImageIcon( beaverFile.toString() );
+			else if(type == 15)
+				actorIcon = new ImageIcon( deerFile.toString() );
+			else if(type == 9)
+				actorIcon = new ImageIcon( ratFile.toString() );
+			else
+				actorIcon = new ImageIcon( otherFile.toString() );
 		    Image scaledActorImage = ResizeImage.scaleImage(actorIcon.getImage(), UNIT_MAP*3);//size in pixels
 		    Icon scaledActorIcon = new ImageIcon(scaledActorImage);
 		    Actor act = new Actor(scaledActorIcon, actorId, x, y);
