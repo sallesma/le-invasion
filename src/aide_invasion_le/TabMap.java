@@ -221,7 +221,7 @@ public class TabMap extends JPanel implements MouseListener {
 			}	
 		};
 		checkInvaTimer = new Timer();
-		checkInvaTimer.scheduleAtFixedRate(task, 0, 1000);
+		checkInvaTimer.scheduleAtFixedRate(task, 0, 10000);
 	}
 	
 	public void checkInvasionCallback(ArrayList<String[]> invasions)
@@ -254,7 +254,7 @@ public class TabMap extends JPanel implements MouseListener {
 			}	
 		};
 		checkPlayerTimer = new Timer();
-		checkPlayerTimer.scheduleAtFixedRate(task, 0, 1000);
+		checkPlayerTimer.scheduleAtFixedRate(task, 0, 10000);
 	}
 	
 	public void checkPlayersCallback(ArrayList<String[]> players)

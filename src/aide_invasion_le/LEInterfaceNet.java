@@ -332,8 +332,11 @@ public class LEInterfaceNet implements ILEInterface {
 		Matcher matcher = pattern.matcher(s);
 		if (matcher.find()) {
 			System.out.println("Parse play : " + matcher.group(1) );
-			String[]resStrTab = {matcher.group(1)};
-			res_check_players_order.add(resStrTab);
+			if(!matcher.group(1).equals("Aucun"))
+			{
+				String[]resStrTab = {matcher.group(1)};
+				res_check_players_order.add(resStrTab);
+			}
 		}
 		else 
 		{
