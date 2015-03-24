@@ -74,8 +74,8 @@ public class TabMain extends JPanel {
 		windowedButton = new JRadioButton("Fenêtre de jeu");
 		netButton = new JRadioButton("Interaction directe");
 		ButtonGroup group = new ButtonGroup();
-		group.add(windowedButton);
 		group.add(netButton);
+		group.add(windowedButton);
 
 		windowedButton.addActionListener(new ActionListener() {
 			@Override
@@ -107,7 +107,7 @@ public class TabMain extends JPanel {
 				interfaceDescription.setText("Les commandes seront envoyées directement au serveur par le logiciel en utilisant le compte indiqué");
 			}
 		});
-	    windowedButton.doClick();
+	    netButton.doClick();
 	    ligneInterfaceSelect.add(interfaceRadioLabel);
 	    ligneInterfaceSelect.add(windowedButton);
 	    ligneInterfaceSelect.add(netButton);
