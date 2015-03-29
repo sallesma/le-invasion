@@ -283,16 +283,29 @@ public class TabGame extends JPanel implements MouseListener {
 
 		System.out.println("New Actor : id=" + actorId + " x=" + x + " y=" + y + " rot=" + rot + " type=" + type + " frame=" + frame);
 		
-	    ImageIcon actorIcon = new ImageIcon( avatarFile.toString() );
-	    Image scaledActorImage = ResizeImage.scaleImage(actorIcon.getImage(), UNIT_MAP*3);//size in pixels
-	    Icon scaledActorIcon = new ImageIcon(scaledActorImage);
-	    Actor act = new Actor(scaledActorIcon, actorId, x, y);
-	    act.setBounds(0, 0, UNIT_MAP*3, UNIT_MAP*3);
-	    act.setLocation(UNIT_MAP*x+image.getX(),UNIT_MAP*(mapSize-y)+image.getY());
-	    layeredPane.add(act);
-	    layeredPane.moveToFront(act);
-	    System.out.println("X=" + x + " Y=" + y + "XPer=" + act.getX() + " YPer=" + act.getY() + "XAv=" + image.getX() + " YAv=" + image.getY());
-		actorList.add(act);
+		if(actorId == avatar.getActorId())
+		{
+			avatar.setPosX(x);
+			avatar.setPosY(y);
+			System.out.println("Loca : " + avatar.getLocation());
+			centerMapOnPlayer();
+			
+			System.out.println("X=" + x + " Y=" + y + "XPer=" + avatar.getPosX() + " YPer=" + avatar.getPosY());
+			
+		}
+		else
+		{
+		    ImageIcon actorIcon = new ImageIcon( avatarFile.toString() );
+		    Image scaledActorImage = ResizeImage.scaleImage(actorIcon.getImage(), UNIT_MAP*3);//size in pixels
+		    Icon scaledActorIcon = new ImageIcon(scaledActorImage);
+		    Actor act = new Actor(scaledActorIcon, actorId, x, y);
+		    act.setBounds(0, 0, UNIT_MAP*3, UNIT_MAP*3);
+		    act.setLocation(UNIT_MAP*x+image.getX(),UNIT_MAP*(mapSize-y)+image.getY());
+		    layeredPane.add(act);
+		    layeredPane.moveToFront(act);
+		    System.out.println("X=" + x + " Y=" + y + "XPer=" + act.getX() + " YPer=" + act.getY() + "XAv=" + image.getX() + " YAv=" + image.getY());
+			actorList.add(act);
+		}
 	}
 	
 	public void actorCommand(byte[] data)
