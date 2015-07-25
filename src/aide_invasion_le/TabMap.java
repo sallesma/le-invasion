@@ -53,7 +53,7 @@ public class TabMap extends JPanel implements MouseListener {
 	private JLabel mapIdLabel = new JLabel("Numéro Carte :");
 	private TextField mapIdValue = new TextField("1",10);
 	private JButton helpButton = new JButton("Help");
-	private JCheckBox checkInvaButton = new JCheckBox("Check invas");
+	private JCheckBox checkInvaButton = new JCheckBox("Check inva");
 	private JCheckBox checkPlayerButton = new JCheckBox("Check players");
 	private JLabel clearLabel = new JLabel("Clear invasions :");
 	private JButton clearPonct = new JButton("Ponctuel");
@@ -69,12 +69,17 @@ public class TabMap extends JPanel implements MouseListener {
 	private final static int DISPLAYED_MAP_SIZE = 400;
 
 	private String croixPath = Paths.get("images", "croixRed.png").toString();
+	private String croixPathG = Paths.get("images", "croixGreen.png").toString();
 	
 	private Timer checkInvaTimer;
 	private Timer checkPlayerTimer;
 	
+	private WindowMonsters winMons;
+	private WindowPlayers winPlay;
+	
 	public TabMap(ILEInterface leInterface, Path mapFile, int mapSize, int mapId)
 	{
+		
 		this.leInterface = leInterface;
 		this.mapId = mapId;
 		this.mapSize = mapSize;
@@ -185,6 +190,27 @@ public class TabMap extends JPanel implements MouseListener {
 	    nbMonster.setFont(f);
 	    nbMonster.setOpaque(true);
 	    nbMonster.setBackground(Color.BLACK);
+	    winMons = new WindowMonsters();
+	    nbMonster.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				winMons.setVisible(true);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {}
+
+			@Override
+			public void mouseExited(MouseEvent e) {}
+
+			@Override
+			public void mousePressed(MouseEvent e) {}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+
+		});
 	    layeredPane.add(nbMonster);
 	    layeredPane.moveToFront(nbMonster);
 	    
@@ -195,6 +221,27 @@ public class TabMap extends JPanel implements MouseListener {
 	    nbPlayer.setFont(f2);
 	    nbPlayer.setOpaque(true);
 	    nbPlayer.setBackground(Color.BLACK);
+		winPlay = new WindowPlayers();
+	    nbPlayer.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				winPlay.setVisible(true);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {}
+
+			@Override
+			public void mouseExited(MouseEvent e) {}
+
+			@Override
+			public void mousePressed(MouseEvent e) {}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+
+		});
 	    layeredPane.add(nbPlayer);
 	    layeredPane.moveToFront(nbPlayer);
 	    
@@ -229,17 +276,22 @@ public class TabMap extends JPanel implements MouseListener {
 		System.out.println("Call Back : " + invasions.size());
 		
 		removePoints();
+		String selectedMonster = winMons.selectedMonster;
 		int nbm = 0;
 		for(int i = 0; i < invasions.size(); i++)
 		{
 		  	System.out.println(invasions.get(i));
 		 	if(Integer.parseInt(invasions.get(i)[4]) == mapId)
 		 	{
-		  		addPoint(Integer.parseInt(invasions.get(i)[2]),Integer.parseInt(invasions.get(i)[3]),1);
+		 		if(selectedMonster.length() > 1 && invasions.get(i)[0].equals(selectedMonster))
+			  		addPoint(Integer.parseInt(invasions.get(i)[2]),Integer.parseInt(invasions.get(i)[3]),1);
+		 		else
+		 			addPoint(Integer.parseInt(invasions.get(i)[2]),Integer.parseInt(invasions.get(i)[3]),0);
 		  		nbm++;
 		 	} 
 		}
 	 	nbMonster.setText(nbm + "");
+	 	winMons.setList(invasions, mapId);
 		layeredPane.repaint();
 	}
 
@@ -261,13 +313,14 @@ public class TabMap extends JPanel implements MouseListener {
 	{
 		System.out.println("Call Back Players : " + players.size());
 		
-		removePoints();
+		//removePoints();
 		int nbp = 0;
 		for(int i = 0; i < players.size(); i++)
 		{
 		  	nbp++;
 		}
 	 	nbPlayer.setText(nbp + "");
+	 	winPlay.setList(players);
 		layeredPane.repaint();
 	}
 
@@ -277,6 +330,7 @@ public class TabMap extends JPanel implements MouseListener {
 		checkInvaTimer.cancel();
 		removePoints();
 		nbMonster.setText("0");
+		winMons.setList(new ArrayList<String[]>(), 0);
 	}
 
 	public void stopCheckPlayerTimer()
@@ -284,11 +338,16 @@ public class TabMap extends JPanel implements MouseListener {
 		System.out.println("Stop Check Player");
 		checkPlayerTimer.cancel();
 		nbPlayer.setText("0");
+		winPlay.setList(new ArrayList<String[]>());
 	}
 	
 	public void addPoint(int x,int y, int color)
 	{
-	    ImageIcon croixIcon = new ImageIcon( croixPath.toString() );
+		ImageIcon croixIcon;
+		if (color == 1)
+			croixIcon = new ImageIcon( croixPathG.toString() );
+		else
+			croixIcon = new ImageIcon( croixPath.toString() );
 	    JLabel croix;
 	    croix = new JLabel(croixIcon);
 	    croix.setBounds(0, 0, 15, 15);

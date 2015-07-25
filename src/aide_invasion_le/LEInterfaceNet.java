@@ -11,6 +11,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class LEInterfaceNet implements ILEInterface {
 
@@ -328,14 +329,25 @@ public class LEInterfaceNet implements ILEInterface {
 		
 		System.out.println("TryParse play");
 		
-		Pattern pattern = Pattern.compile("^..([a-zA-Z_]+) *$");
+		Pattern pattern = Pattern.compile("^..([a-zA-Z_ ]+?)$");
 		Matcher matcher = pattern.matcher(s);
 		if (matcher.find()) {
 			System.out.println("Parse play : " + matcher.group(1) );
 			if(!matcher.group(1).equals("Aucun"))
 			{
-				String[]resStrTab = {matcher.group(1)};
-				res_check_players_order.add(resStrTab);
+				String[]resStrTab = null;
+				try {
+				    resStrTab = matcher.group(1).split("\\s+");
+				    for(int i = 0; i < resStrTab.length; i++)
+					{
+				    	String[]resStrTab2 = {resStrTab[i]};
+				    	res_check_players_order.add(resStrTab2);
+					}
+				} catch (PatternSyntaxException ex) {
+				    // 
+				}
+				//String[]resStrTab = {matcher.group(1)};
+				//res_check_players_order.add(resStrTab);
 			}
 		}
 		else 

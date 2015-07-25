@@ -254,9 +254,13 @@ public class FormClassic extends FormAbstract {
 		passiveButton(boutonMonstre6);
 		passiveButton(boutonMonstre7);
 		passiveButton(boutonMonstre8);
-		passiveButton(boutonMonstre8);
 		passiveButton(boutonMonstre9);
 		passiveButton(boutonMonstre10);
+		passiveButton(boutonMonstre11);
+		passiveButton(boutonMonstre12);
+		passiveButton(boutonMonstre13);
+		passiveButton(boutonMonstre14);
+		passiveButton(boutonMonstre15);
 		
 		activeButton(b);
 	}
